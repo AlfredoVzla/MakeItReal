@@ -1,0 +1,15 @@
+main- rama padre de -> preproduccion
+preproduccion-> rama padre de -> produccion
+vamos a trabajar en produccion siempre todos los cambios se haran ahi, cuando vayamos a hacer merge  es decir que los cambios de produccion los querramos en preproduccion haremos lo siguiente:
+previo: hacer lo del fetch y eso para asegurar que no hay cambios o algo asi que no han bajado
+
+1.- Cambiar a la rama padre en este caso -> preproduccion
+git checkout preproduccion
+2.- hacer merge con la rama hija en este caso -> produccion
+git merge produccion
+3.- hacer el commit
+git commit -m "mensaje del commit"
+4.- hacer el push a la rama padre es decir -> preproduccion
+git push origin preproduccion
+
+
