@@ -1,14 +1,16 @@
-const mysql= require('mysql2/promise');
+
+const { Sequelize, DataTypes } = require('sequelize');
 
 
 class Conexion{
     constructor(configuracion){
         this.configuracion=configuracion;
+        this.sequelize=new Sequelize(configuracion)
     }
 
    async conectar(){
     try {
-        this.connection = await mysql.createConnection(this.configuracion);
+       await this.sequelize.authenticate();
         console.log("Conectado");
     } catch (error) {
         throw new Error("Error al conectar");
@@ -16,14 +18,14 @@ class Conexion{
     }
 
   async desconectar(){
-    if (this.connection) {
+
         try {
-            await this.connection.end();
+            await this.sequelize.close();
             console.log("Desconectado");
         } catch (error) {
             throw new Error("Error al desconectar");
         }
-    }
+    
 
     }
 }
@@ -31,18 +33,20 @@ class Conexion{
 
 //PRUEBA
 const configuracionDB = {
+    dialect: 'mysql',
     host: 'localhost',
-    user: 'root',
+    username: 'root',
     password: '123456',
     database: 'makeitreal',
-  };
-  
-  async function probarConexion() {
+};
+
+async function probarConexion() {
     const conexion = new Conexion(configuracionDB);
 
     try {
         await conexion.conectar();
-      
+        
+   
         await conexion.desconectar();
     } catch (error) {
         console.error(error);
@@ -50,3 +54,4 @@ const configuracionDB = {
 }
 
 probarConexion();
+
