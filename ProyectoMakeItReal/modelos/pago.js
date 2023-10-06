@@ -5,7 +5,8 @@ const Pago = sequelize.define('Pago', {
     idPago: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
     monto: {
         type: Sequelize.FLOAT,

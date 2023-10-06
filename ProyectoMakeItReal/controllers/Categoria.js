@@ -1,29 +1,20 @@
 const Categoria = require('../modelos/Categoria.js');
 
-exports.addCategoriaPromise = (idCategoria, nombre, descripcion) => {
-    Categoria.create({
-        idCategoria: idCategoria,
-        nombre: nombre,
-        descripcion: descripcion
-    })
-    .then(result => {
-        console.log(result);
-    })
-    .catch(err => {
-        console.log(err);
-    });
+exports.addCategoriaPromise = async (data) => {
+    try {
+        const nuevaCategoria = await Categoria.create(data);
+        console.log('Categoría creada con éxito:', nuevaCategoria);
+    } catch (error) {
+        console.log(error);
+    }
 };
 
-exports.addCategoriaAsync = async (idCategoria, nombre, descripcion) => {
+exports.addCategoriaAsync = async (data) => {
     try {
-        const result = await Categoria.create({
-            idCategoria: idCategoria,
-            nombre: nombre,
-            descripcion: descripcion
-        });
-        console.log(result);
-    } catch (err) {
-        console.log(err);
+        const nuevaCategoria = await Categoria.create(data);
+        console.log('Categoría creada con éxito:', nuevaCategoria);
+    } catch (error) {
+        console.log(error);
     }
 };
 

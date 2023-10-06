@@ -1,37 +1,20 @@
 const Pago = require('../modelos/pago.js');
 
-exports.addPagoPromise= (idPago, monto, fecha, método, concepto, id_Patrocinador, id_Proyecto) =>{
-    Pago.create({
-        idPago : idPago,
-        monto : monto, 
-        fecha : fecha,
-        método : método, 
-        concepto : concepto, 
-        id_Patrocinador : id_Patrocinador,
-        id_Proyecto : id_Proyecto
-    })
-    .then(result =>{
-        console.log(result);
-    })
-    .catch(err=>{
-        console.log(err);
-    });
+exports.addPagoPromise = async (data) => {
+    try {
+        const nuevoPago = await Pago.create(data);
+        console.log('Pago creado con éxito:', nuevoPago);
+    } catch (error) {
+        console.log(error);
+    }
 };
 
-exports.addPagoAsync = async(idPago, monto, fecha, método, concepto, id_Patrocinador, id_Proyecto) => {
-    try{
-        const result = await Pago.create({
-            idPago:idPago,
-            monto:monto, 
-            fecha:fecha, 
-            método:método,
-            concepto:concepto,
-            id_Patrocinador:id_Patrocinador,
-            id_Proyecto:id_Proyecto
-        });
-        console.log(result);
-    } catch (err){
-        console.log(err);
+exports.addPagoAsync = async (data) => {
+    try {
+        const nuevoPago = await Pago.create(data);
+        console.log('Pago creado con éxito:', nuevoPago);
+    } catch (error) {
+        console.log(error);
     }
 };
 
