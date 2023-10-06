@@ -36,3 +36,9 @@ async function obtenerPagosById(idProyecto){
 //crearPago();
 //obtenerPagos();
 //obtenerPagosById(1);
+
+module.exports = {
+    crearPago,
+    obtenerPagos,
+    obtenerPagosById
+};
