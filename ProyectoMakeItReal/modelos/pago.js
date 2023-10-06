@@ -1,69 +1,84 @@
-class Pago{
-    constructor(idPago, monto, fecha, metodo, concepto, idPatrocinador, idProyecto){
-        this.idPago = idPago; 
-        this.monto = monto; 
-        this.fecha = fecha; 
-        this.metodo = metodo; 
-        this.concepto = concepto;
-        this.idPatrocinador = idPatrocinador;
-        this.idProyecto = idProyecto; 
-    }
+const Sequelize= require('sequelize');
+const sequelize = require('../utils/connection');
 
-    //Getters y setters
+const Pago = sequelize.define('Pago', {
+    idPago: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true
+    },
+    monto: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+        validate: {
+            isFloat: {
+                msg: "Monto debe ser un valor numérico"
+            },
+            min: {
+                args: [0],
+                msg: "Monto debe ser mayor o igual a 0"
+            }
+        }
+    },
+    fecha: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        validate: {
+            isDate: {
+                msg: "Fecha debe ser válida"
+            }
+        }
+    },
+    método: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: "Método no puede estar vacío."
+            }
+        }
+    },
+    concepto: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: "Concepto no puede estar vacío."
+            }
+        }
+    },
+    id_Patrocinador: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        validate: {
+            isInt: {
+                msg: "IdPatrocinador debe ser un Integer válido"
+            }
+        }
+    },
+    id_Proyecto: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        validate: {
+            isInt: {
+                msg: "IdProyecto debe ser un Integer válido"
+            }
+        }
+    }
+}, {
+    timestamps: false,
+    tableName: 'pago'
+});
 
-    getIdPago(){
-        return this.idPago;
+const syncModel = async () => {
+    try {
+        await Pago.sync();
+        console.log('Modelo sincronizado correctamente.');
+    } catch (error) {
+        console.error('Error al sincronizar el modelo:', error);
     }
+};
 
-    setIdPago(nuevoIdPago){
-        this.idPago = nuevoIdPago; 
-    }
+syncModel();
 
-    getMonto(){
-        return this.monto;
-    }
-
-    setMonto(nuevoMonto){
-        this.monto = nuevoMonto;
-    }
-
-    getFecha(){
-        return this.fecha;
-    }
-
-    setFecha(nuevaFecha){
-        this.fecha = nuevaFecha;
-    }
-
-    getMetodo(){
-        return this.metodo;
-    }
-
-    setMetodo(nuevoMetodo){
-        this.metodo = nuevoMetodo;
-    }
-
-    getConcepto(){
-        return this.concepto;
-    }
-
-    setConcepto(nuevoConcepto){
-        this.concepto = nuevoConcepto;
-    }
-
-    getIdPatrocinador(){
-        return this.idPatrocinador;
-    }
-
-    setIdPatrocinador(nuevoIdPatrocinador){
-        this.idPatrocinador = nuevoIdPatrocinador;
-    }
-
-    getIdProyecto(){
-        return this.idProyecto;
-    }
-    
-    setIdProyecto(nuevoIdProyecto){
-        this.idProyecto = nuevoIdProyecto;
-    }
-}
+module.exports = Pago;
