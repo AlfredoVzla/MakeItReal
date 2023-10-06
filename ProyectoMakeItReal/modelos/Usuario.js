@@ -1,59 +1,32 @@
-class Usuario {
-    constructor(nombre, telefono, email, nombreUsuario, contraseña, imagenPerfil) {
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.email = email;
-        this.nombreUsuario = nombreUsuario;
-        this.contraseña = contraseña;
-        this.imagenPerfil = imagenPerfil;
-    }
+const Sequelize = require('sequelize');
+const sequelize = require('../utils/connection');
 
-    // Getters and setters
-    getNombre() {
-        return this.nombre;
+const Usuario = sequelize.define('usuario', {
+    nombre: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    telefono: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    correoElectronico: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true // Asegura que el email sea único
+    },
+    nombreUsuario: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true // Asegura que el nombre de usuario sea único
+    },
+    contraseña: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    imagenPerfil: {
+        type: Sequelize.STRING // Puedes ajustar el tipo de dato según tus necesidades
     }
+});
 
-    setNombre(nuevoNombre) {
-        this.nombre = nuevoNombre;
-    }
-
-    getTelefono() {
-        return this.telefono;
-    }
-
-    setTelefono(nuevoTelefono) {
-        this.telefono = nuevoTelefono;
-    }
-
-    getEmail() {
-        return this.email;
-    }
-
-    setEmail(nuevoEmail) {
-        this.email = nuevoEmail;
-    }
-
-    getNombreUsuario() {
-        return this.nombreUsuario;
-    }
-
-    setNombreUsuario(nuevoNombreUsuario) {
-        this.nombreUsuario = nuevoNombreUsuario;
-    }
-
-    getContraseña() {
-        return this.contraseña;
-    }
-
-    setContraseña(nuevaContraseña) {
-        this.contraseña = nuevaContraseña;
-    }
-
-    getImagenPerfil() {
-        return this.imagenPerfil;
-    }
-
-    setImagenPerfil(nuevaImagenPerfil) {
-        this.imagenPerfil = nuevaImagenPerfil;
-    }
-}
+module.exports = Usuario;
