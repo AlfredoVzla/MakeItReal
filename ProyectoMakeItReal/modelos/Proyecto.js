@@ -1,115 +1,134 @@
-class Proyecto{
-    constructor(idProyecto, titulo, descripcion, fechaInicio, fechaCreacion, objetivo, estado, masInformacion, metaFinanciamiento, cantidadRecaudada, idCategoria, idEmprendedor){
-        this.idProyecto = idProyecto;
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.fechaInicio = fechaInicio;
-        this.fechaCreacion = fechaCreacion;
-        this.objetivo = objetivo;
-        this.estado = estado;
-        this.masInformacion = masInformacion;
-        this.metaFinanciamiento = metaFinanciamiento;
-        this.cantidadRecaudada = cantidadRecaudada;
-        this.idCategoria = idCategoria;
-        this.idEmprendedor = idEmprendedor;
-    }
+const Sequelize = require('sequelize');
+const sequelize = require('../utils/connection');
+const Categoria = require('./Categoria'); // Importa el modelo de Categoria
+const Emprendedor=require('./Emprendedor') // Importa el modelo del emprendedor
 
-    //Getters and setters
+const Proyecto=sequelize.define('proyecto',{
+    idProyecto:{
+        type: Sequelize.INTEGER,
+        primaryKey:true,
+        autoIncrement:true
+    },
+    titulo:{
+        type:Sequelize.STRING,
+        allowNull:false,
+        validate: {
+            notEmpty: {
+                msg: "Titulo no puede estar vacío."
+            }
+        }
+    },
+    descripcion:{
+        type: Sequelize.STRING,
+        allowNull:false,
+        validate: {
+            notEmpty: {
+                msg: "Descripcion no puede estar vacío."
+            }
+        }
+    },
+    fechaInicio:{
+        type:Sequelize.DATE,
+        allowNull:false,
+        validate: {
+            isDate: {
+                msg: "Fecha debe ser válida"
+            },
+            notEmpty:{
+                msg:"Fecha de inicio no debe estar vacia"
+            }
+            
+        }
 
-    getIdProyecto(){
-        return this.idProyecto;
-    }
+    },
+    fechaCreación:{
+        type:Sequelize.DATE,
+        allowNull:false,
+        validate: {
+            isDate: {
+                msg: "Fecha debe ser válida"
+            },
+            notEmpty:{
+                msg:"Fecha de creación de no debe estar vacia"
+            }
+        }
+    },
+    objetivo:{
+        type: Sequelize.STRING,
+        allowNull:false,
+        validate: {
+            notEmpty: {
+                msg: "Objetivo no puede estar vacío."
+            }
+        }
 
-    setIdProyecto(nuevoIdProyecto){
-        this.idProyecto = nuevoIdProyecto; 
-    }
+    },
+    estado:{
+        type: Sequelize.STRING,
+        allowNull:false,
+        validate: {
+            notEmpty: {
+                msg: "Estado no puede estar vacío."
+            }
+        }
+    },
+    masInformacion:{
+        type: Sequelize.STRING,
+        allowNull:false,
+        validate: {
+            notEmpty: {
+                msg: "MasInformacion no puede estar vacío."
+            }
+        }
+    },
+    metaFinanciamiento:{
+        type: Sequelize.FLOAT,
+        allowNull:false,
+        validate: {
+            notEmpty: {
+                msg: "MetaFinanciamiento no puede estar vacío."
+            }
+        }
+    },
+    cantidadRecaudada:{
+        type: Sequelize.FLOAT,
+        allowNull:false,
+        validate: {
+            notEmpty: {
+                msg: "Cantidad Recaudada no puede estar vacío."
+            }
+        }
+    },
+    id_Categoria:{
+        type: Sequelize.INTEGER,
+        allowNull:false,
+        validate: {
+            isInt: {
+                msg: "IdCategoria debe ser un Integer válido"
+            },
+            notEmpty: {
+                msg: "IdCategoria  no puede estar vacío."
+            }
+        }
+    },
+    id_Emprendedor:{
+        type: Sequelize.INTEGER,
+        allowNull:false,
+        validate: {
+            isInt: {
+                msg: "IdEmprendedor debe ser un Integer válido"
+            },
+            notEmpty: {
+                msg: "IdEmprendedor no puede estar vacío."
+            }
+        }
 
-    getTitulo(){
-        return this.titulo;
-    }
+    },
+},
+{
+    timestamps:false,
+    tableName:'proyecto',
+});
 
-    setTitulo(nuevoTitulo){
-        this.titulo = nuevoTitulo;
-    }
 
-    getDescripcion(){
-        return this.descripcion;
-    }
-
-    setDescripcion(nuevaDescripcion){
-        this.descripcion = nuevaDescripcion;
-    }
-
-    getFechaInicio(){
-        return this.fechaInicio;
-    }
-
-    setFechaInicio(nuevaFechaInicio){
-        this.fechaInicio = nuevaFechaInicio;
-    }
-
-    getFechaCreacion(){
-        return this.fechaCreacion;
-    }
-
-    setFechaCreacion(nuevaFechaCreacion){
-        this.fechaCreacion = nuevaFechaCreacion;
-    }
-
-    getObjetivo(){
-        return this.objetivo;
-    }
-
-    setObjetivo(nuevoObjetivo){
-        this.objetivo = nuevoObjetivo;
-    }
-
-    getEstado(){
-        return this.estado;
-    }
-
-    setEstado(nuevoEstado){
-        this.estado = nuevoEstado;
-    }
-
-    getMasInformacion(){
-        return this.masInformacion;
-    }
-
-    setMasInformacion(nuevaInfo){
-        this.masInformacion = nuevaInfo;
-    }
-
-    getMetaFinanciamiento(){
-        return this.metaFinanciamiento;
-    }
-
-    setMetaFinanciamiento(nuevaMeta){
-        this.metaFinanciamiento = nuevaMeta;
-    }
-
-    getCantidadRecaudada(){
-        return this.cantidadRecaudada;
-    }
-
-    setCantidadRecaudada(nuevaCantidad){
-        this.cantidadRecaudada = nuevaCantidad;
-    }
-
-    getIdCategoria(){
-        return this.idCategoria;
-    }
-
-    setIdCategoria(nuevoIdCategoria){
-        this.idCategoria = nuevoIdCategoria;
-    }
-
-    getIdEmprendedor(){
-        return this.idEmprendedor;
-    }
-
-    setIdEmprendedor(nuevoIdEmprendedor){
-        this.idEmprendedor = nuevoIdEmprendedor;
-    }
-
-}
+module.exports=Proyecto;

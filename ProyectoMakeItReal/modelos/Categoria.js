@@ -5,7 +5,7 @@ const Categoria = sequelize.define('Categoria', {
     idCategoria: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
     },
     nombre: {
         type: Sequelize.STRING,

@@ -1,4 +1,4 @@
-const Categoria = require('../modelos/categoria.js');
+const Categoria = require('../modelos/Categoria.js');
 
 exports.addCategoriaPromise = (idCategoria, nombre, descripcion) => {
     Categoria.create({
