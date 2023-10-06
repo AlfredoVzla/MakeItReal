@@ -21,10 +21,36 @@
 const sequelize = require('./utils/connection'); // Importa la conexión a la base de datos
 const EmprendedorController = require('./controllers/Emprendedor'); // Importa el controlador de Emprendedor
 const PatrocinadorController = require('./controllers/Patrocinador'); // Importa el controlador de Patrocinador
+const ComentarioController = require("./controllers/Comentario");
 
 // Crea una instancia del controlador
+const comentario = new ComentarioController();
 const emprendedorController = new EmprendedorController();
 const patrocinador = new PatrocinadorController();
+
+async function probarMetodosComentario(){
+  try{
+
+    // const comentarioNuevo = await comentario.crearComentario({
+    //   texto: 'Este es un comentario de prueba',
+    //   fecha: new Date(),
+    //   calificacion: 4,
+    //   id_Proyecto: 1, // Reemplaza con el ID de un proyecto existente
+    // });
+
+    // const comentarioBuscado = await comentario.obtenerComentarios();
+
+    // const comentarioActualizado = await comentario.actualizarComentario(2,{
+    //   texto: 'Esta es una segunda prueba',
+    //   fecha: new Date()
+    // });
+
+    // const comentarioEliminado = await comentario.eliminarComentario(2);
+
+  }catch(err){
+    console.log(err);
+  }
+}
 
 // Función para probar los métodos del controlador
 async function probarMetodos() {
@@ -85,4 +111,6 @@ async function probarMetodos() {
 
 
 // Llama a la función para probar los métodos
-probarMetodos();
+// probarMetodos();
+
+probarMetodosComentario();

@@ -1,51 +1,32 @@
-class Comentario{
-    constructor(idComentario, texto, fecha, calificacion, idProyecto){
-        this.idComentario = idComentario;
-        this.texto = texto;
-        this.fecha = fecha;
-        this.calificacion = calificacion;
-        this.idProyecto = idProyecto;
-    }
+const Sequelize = require('sequelize');
+const sequelize = require('../utils/connection');
 
-    //Getters and setters
-    
-    getIdComentario(){
-        return this.getIdComentario;
+const Comentario = sequelize.define('comentario', {
+    idComentario: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    texto: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    fecha: {
+        type: Sequelize.DATE,
+        allowNull: false
+    },
+    calificacion: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    id_Proyecto: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
+}, {
+    tableName: 'comentario',
+    timestamps: false // Esto evita que se agreguen los campos createdAt y updatedAt
+});
 
-    setIdComentario(nuevoIdComentario){
-        this.idComentario = nuevoIdComentario;
-    }
-
-    getTexto(){
-        return this.texto;
-    }
-
-    setTexto(nuevoTexto){
-        this.texto = nuevoTexto;
-    }
-
-    getFecha(){
-        return this.fecha;
-    }
-
-    setFecha(nuevaFecha){
-        this.fecha = nuevaFecha;
-    }
-
-    getCalificacion(){
-        return this.calificacion;
-    }
-
-    setCalificacion(nuevaCalificacion){
-        this.calificacion = nuevaCalificacion;
-    }
-
-    getIdProyecto(){
-        return this.idProyecto;
-    }
-
-    setIdProyecto(nuevoIdProyecto){
-        this.idProyecto = nuevoIdProyecto;
-    }
-}
+module.exports = Comentario;
