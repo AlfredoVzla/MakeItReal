@@ -5,6 +5,7 @@ class EmprendedorController {
   async crearEmprendedor(data) {
     try {
       const nuevoEmprendedor = await Emprendedor.create(data); //Utilizando sequelize para las querys en mysql
+      console.log("Registro éxitoso");
     } catch (error) {
       throw error;
     }
