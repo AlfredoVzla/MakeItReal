@@ -1,18 +1,22 @@
+//const operacionesPago = require('./controllers/Pago');
+//const operacionesCategoria = require('./controllers/Categoria');
 
-// const operacionesPago = require('./controllers/Pago');
-
-// async function ejecutarOperaciones() {
-//     try {
-//     await operacionesPago.addPagoPromise(1, 100.0, new Date(), 'Tarjeta', 'Donación', 1, 1);
-//     await operacionesPago.addPagoAsync(2, 100, new Date(), 'Efectivo', 'Compra', 2, 1);
-//     await operacionesPago.getPagos();
-//     } catch (error) {
-//     console.error(error);
-//     }
-// }
-
-// ejecutarOperaciones();
-
+//async function ejecutarOperaciones() {
+    //try {
+    //await operacionesPago.addPagoPromise(1, 100.0, new Date(), 'Tarjeta', 'Donación', 1, 1);
+    //await operacionesPago.addPagoAsync(2, 100, new Date(), 'Efectivo', 'Compra', 2, 1);
+    //await operacionesPago.getPagos();
+    //await operacionesPago.getPagosByProyecto(1);
+    // await operacionesCategoria.addCategoriaPromise(4, 'Arte', 'Arte');
+    //await operacionesCategoria.addCategoriaAsync(5, 'Humo', 'Humor');
+    //await operacionesCategoria.getCategorias();
+    //await operacionesCategoria.getCategoriaById(3);
+    //await operacionesCategoria.updateCategoriaById(3, 'Comida', 'Comida')
+    //await operacionesCategoria.deleteCategoriaById(5);
+    //} catch (error) {
+    //console.error(error);
+    //}
+//}
 
 const sequelize = require('./utils/connection'); // Importa la conexión a la base de datos
 const EmprendedorController = require('./controllers/Emprendedor'); // Importa el controlador de Emprendedor

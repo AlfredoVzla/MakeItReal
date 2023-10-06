@@ -1,33 +1,38 @@
-class Categoria{
-    constructor(idCategoria, nombre, descripcion){
-        this.idCategoria = idCategoria;
-        this.nombre = nombre; 
-        this.descripcion = descripcion;
-    }
+const Sequelize = require('sequelize');
+const sequelize = require('../utils/connection');
 
-    //Getters and setters
+const Categoria = sequelize.define('Categoria', {
+    idCategoria: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    nombre: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: "Método no puede estar vacío."
+            }
+        }
+    },
+    descripcion: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: {
+                msg: "Método no puede estar vacío."
+            }
+        }
+    },
+}, {
+    timestamps:false,
+    tableName: 'categoria'
+});
 
-    getIdCategoria(){
-        return this.idCategoria;
-    }
 
-    setIdCategoria(nuevoIdCategoria){
-        this.idCategoria = nuevoIdCategoria;
-    }
+Categoria.sync({ force: false }).then(() => {
+    console.log('Modelo de Categoria sincronizado correctamente.');
+});
 
-    getNombre(){
-        return this.nombre;
-    }
-
-    setNombre(nuevoNombre){
-        this.nombre = nuevoNombre;
-    }
-
-    getDescripcion(){
-        return this.descripcion;
-    }
-
-    setDescripcion(nuevaDescripcion){
-        this.descripcion = nuevaDescripcion;
-    }
-}
+module.exports = Categoria;
