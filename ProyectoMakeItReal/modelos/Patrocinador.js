@@ -31,27 +31,27 @@ const Patrocinador = sequelize.define('emprendedor',{
         allowNull: false
     },
     imagenPerfil: {
-        type: Sequelize.STRING, // Puedes ajustar el tipo de dato según tus necesidades
+        type: Sequelize.STRING,
         allowNull: false
     },
     proyectosPatrocinador: {
-        type: Sequelize.INTEGER, // O el tipo de dato adecuado
-        allowNull: false // Ajusta esto según tus necesidades
+        type: Sequelize.INTEGER,
+        allowNull: false 
     },
     montoTotalPatrocinado: {
-        type: Sequelize.FLOAT, // O el tipo de dato adecuado para el monto
-        allowNull: false // Ajusta esto según tus necesidades
+        type: Sequelize.FLOAT,
+        allowNull: false
     },
     experienciaProyectos: {
-        type: Sequelize.STRING, // O el tipo de dato adecuado
-        allowNull: false // Ajusta esto según tus necesidades
+        type: Sequelize.STRING, 
+        allowNull: false 
     },
 }, {
-    sequelize, // Conecta el modelo a la instancia de sequelize
-    modelName: 'patrocinador', // Define el nombre de la tabla en la base de datos
-    tableName:'patrocinador',
-    timestamps: false, // Esto evita que se agreguen los campos createdAt y updatedAt
-    freezeTableName: true // Usa el nombre 'patrocinador' para la tabla en la base de datos
+    sequelize,
+    modelName: 'patrocinador', 
+    tableName:'patrocinador', 
+    timestamps: false,
+    freezeTableName: true
 });
 
 module.exports = Patrocinador;

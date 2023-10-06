@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../utils/connection');
-const Usuario = require('./Usuario'); // Importa el modelo de Usuario
+const Usuario = require('./Usuario'); 
 
 const Emprendedor = sequelize.define('emprendedor', {
   idEmprendedor: {
     type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true // Asegura que se autoincremente el ID
+    autoIncrement: true 
 }
 ,nombre: {
       type: Sequelize.STRING,
@@ -32,11 +32,11 @@ const Emprendedor = sequelize.define('emprendedor', {
       allowNull: false
   },
   imagenPerfil: {
-      type: Sequelize.STRING // Puedes ajustar el tipo de dato según tus necesidades
+      type: Sequelize.STRING 
   }
 }, {
-    timestamps: false, // Esto evita que se agreguen los campos createdAt y updatedAt
-    freezeTableName: true, // Usa el nombre 'emprendedor' para la tabla en la base de datos
+    timestamps: false, 
+    freezeTableName: true, 
 });
 
 module.exports = Emprendedor;

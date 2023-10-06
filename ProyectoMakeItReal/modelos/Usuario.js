@@ -25,7 +25,7 @@ const Usuario = sequelize.define('usuario', {
         allowNull: false
     },
     imagenPerfil: {
-        type: Sequelize.STRING // Puedes ajustar el tipo de dato según tus necesidades
+        type: Sequelize.STRING
     }
 });
 
