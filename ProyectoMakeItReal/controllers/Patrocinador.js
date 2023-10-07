@@ -32,7 +32,7 @@ class PatrocinadorController {
     }
   }
 // Método para obtener un patrocinador por su Usuario y Contraseña
-  async obtenerUsuarioPorCredenciales(nombreUsuario, contraseña) {
+  async obtenerPatrocinadorPorCredenciales(nombreUsuario, contraseña) {
     try {
       const patrocinador = await Patrocinador.findOne({
         where: {

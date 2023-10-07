@@ -4,17 +4,31 @@ const EmprendedorController = require('../controllers/Emprendedor'); // Importa 
 const emprendedor = new EmprendedorController();
 
 // CÓDIGO DE PRUEBA DE LA CLASE EMPRENDEDOR
-exports.crearEmprendedor = async(data)=>{
+exports.crearEmprendedor = async()=>{
     try {
-        const pruebaEmprendedor = await emprendedor.crearEmprendedor(data);
+        const pruebaEmprendedor = await emprendedor.crearEmprendedor({
+          nombre:"Jaime Valenzuela",
+          telefono:"6441920149",
+          correoElectronico:"jvalenzuela0302@gmail.com",
+          nombreUsuario:"jaimevzla03",
+          contraseña:"123456",
+          imagenPerfil:"imagen.jpg"
+        });
     } catch (error) {
       console.log(error);
     }
   }
   
-exports.actualizarEmprendedor = async(id,data)=>{
+exports.actualizarEmprendedor = async()=>{
     try {
-        const pruebaEmprendedor = await emprendedor.actualizarEmprendedor(id,data);
+        const pruebaEmprendedor = await emprendedor.actualizarEmprendedor(6,{
+          nombre:"Alfredo Valenzuela",
+          telefono:"6441920149",
+          correoElectronico:"jvalenzuela0302@gmail.com",
+          nombreUsuario:"jaimevzla03",
+          contraseña:"123456",
+          imagenPerfil:"imagen.jpg"
+        });
     } catch (error) {
       console.log(error);
     }

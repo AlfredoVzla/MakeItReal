@@ -3,17 +3,37 @@ const PatrocinadorController = require('../controllers/Patrocinador'); // Import
 const patrocinador = new PatrocinadorController();
 
 // CÓDIGO DE PRUEBA DE LA CLASE PATROCINADOR
-exports.crearPatrocinador = async(data)=>{
+exports.crearPatrocinador = async()=>{
     try {
-        const pruebaPatrocinador = await patrocinador.crearPatrocinador(data);
+        const pruebaPatrocinador = await patrocinador.crearPatrocinador({
+          nombre:"Alfredo Valenzuela",
+          telefono:"6441920149",
+          correoElectronico:"jvalenzuela0302@gmail.com",
+          nombreUsuario:"jaimevzla03",
+          contraseña:"123456",
+          imagenPerfil:"imagen.jpg",
+          proyectosPatrocinador:0,
+          montoTotalPatrocinado:0,
+          experienciaProyectos:"Ninguna"
+        });
     } catch (error) {
       console.log(error);
     }
   }
   
-exports.actualizarPatrocinador = async(id,data)=>{
+exports.actualizarPatrocinador = async()=>{
     try {
-      const pruebaPatrocinador = await patrocinador.actualizarPatrocinador(id,data);
+      const pruebaPatrocinador = await patrocinador.actualizarPatrocinador(3,{
+        nombre:"Alfredo Valenzuela",
+        telefono:"6441920149",
+        correoElectronico:"jvalenzuela0302@gmail.com",
+        nombreUsuario:"jaimevzla03",
+        contraseña:"123456",
+        imagenPerfil:"imagen.jpg",
+        proyectosPatrocinador:1,
+        montoTotalPatrocinado:1000,
+        experienciaProyectos:"Ninguna"
+      });
     } catch (error) {
       console.log(error);
     }

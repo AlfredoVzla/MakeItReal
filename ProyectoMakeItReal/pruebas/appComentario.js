@@ -3,9 +3,14 @@ const ComentarioController = require("../controllers/Comentario");
 const comentario = new ComentarioController();
 
 // CÓDIGO DE PRUEBA DE LA CLASE COMENTARIOS
-exports.agregarComentario = async(data)=>{
+exports.agregarComentario = async()=>{
     try {
-      const pruebaComentario = await comentario.crearComentario(data);
+      const pruebaComentario = await comentario.crearComentario({
+        texto:"Prueba",
+        fecha: new Date(),
+        calificacion: 4,
+        id_Proyecto:1
+      });
     } catch (error) {
       console.log("No se pudo agregar el comentario");
     }
@@ -19,9 +24,14 @@ exports.obtenerComentarios = async()=>{
     }
   }
   
-exports.actualizarComentario = async(id,data)=>{
+exports.actualizarComentario = async()=>{
     try {
-      const pruebaComentario = await comentario.actualizarComentario(id,data);
+      const pruebaComentario = await comentario.actualizarComentario(3,{
+        texto:"Prueba",
+        fecha: new Date(),
+        calificacion: 4,
+        id_Proyecto:1
+      });
     } catch (error) {
       console.log("No se pudo actualizar el comentario");
     }
