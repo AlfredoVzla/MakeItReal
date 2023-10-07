@@ -31,6 +31,25 @@ class PatrocinadorController {
       console.log(error);
     }
   }
+// Método para obtener un patrocinador por su Usuario y Contraseña
+  async obtenerUsuarioPorCredenciales(nombreUsuario, contraseña) {
+    try {
+      const patrocinador = await Patrocinador.findOne({
+        where: {
+          nombreUsuario: nombreUsuario,
+          contraseña: contraseña
+        }
+      });
+  
+      if (patrocinador) {
+        console.log(JSON.stringify(patrocinador, null, 2));
+      } else {
+        console.log('Patrocinador no encontrado');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // Método para actualizar un patrocinador por su ID
   async actualizarPatrocinador(idPatrocinador, data) {

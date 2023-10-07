@@ -30,6 +30,25 @@ class EmprendedorController {
       throw error;
     }
   }
+// Método para obtener un emprendedor por su Usuario y Contraseña
+  async obtenerEmprendedorPorCredenciales(nombreUsuario, contraseña) {
+    try {
+      const emprendedor = await Emprendedor.findOne({
+        where: {
+          nombreUsuario: nombreUsuario,
+          contraseña: contraseña
+        }
+      });
+  
+      if (emprendedor) {
+        console.log(JSON.stringify(emprendedor, null, 2));
+      } else {
+        console.log('Emprendedor no encontrado');
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
   // Método para actualizar un emprendedor por su ID
   async actualizarEmprendedor(idEmprendedor, data) {

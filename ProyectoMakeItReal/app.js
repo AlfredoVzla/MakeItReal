@@ -79,178 +79,41 @@
 // }
 
 const sequelize = require('./utils/connection'); // Importa la conexión a la base de datos
-const EmprendedorController = require('./controllers/Emprendedor'); // Importa el controlador de Emprendedor
-const PatrocinadorController = require('./controllers/Patrocinador'); // Importa el controlador de Patrocinador
-const ComentarioController = require("./controllers/Comentario"); 
 const ProyectoController = require('./controllers/Proyecto');
 const CategoriaController = require('./controllers/Categoria');
 const PagoController = require('./controllers/Pago');
 
-const emprendedor = new EmprendedorController();
-const patrocinador = new PatrocinadorController();
-const comentario = new ComentarioController();
-// CÓDIGO DE PRUEBA DE LA CLASE EMPRENDEDOR
-async function crearEmprendedor(){
-  try {
-      const pruebaEmprendedor = await emprendedor.crearEmprendedor({
-        nombre:"Jaime Valenzuela",
-        telefono:"6441920149",
-        correoElectronico:"jvalenzuela0302@gmail.com",
-        nombreUsuario:"jaimevzla03",
-        contraseña:"123456",
-        imagenPerfil:"imagen.jpg"
-      });
-  } catch (error) {
-    console.log(error);
-  }
-}
+const appEmprendedor = require("./pruebas/appEmprendedor");
 
-async function actualizarEmprendedor(){
-  try {
-      const pruebaEmprendedor = await emprendedor.actualizarEmprendedor(6,{
-        nombre:"Alfredo Valenzuela",
-        telefono:"6441920149",
-        correoElectronico:"alfredo0302@gmail.com",
-        nombreUsuario:"jaimevzla03",
-        contraseña:"123456",
-        imagenPerfil:"imagen.jpg"
-      });
-  } catch (error) {
-    console.log(error);
-  }
-}
+// // Agregar emprendedor
+// appEmprendedor.crearEmprendedor({
+//   nombre:"Jaime Valenzuela",
+//   telefono:"6441920149",
+//   correoElectronico:"jvalenzuela0302@gmail.com",
+//   nombreUsuario:"jaimevzla03",
+//   contraseña:"123456",
+//   imagenPerfil:"imagen.jpg"
+// });
 
-async function obtenerEmprendedores(){
-  try {
-      const pruebaEmprendedor = await emprendedor.obtenerEmprendedores();
-  } catch (error) {
-    console.log(error);
-  }
-}
+// // Actualizar emprendedor
+// appEmprendedor.actualizarEmprendedor(6,{
+//   nombre:"James Valenzuela",
+//   telefono:"6441920149",
+//   correoElectronico:"alfredo0302@gmail.com",
+//   nombreUsuario:"jaimevzla03",
+//   contraseña:"123456",
+//   imagenPerfil:"imagen.jpg"
+// });
 
-async function obtenerEmprendedorId(){
-  try {
-      const pruebaEmprendedor = await emprendedor.obtenerEmprendedorPorId(6);
-  } catch (error) {
-    console.log(error);
-  }
-}
+// // Obtener emprendedores
+// appEmprendedor.obtenerEmprendedores();
 
-async function eliminarEmprendedor(){
-  try {
-      const pruebaEmprendedor = await emprendedor.eliminarEmprendedor(5);
-  } catch (error) {
-    console.log("No se pudo eliminar el emprendedor, seguramente tiene proyectos asignados");
-  }
-}
+// // Obtener emprendedor por ID
+appEmprendedor.obtenerEmprendedorId(6);
 
-// crearEmprendedor();
-// actualizarEmprendedor();
-// obtenerEmprendedores();
-// obtenerEmprendedorId();
-// eliminarEmprendedor();
+// Obtener emprendador por credenciales 
+// appEmprendedor.obtenerEmprendedorCredenciales("jaimevzla03","123456");
 
-// CÓDIGO DE PRUEBA DE LA CLASE PATROCINADOR
-async function crearPatrocinador(){
-  try {
-      const pruebaPatrocinador = await patrocinador.crearPatrocinador({
-        nombre:"Jaime Valenzuela",
-        telefono:"6441920149",
-        correoElectronico:"jvalenzuela0302@gmail.com",
-        nombreUsuario:"jaimevzla03",
-        contraseña:"123456",
-        imagenPerfil:"imagen.jpg",
-        proyectosPatrocinador:0,
-        montoTotalPatrocinado:0,
-        experienciaProyectos:"Ninguna"
-      });
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function actualizarPatrocinador(){
-  try {
-    const pruebaPatrocinador = await patrocinador.actualizarPatrocinador(3,{
-        nombre:"Alfredo Reyes",
-      });
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function obtenerPatrocinadores(){
-  try {
-    const pruebaPatrocinador = await patrocinador.obtenerPatrocinadores();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function obtenerPatrocinadorId(){
-  try {
-      const pruebaPatrocinador = await patrocinador.obtenerPatrocinadorPorId(3);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function eliminarPatrocinador(){
-  try {
-    const pruebaPatrocinador = await patrocinador.eliminarPatrocinador(1);
-  } catch (error) {
-    console.log("No se pudo eliminar el patrocinador, seguramente tiene proyectos asignados");
-  }
-}
-
-// crearPatrocinador();
-// actualizarPatrocinador();
-// obtenerPatrocinadores();
-// obtenerPatrocinadorId();
-// eliminarPatrocinador();
-
-// CÓDIGO DE PRUEBA DE LA CLASE COMENTARIOS
-async function agregarComentario(){
-  try {
-    const pruebaComentario = await comentario.crearComentario({
-      texto:"Este es un comentario para probar",
-      fecha: new Date(),
-      calificacion:4,
-      id_Proyecto:1
-    });
-  } catch (error) {
-    console.log("No se pudo agregar el comentario");
-  }
-}
-
-async function obtenerComentario(){
-  try {
-    const pruebaComentario = await comentario.obtenerComentarios();
-  } catch (error) {
-    console.log("No se pudieron obtener los comentarios");
-  }
-}
-
-async function actualizarComentario(){
-  try {
-    const pruebaComentario = await comentario.actualizarComentario(1,{
-      texto:"Se actualizó el comentario"
-    });
-  } catch (error) {
-    console.log("No se pudo actualizar el comentario");
-  }
-}
-
-async function eliminarComentario(){
-  try {
-    const pruebaComentario = await comentario.eliminarComentario(1);
-  } catch (error) {
-    console.log("No se pudo eliminar el comentario");
-  }
-}
-
-// agregarComentario();
-// obtenerComentario();
-// actualizarComentario();
-// eliminarComentario();
+// // Eliminar emprendedor
+// appEmprendedor.eliminarEmprendedor(6);
 
