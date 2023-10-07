@@ -28,15 +28,15 @@ const appPago = require("./pruebas/appPago");
 // appPatrocinador.obtenerPatrocinadorId(1);
 // appPatrocinador.eliminarPatrocinador(2);
 
-// appProyecto.agregarProyecto();
-// appProyecto.obtenerProyectos();
-// appProyecto.actualizarProyecto();
-// appProyecto.eliminarProyecto();
+ //appProyecto.agregarProyecto();
+//appProyecto.obtenerProyectos();
+//appProyecto.actualizarProyecto();
+ //appProyecto.eliminarProyecto();
 
-// appImagen.agregarImagenProyecto();
+ //appImagen.agregarImagenProyecto();
 // appImagen.obtenerImagenesProyecto();
-// appImagen.actualizarImagenProyecto();
-// appImagen.eliminarImagenProyecto();
+//appImagen.actualizarImagenProyecto();
+appImagen.eliminarImagenProyecto();
 
 // appComentario.agregarComentario();
 // appComentario.obtenerComentarios();
