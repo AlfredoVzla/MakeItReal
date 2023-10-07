@@ -21,7 +21,7 @@ exports.crearEmprendedor = async()=>{
   
 exports.actualizarEmprendedor = async()=>{
     try {
-        const pruebaEmprendedor = await emprendedor.actualizarEmprendedor(6,{
+        const pruebaEmprendedor = await emprendedor.actualizarEmprendedor(1,{
           nombre:"Alfredo Valenzuela",
           telefono:"6441920149",
           correoElectronico:"jvalenzuela0302@gmail.com",

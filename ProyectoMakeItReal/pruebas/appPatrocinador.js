@@ -9,7 +9,7 @@ exports.crearPatrocinador = async()=>{
           nombre:"Alfredo Valenzuela",
           telefono:"6441920149",
           correoElectronico:"jvalenzuela0302@gmail.com",
-          nombreUsuario:"jaimevzla03",
+          nombreUsuario:"alfredo03",
           contraseña:"123456",
           imagenPerfil:"imagen.jpg",
           proyectosPatrocinador:0,
@@ -23,11 +23,11 @@ exports.crearPatrocinador = async()=>{
   
 exports.actualizarPatrocinador = async()=>{
     try {
-      const pruebaPatrocinador = await patrocinador.actualizarPatrocinador(3,{
-        nombre:"Alfredo Valenzuela",
+      const pruebaPatrocinador = await patrocinador.actualizarPatrocinador(1,{
+        nombre:"Jaime Valenzuela",
         telefono:"6441920149",
         correoElectronico:"jvalenzuela0302@gmail.com",
-        nombreUsuario:"jaimevzla03",
+        nombreUsuario:"alfredo04",
         contraseña:"123456",
         imagenPerfil:"imagen.jpg",
         proyectosPatrocinador:1,

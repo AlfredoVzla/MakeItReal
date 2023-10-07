@@ -6,7 +6,7 @@ async function agregarImagenProyecto() {
     try {
         const imagenProyectoNuevo = await imagenProyecto.crearImagenProyecto({
             imagen: 'imagen.jpg',
-            idProyecto: 3
+            idProyecto: 1
         });
     } catch (error) {
         console.log("No se pudo agregar la imagen del proyecto");
@@ -15,7 +15,7 @@ async function agregarImagenProyecto() {
 
 async function obtenerImagenesProyecto() {
     try {
-        const imagenPruebaProyecto = await imagenProyecto.obtenerImagenesProyecto(3);
+        const imagenPruebaProyecto = await imagenProyecto.obtenerImagenesProyecto(1);
     } catch (error) {
         console.log("No se pudieron obtener las imágenes");
     }
@@ -24,7 +24,7 @@ async function obtenerImagenesProyecto() {
 async function actualizarImagenProyecto() {
     try {
         const pruebaImagenProyecto = await imagenProyecto.actualizarImagenProyecto(1, {
-            idProyecto: 4
+            idProyecto: 2
         });
     } catch (error) {
         console.log("No se pudo actualizar la imagen del proyecto");
@@ -33,7 +33,7 @@ async function actualizarImagenProyecto() {
 
 async function eliminarImagenProyecto() {
     try {
-        const pruebaImagenProyecto = await imagenProyecto.eliminarImagenProyecto(2);
+        const pruebaImagenProyecto = await imagenProyecto.eliminarImagenProyecto(1);
     } catch (error) {
         console.log("No se pudo eliminar la imagen del proyecto");
     }

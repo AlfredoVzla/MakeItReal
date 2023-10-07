@@ -56,7 +56,7 @@ async function actualizarProyecto() {
 
 async function eliminarProyecto() {
     try {
-        const pruebaProyecto = await proyecto.eliminarProyecto(1);
+        const pruebaProyecto = await proyecto.eliminarProyecto(2);
     } catch (error) {
         console.log("No se pudo eliminar el proyecto");
     }
