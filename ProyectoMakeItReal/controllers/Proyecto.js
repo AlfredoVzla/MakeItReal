@@ -1,5 +1,6 @@
 const Proyecto = require('../modelos/Proyecto'); // Importa el modelo de Proyecto
 
+
 class ProyectoController {
   // Método para crear un nuevo Proyecto
   async crearProyecto(data) {
@@ -11,16 +12,78 @@ class ProyectoController {
     }
   }
 
+
   // Método para obtener todos los Proyectos
 async obtenerProyectos() {
     try {
       const proyectos = await Proyecto.findAll();
-      console.log(JSON.stringify(proyectos, null, 2)); 
+      console.log(JSON.stringify(proyectos, null, 2));
       // return proyectos;
     } catch (error) {
       console.log(error);
     }
   }  
+
+
+  // Método para obtener un proyecto por su ID
+async obtenerProyectoPorId(idProyecto) {
+  try {
+    const proyecto = await Proyecto.findByPk(idProyecto);
+    if (proyecto) {
+      console.log(JSON.stringify(proyecto, null, 2));
+    } else {
+      console.log(`Proyecto con ID ${idProyecto} no encontrado.`);
+    }
+    // return proyecto;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+// Método para obtener un proyecto por su título
+async obtenerProyectoPorTitulo(tituloProyecto) {
+  try {
+    const proyecto = await Proyecto.findOne({
+      where: { titulo: tituloProyecto },
+    });
+    if (proyecto) {
+      console.log(JSON.stringify(proyecto, null, 2));
+    } else {
+      console.log(`Proyecto no encontrado.`);
+    }
+   
+    // return proyecto;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
+// Método para obtener todos los proyectos de un emprendedor por su id_Emprendedor
+async obtenerProyectosPorIdEmprendedor(idEmprendedor) {
+  try {
+    const proyectos = await Proyecto.findAll({
+      where: { id_Emprendedor: idEmprendedor },
+    });
+    if (proyectos && proyectos.length > 0) {
+      console.log(JSON.stringify(proyectos, null, 2));
+    } else {
+      console.log("No hay registro de proyectos para ese emprendedor");
+    }
+   
+    // return proyectos;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
+
 
   // Método para actualizar un proyecto por su ID
   async actualizarProyecto(idProyecto, data) {
@@ -38,6 +101,7 @@ async obtenerProyectos() {
     }
   }
 
+
   // Método para eliminar un proyecto por su ID
   async eliminarProyecto(idProyecto) {
     try {
@@ -53,5 +117,6 @@ async obtenerProyectos() {
     }
   }
 }
+
 
 module.exports = ProyectoController;
