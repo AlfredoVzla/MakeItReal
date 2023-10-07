@@ -24,5 +24,6 @@ a ayudar a que esas ideas se hagan realidad.
 ## Anexos
 
 **Documento avance 1** [Enlace](https://drive.google.com/file/d/1TEexBHA1ocaFLoYge7KAyAYMFlunTfvP/view?usp=sharing)
+**Documento avance 2 y pruebas** [Enlace](https://drive.google.com/drive/folders/145Fdtkq5cKdFl0_cOOs6lBEEFOlMcGjv?usp=drive_link)
 
 
