@@ -3,10 +3,11 @@ const Categoria = require('../modelos/Categoria.js');
 exports.addCategoria = async (req, res) => {
     try {
         //const nuevaCategoria = await Categoria.create(req.body);
+        const { nombre, descripcion } = req.body;
         const nuevaCategoria = {
             id: 1,
-            nombre: "Nombre de la categoría",
-            descripcion: "Descripción de la categoría"
+            nombre,
+            descripcion
         };
 
         res.status(201).json({
@@ -58,9 +59,10 @@ exports.getCategorias = async (req, res) => {
 exports.getCategoriaById = async (req, res) => {
     try {
        // const categoria = await Categoria.findByPk(req.params.id);
+       const { id } = req.params;
        const categoria = {
-        id: 1,
-        nombre: "Nombre de la categoría buscada por id",
+        id: id,
+        nombre: `Nombre de la categoría buscada por el id: ${id}`,
         descripcion: "Descripción de la categoría"
     };
         if (categoria) {
@@ -84,9 +86,10 @@ exports.getCategoriaById = async (req, res) => {
 exports.updateCategoriaById = async (req, res) => {
     try {
         //const categoria = await Categoria.findByPk(req.params.id);
+        const { id } = req.params;
         const categoria = {
-            id: 1,
-            nombre: "Nombre de la categoría actualizada por id",
+            id: id,
+            nombre: `Nombre de la categoría actualizada por el id: ${id}`,
             descripcion: "Descripción de la categoría"
         };
         if (categoria) {
@@ -117,6 +120,8 @@ exports.updateCategoriaById = async (req, res) => {
 exports.deleteCategoriaById = async (req, res) => {
     try {
        // const categoria = await Categoria.findByPk(req.params.id);
+
+       const { id } = req.params;
        const categoria = {
         id: 1,
         nombre: "Nombre de la categoría actualizada por id",
@@ -126,7 +131,7 @@ exports.deleteCategoriaById = async (req, res) => {
            // await categoria.destroy();
             res.status(200).json({
                 status: 'success',
-                message: 'Categoría eliminada correctamente'
+                message: `Categoría ${id} eliminada correctamente`
             });
         } else {
             res.status(404).json({
