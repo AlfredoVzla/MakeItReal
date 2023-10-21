@@ -36,7 +36,7 @@ const appPago = require("./pruebas/appPago");
  //appImagen.agregarImagenProyecto();
 // appImagen.obtenerImagenesProyecto();
 //appImagen.actualizarImagenProyecto();
-appImagen.eliminarImagenProyecto();
+// appImagen.eliminarImagenProyecto();
 
 // appComentario.agregarComentario();
 // appComentario.obtenerComentarios();
