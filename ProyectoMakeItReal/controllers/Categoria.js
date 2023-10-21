@@ -1,72 +1,139 @@
 const Categoria = require('../modelos/Categoria.js');
 
-exports.addCategoriaPromise = async (data) => {
+exports.addCategoria = async (req, res) => {
     try {
-        const nuevaCategoria = await Categoria.create(data);
-        console.log('Categoría creada con éxito:', nuevaCategoria);
+        //const nuevaCategoria = await Categoria.create(req.body);
+        const nuevaCategoria = {
+            id: 1,
+            nombre: "Nombre de la categoría",
+            descripcion: "Descripción de la categoría"
+        };
+
+        res.status(201).json({
+            status: 'success',
+            data: {
+                categoria: nuevaCategoria
+            }
+        });
     } catch (error) {
-        console.log(error);
+        res.status(400).json({
+            status: 'fail',
+            message: 'Error al agregar categoría'+error
+        });
     }
 };
 
-exports.addCategoriaAsync = async (data) => {
+exports.getCategorias = async (req, res) => {
     try {
-        const nuevaCategoria = await Categoria.create(data);
-        console.log('Categoría creada con éxito:', nuevaCategoria);
+        
+        //const categorias = await Categoria.findAll();
+        
+        const categorias = [
+            {
+                id: 1,
+                nombre: "Categoria consultada 1(consulta de todas)",
+                descripcion: "Descripción de la categoría 1"
+            },
+            {
+                id: 2,
+                nombre: "Categoria consultada 2",
+                descripcion: "Descripción de la categoría 2"
+            }
+        ];
+        
+        res.status(200).json({
+            status: 'success',
+            data: {
+                categorias: categorias
+            }
+        });
     } catch (error) {
-        console.log(error);
+        res.status(400).json({
+            status: 'fail',
+            message: 'Error al obtener categorías'
+        });
     }
 };
 
-exports.getCategorias = async () => {
+exports.getCategoriaById = async (req, res) => {
     try {
-        const result = await Categoria.findAll();
-        console.log(JSON.stringify(result, null, 2));
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-exports.getCategoriaById = async (id) => {
-    try {
-        const categoria = await Categoria.findByPk(id);
+       // const categoria = await Categoria.findByPk(req.params.id);
+       const categoria = {
+        id: 1,
+        nombre: "Nombre de la categoría buscada por id",
+        descripcion: "Descripción de la categoría"
+    };
         if (categoria) {
-            console.log('Categoría encontrada:', JSON.stringify(categoria, null, 2));
-        } else {
-            console.log('No se encontró una categoría con el ID especificado.');
-        }
-    } catch (error) {
-        console.log('Error al obtener la categoría:', error);
-    }
-};
-
-exports.updateCategoriaById = async (id, nombre, descripcion) => {
-    try {
-        const categoria = await Categoria.findByPk(id);
-        if (categoria) {
-            await categoria.update({
-                nombre: nombre,
-                descripcion: descripcion
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    categoria: categoria
+                }
             });
-            console.log('Categoría actualizada:', JSON.stringify(categoria, null, 2));
         } else {
-            console.log('No se encontró una categoría con el ID especificado.');
+            res.send("Error")
         }
     } catch (error) {
-        console.log('Error al actualizar la categoría:', error);
+        res.status(400).json({
+            status: 'fail',
+            message: 'Error al obtener categoría por ID'
+        });
     }
 };
 
-exports.deleteCategoriaById = async (id) => {
+exports.updateCategoriaById = async (req, res) => {
     try {
-        const categoria = await Categoria.findByPk(id);
+        //const categoria = await Categoria.findByPk(req.params.id);
+        const categoria = {
+            id: 1,
+            nombre: "Nombre de la categoría actualizada por id",
+            descripcion: "Descripción de la categoría"
+        };
         if (categoria) {
-            await categoria.destroy();
-            console.log('Categoría eliminada:', JSON.stringify(categoria, null, 2));
+           /* await categoria.update({
+                nombre: req.body.nombre,
+                descripcion: req.body.descripcion
+            });*/
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    categoria: categoria
+                }
+            });
         } else {
-            console.log('No se encontró una categoría con el ID especificado.');
+            res.status(404).json({
+                status: 'fail',
+                message: 'Categoría no encontrada'
+            });
         }
     } catch (error) {
-        console.log('Error al eliminar la categoría:', error);
+        res.status(400).json({
+            status: 'fail',
+            message: 'Error al actualizar categoría por ID'
+        });
+    }
+};
+
+exports.deleteCategoriaById = async (req, res) => {
+    try {
+       // const categoria = await Categoria.findByPk(req.params.id);
+       
+        if (categoria) {
+           // await categoria.destroy();
+            res.status(200).json({
+                status: 'success',
+                message: 'Categoría eliminada correctamente'
+            });
+        } else {
+            res.status(404).json({
+                status: 'fail',
+                message: 'Categoría no encontrada'
+            });
+        }
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            message: 'Error al eliminar categoría por ID'
+        });
     }
 };
