@@ -117,7 +117,11 @@ exports.updateCategoriaById = async (req, res) => {
 exports.deleteCategoriaById = async (req, res) => {
     try {
        // const categoria = await Categoria.findByPk(req.params.id);
-       
+       const categoria = {
+        id: 1,
+        nombre: "Nombre de la categoría actualizada por id",
+        descripcion: "Descripción de la categoría"
+    };
         if (categoria) {
            // await categoria.destroy();
             res.status(200).json({

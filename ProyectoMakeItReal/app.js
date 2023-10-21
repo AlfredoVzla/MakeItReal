@@ -7,6 +7,17 @@ const appImagen = require("./pruebas/appImagenProyecto");
 const appComentario = require("./pruebas/appComentario");
 const appPago = require("./pruebas/appPago");
 
+const express = require('express');
+const categoriaRouter = require('./routes/categoria');
+const app = express();
+
+app.use(express.json());
+
+app.use(categoriaRouter);
+
+module.exports = app;
+
+
 
 // appCategoria.crearCaterogia(); 
 // appCategoria.obtenerCategorias();
