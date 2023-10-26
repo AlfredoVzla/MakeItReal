@@ -10,12 +10,14 @@ const appPago = require("./pruebas/appPago");
 const express = require('express');
 const categoriaRouter = require('./routes/categoria');
 const comentarioRouter = require('./routes/comentario');
+const pagoRouter = require('./routes/pago');
 const app = express();
 
 app.use(express.json());
 
 app.use('/categoria', categoriaRouter);
 app.use('/comentarios', comentarioRouter);
+app.use('/pago', pagoRouter);
 
 module.exports = app;
 
