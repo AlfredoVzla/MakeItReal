@@ -9,11 +9,13 @@ const appPago = require("./pruebas/appPago");
 
 const express = require('express');
 const categoriaRouter = require('./routes/categoria');
+const comentarioRouter = require('./routes/comentario');
 const app = express();
 
 app.use(express.json());
 
-app.use(categoriaRouter);
+app.use('/categoria', categoriaRouter);
+app.use('/comentarios', comentarioRouter);
 
 module.exports = app;
 
