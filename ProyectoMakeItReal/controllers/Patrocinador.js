@@ -95,7 +95,7 @@ const actualizarPatrocinador = async(req,res,next)=>{
     const patrocinador = await Patrocinador.findByPk(id);
   
     if (patrocinador) {
-      await emprendedor.update({
+      await patrocinador.update({
         nombre: req.body.nombre,
         telefono: req.body.telefono,
         correoElectronico: req.body.correoElectronico,
@@ -120,6 +120,7 @@ const actualizarPatrocinador = async(req,res,next)=>{
       });
     }
   } catch (error) {
+    console.log(error);
     return next(new AppError('Error al actualizar el patrocinador', 400));
   }  
 };

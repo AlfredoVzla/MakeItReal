@@ -1,47 +1,78 @@
-const Pago = require('../modelos/pago.js');
+const Pago = require('../modelos/Pago');
 
-exports.addPagoPromise = async (data) => {
+exports.addPago = async (req, res) => {
     try {
-        const nuevoPago = await Pago.create(data);
-        console.log('Pago creado con éxito:', nuevoPago);
+        const { monto, fecha, método, concepto, id_Patrocinador, id_Proyecto } = req.body;
+
+        const nuevoPago = await Pago.create({
+            monto,
+            fecha,
+            método,
+            concepto,
+            id_Patrocinador,
+            id_Proyecto
+        });
+
+        res.status(201).json({
+            status: 'success',
+            data: {
+                pago: nuevoPago
+            }
+        });
     } catch (error) {
-        console.log(error);
+        res.status(400).json({
+            status: 'fail',
+            message: 'Error al agregar pago: ' + error.message
+        });
     }
 };
 
-exports.addPagoAsync = async (data) => {
+exports.getPagos = async (req, res) => {
     try {
-        const nuevoPago = await Pago.create(data);
-        console.log('Pago creado con éxito:', nuevoPago);
+        const pagos = await Pago.findAll();
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                pagos
+            }
+        });
     } catch (error) {
-        console.log(error);
+        res.status(400).json({
+            status: 'fail',
+            message: 'Error al obtener pagos: ' + error.message
+        });
     }
 };
 
-exports.getPagos = async () => {
-    try{
-        const result = await Pago.findAll();
-        console.log(JSON.stringify(result, null, 2));
-    } catch (error) {
-        console.log(error);
-    }
-};
+exports.getPagosByProyecto = async (req, res) => {
+    const { id_Proyecto } = req.params;
 
-exports.getPagosByProyecto = async (id_Proyecto) => {
     try {
         const pagos = await Pago.findAll({
             where: {
-                id_Proyecto: id_Proyecto
+                id_Proyecto
             }
         });
 
         if (pagos.length === 0) {
-            console.log("No se encontraron pagos para el proyecto con ID:", id_Proyecto);
+            res.status(404).json({
+                status: 'fail',
+                message: 'No se encontraron pagos para el proyecto con ID: ' + id_Proyecto
+            });
         } else {
-            console.log(JSON.stringify(pagos, null, 2));
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    pagos
+                }
+            });
         }
     } catch (error) {
-        console.log(error);
+        res.status(400).json({
+            status: 'fail',
+            message: 'Error al obtener pagos: ' + error.message
+        });
     }
 };
 

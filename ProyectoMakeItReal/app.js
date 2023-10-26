@@ -12,6 +12,8 @@ const categoriaRouter = require('./routes/categoria');
 const comentarioRouter = require('./routes/comentario');
 const emprendedorRouter = require('./routes/Emprendedor');
 const patrocinadorRouter = require('./routes/Patrocinador');
+const pagoRouter = require('./routes/pago');
+
 const app = express();
 
 app.use(express.json());
@@ -20,6 +22,7 @@ app.use('/categoria', categoriaRouter);
 app.use('/comentarios', comentarioRouter);
 app.use("/emprendedor", emprendedorRouter);
 app.use("/patrocinador", patrocinadorRouter);
+app.use('/pago', pagoRouter);
 
 module.exports = app;
 
