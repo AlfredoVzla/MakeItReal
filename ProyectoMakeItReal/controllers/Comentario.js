@@ -1,6 +1,7 @@
 const Comentario = require('../modelos/Comentario');
+const { AppError } = require('../utils/appError');
 
-exports.crearComentario = async (req, res) => {
+exports.crearComentario = async (req, res, next) => {
     try {
         const { texto, fecha, calificacion, id_Proyecto } = req.body;
 
@@ -20,14 +21,11 @@ exports.crearComentario = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al crear comentario: ' + error.message
-        });
+        return next (new AppError ('Error al crear el comentario', 400));
     }
 };
 
-exports.obtenerComentarios = async (req, res) => {
+exports.obtenerComentarios = async (req, res, next) => {
     try {
         const comentarios = await Comentario.findAll();
 
@@ -38,14 +36,11 @@ exports.obtenerComentarios = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al obtener comentarios: ' + error.message
-        });
+        return next (new AppError ('Error al obtener los comentarios', 400));
     }
 };
 
-exports.actualizarComentario = async (req, res) => {
+exports.actualizarComentario = async (req, res, next) => {
     try {
         const { id } = req.params;
 
@@ -66,20 +61,14 @@ exports.actualizarComentario = async (req, res) => {
                 }
             });
         } else {
-            res.status(404).json({
-                status: 'fail',
-                message: 'Comentario no encontrado'
-            });
+            return next (new AppError ('Comentario no encontrado', 404));
         }
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al actualizar comentario por ID: ' + error.message
-        });
+        return next (new AppError ('Error al actualizar comentario', 400));
     }
 };
 
-exports.eliminarComentario = async (req, res) => {
+exports.eliminarComentario = async (req, res, next) => {
     try {
         const { id } = req.params;
 
@@ -93,15 +82,9 @@ exports.eliminarComentario = async (req, res) => {
                 message: `Comentario ${id} eliminado correctamente`
             });
         } else {
-            res.status(404).json({
-                status: 'fail',
-                message: 'Comentario no encontrado'
-            });
+            return next (new AppError ('Comentario no encontrado', 404));
         }
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al eliminar comentario por ID: ' + error.message
-        });
+        return next (new AppError ('Error al eliminar comentario', 400));
     }
 };

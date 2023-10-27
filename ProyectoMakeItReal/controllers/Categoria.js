@@ -1,6 +1,7 @@
 const Categoria = require('../modelos/Categoria.js');
+const { AppError} = require('../utils/appError.js');
 
-exports.addCategoria = async (req, res) => {
+exports.addCategoria = async (req, res, next) => {
     try {
         const { nombre, descripcion } = req.body;
         
@@ -16,14 +17,11 @@ exports.addCategoria = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al agregar categoría: ' + error.message
-        });
+        return next(new AppError('Error al agregar categoría', 400));
     }
 };
 
-exports.getCategorias = async (req, res) => {
+exports.getCategorias = async (req, res, next) => {
     try {
         const categorias = await Categoria.findAll();
 
@@ -34,14 +32,11 @@ exports.getCategorias = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al obtener categorías: ' + error.message
-        });
+        return next (new AppError('Error al obtener categorías', 400));
     }
 };
 
-exports.getCategoriaById = async (req, res) => {
+exports.getCategoriaById = async (req, res, next) => {
     try {
         const { id } = req.params;
 
@@ -55,20 +50,14 @@ exports.getCategoriaById = async (req, res) => {
                 }
             });
         } else {
-            res.status(404).json({
-                status: 'fail',
-                message: 'Categoría no encontrada'
-            });
+            return next (new AppError('Categoría no encontrada', 404));
         }
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al obtener categoría por ID: ' + error.message
-        });
+        return next (new AppError('Error al obtener categoría por ID', 400));
     }
 };
 
-exports.updateCategoriaById = async (req, res) => {
+exports.updateCategoriaById = async (req, res, next) => {
     try {
         const { id } = req.params;
 
@@ -88,20 +77,14 @@ exports.updateCategoriaById = async (req, res) => {
                 }
             });
         } else {
-            res.status(404).json({
-                status: 'fail',
-                message: 'Categoría no encontrada'
-            });
+            return next (new AppError ('Categoría no encontrada', 404));
         }
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al actualizar categoría por ID: ' + error.message
-        });
+        return next (new AppError('Error al actualizar categoría', 400));
     }
 };
 
-exports.deleteCategoriaById = async (req, res) => {
+exports.deleteCategoriaById = async (req, res, next) => {
     try {
         const { id } = req.params;
         
@@ -116,15 +99,9 @@ exports.deleteCategoriaById = async (req, res) => {
                 message: `Categoría ${id} eliminada correctamente`
             });
         } else {
-            res.status(404).json({
-                status: 'fail',
-                message: 'Categoría no encontrada'
-            });
+            return next (new AppError ('Categoría no encontrada', 404));
         }
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al eliminar categoría por ID: ' + error.message
-        });
+        return next (new AppError ('Error al eliminar categoría', 400));
     }
 };

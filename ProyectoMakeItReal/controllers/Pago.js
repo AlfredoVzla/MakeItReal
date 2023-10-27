@@ -1,6 +1,7 @@
 const Pago = require('../modelos/Pago');
+const { AppError } = require ('../utils/appError');
 
-exports.addPago = async (req, res) => {
+exports.addPago = async (req, res, next) => {
     try {
         const { monto, fecha, método, concepto, id_Patrocinador, id_Proyecto } = req.body;
 
@@ -20,14 +21,11 @@ exports.addPago = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al agregar pago: ' + error.message
-        });
+        return next (new AppError('Error al crear pago', 400));
     }
 };
 
-exports.getPagos = async (req, res) => {
+exports.getPagos = async (req, res, next) => {
     try {
         const pagos = await Pago.findAll();
 
@@ -38,14 +36,11 @@ exports.getPagos = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al obtener pagos: ' + error.message
-        });
+        return next (new AppError ('Error al obtener pagos', 400));
     }
 };
 
-exports.getPagosByProyecto = async (req, res) => {
+exports.getPagosByProyecto = async (req, res, next) => {
     const { id_Proyecto } = req.params;
 
     try {
@@ -56,10 +51,7 @@ exports.getPagosByProyecto = async (req, res) => {
         });
 
         if (pagos.length === 0) {
-            res.status(404).json({
-                status: 'fail',
-                message: 'No se encontraron pagos para el proyecto con ID: ' + id_Proyecto
-            });
+            return next (new AppError ('Pagos no encontrados', 404));
         } else {
             res.status(200).json({
                 status: 'success',
@@ -69,10 +61,7 @@ exports.getPagosByProyecto = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(400).json({
-            status: 'fail',
-            message: 'Error al obtener pagos: ' + error.message
-        });
+        return next (new AppError ('Error al obtener pagos', 400));
     }
 };
 
