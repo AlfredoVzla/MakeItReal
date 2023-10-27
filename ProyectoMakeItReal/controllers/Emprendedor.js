@@ -1,15 +1,21 @@
 const Emprendedor = require('../modelos/Emprendedor'); // Importa el modelo de Emprendedor
 const { AppError } = require('../utils/appError');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const crearEmprendedor = async (req, res, next) => {
   try {
     const { nombre, telefono, correoElectronico, nombreUsuario, contraseña, imagenPerfil } = req.body;
+
+    // Encripta la contraseña antes de guardarla en la base de datos
+    const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
+
     const nuevoEmprendedor = await Emprendedor.create({
       nombre,
       telefono,
       correoElectronico,
       nombreUsuario,
-      contraseña,
+      contraseña: contraseñaEncriptada, // Guarda la contraseña encriptada en la base de datos
       imagenPerfil
     });
 
@@ -20,9 +26,11 @@ const crearEmprendedor = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.log(error);
     return next(new AppError('Error al agregar emprendedor', 400));
   }
 };
+
 
 const obtenerEmprendedores = async(req,res,next)=>{
   try {
@@ -61,28 +69,42 @@ const obtenerEmprendedorPorId = async (req, res, next) => {
 };
 
 
-const obtenerEmprendedorPorCredenciales = async(req,res,next)=>{
-  try{
+const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
+  try {
+    const secretKey = '123456'
     const nombreUsuario = req.body.nombreUsuario;
     const contraseña = req.body.contraseña;
 
-    const emprendedor = await Emprendedor.findOne({where:{nombreUsuario:nombreUsuario,contraseña:contraseña}});
+    const emprendedor = await Emprendedor.findOne({
+      where: { nombreUsuario: nombreUsuario }
+    });
 
-    if(emprendedor){
+    if (emprendedor && bcrypt.compareSync(contraseña, emprendedor.contraseña)) {
+      // Las credenciales son válidas, procede a generar un token JWT
+      const token = jwt.sign(
+        { id: emprendedor.id, nombre: emprendedor.nombreUsuario },
+        secretKey,
+        {
+          expiresIn: '1h' // Puedes ajustar el tiempo de expiración del token según tus necesidades.
+        }
+      );
+
       res.status(200).json({
         status: 'success',
         data: {
-            emprendedor
+          emprendedor,
+          token // Devuelve el token JWT al cliente
         }
       });
-    }else{
+    } else {
       res.status(404).json({
         status: 'fail',
-        message:'Emprendedor no encontrado'
+        message: 'Emprendedor no encontrado o credenciales incorrectas'
       });
     }
-  }catch(error){
-    return next(new AppError('Error al obtener el emprendedor'),400);
+  } catch (error) {
+    console.log(error);
+    return next(new AppError('Error al obtener el emprendedor', 400));
   }
 };
 
