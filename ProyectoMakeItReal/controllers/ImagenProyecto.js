@@ -1,4 +1,5 @@
 const ImagenProyecto = require('../modelos/ImagenProyecto'); // Importa el modelo de ImagenProyecto
+const { AppError } = require('../utils/appError');
 
 // Método para crear un nuevo registro de ImagenProyecto
 exports.crearImagenProyecto = async (req, res, next) => {

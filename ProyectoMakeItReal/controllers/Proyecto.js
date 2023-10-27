@@ -1,4 +1,5 @@
 const Proyecto = require('../modelos/Proyecto'); // Importa el modelo de Proyecto
+const { AppError }  = require('../utils/appError');
 
 // Método para crear un nuevo Proyecto
 exports.crearProyecto = async (req, res, next) => {
