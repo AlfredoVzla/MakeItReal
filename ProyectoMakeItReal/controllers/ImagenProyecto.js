@@ -1,71 +1,91 @@
-const ImagenProyecto = require('../modelos/ImagenProyecto'); // Importa el modelo de Proyecto
+const ImagenProyecto = require('../modelos/ImagenProyecto'); // Importa el modelo de ImagenProyecto
 
-
-class ImagenProyectoController {
-  // Método para crear un nuevo registro de ImagenProyecto
-  async crearImagenProyecto(data) {
-    try {
-      const nuevoImagenProyecto = await ImagenProyecto.create(data); //Utilizando sequelize para las querys en mysql
+// Método para crear un nuevo registro de ImagenProyecto
+exports.crearImagenProyecto = async (req, res, next) => {
+  try {
+    const nuevoImagenProyecto = await ImagenProyecto.create(req.body);
+    if (!nuevoImagenProyecto) {
+      return next(new AppError('Error al crear imagen de proyecto', 500));
+    } else {
       console.log("ImagenProyecto creado con éxito");
-    } catch (error) {
-      throw error;
+      res.status(201).json({
+        status: 'success',
+        data: {
+          imagenProyecto: nuevoImagenProyecto
+        }
+      });
     }
+  } catch (error) {
+    return next(new AppError('Error al crear imagen de proyecto', 400));
   }
+};
 
-
- // Método para obtener todas las imágenes de un proyecto por su idProyecto
-async obtenerImagenesProyecto(idProyecto) {
+// Método para obtener todas las imágenes de un proyecto por su idProyecto
+exports.obtenerImagenesProyecto = async (req, res, next) => {
   try {
     const imagenesProyecto = await ImagenProyecto.findAll({
-      where: { idProyecto: idProyecto },
+      where: { idProyecto: req.params.idProyecto },
     });
     if (imagenesProyecto && imagenesProyecto.length > 0) {
       console.log(JSON.stringify(imagenesProyecto, null, 2));
+      res.status(200).json({
+        status: 'success',
+        data: {
+          imagenesProyecto
+        }
+      });
     } else {
-      console.log(`No se encontraron imagenes`);
+      return next(new AppError('No se encontraron imágenes de proyecto', 404));
     }
- 
-    // return imagenesProyecto;
   } catch (error) {
-    console.log(error);
+    return next(new AppError('Error al obtener imágenes de proyecto', 400));
   }
-}
+};
 
-
-
-
-  // Método para actualizar una imagenProyecto por su ID
-  async actualizarImagenProyecto(idImagenProyecto, data) {
-    try {
-      const [actualizado] = await ImagenProyecto.update(data, { //Utilizando sequelize para las querys en mysql
-        where: { idImagenProyecto },
+// Método para actualizar una imagenProyecto por su ID
+exports.actualizarImagenProyecto = async (req, res, next) => {
+  try {
+    const idImagenProyecto = req.params.idImagenProyecto;
+    const [actualizado] = await ImagenProyecto.update(req.body, {
+      where: { id: idImagenProyecto },
+    });
+    if (!actualizado) {
+      return next(new AppError(`No se encontró una imagen de proyecto con ID ${idImagenProyecto} para actualizar.`, 404));
+    } else {
+      const imagenProyectoActualizada = await ImagenProyecto.findByPk(idImagenProyecto);
+      console.log("Imagen proyecto actualizado correctamente");
+      res.status(200).json({
+        status: 'success',
+        data: {
+          imagenProyecto: imagenProyectoActualizada
+        }
       });
-      if (actualizado) {
-        const imagenProyectoActualizada = await ImagenProyecto.findByPk(idImagenProyecto); //Utilizando sequelize para las querys en mysql
-        console.log("Imagen proyecto actualizado correctamente");
-      }
-      return null; // Si no se actualiza ningún registro
-    } catch (error) {
-      console.log(error);
     }
+  } catch (error) {
+    return next(new AppError('Error al actualizar la imagen de proyecto', 400));
   }
+};
 
-
-  // Método para eliminar una iamgenProyecto por su ID
-  async eliminarImagenProyecto(idImagenProyecto) {
-    try {
-      const eliminado = await ImagenProyecto.destroy({ //Utilizando sequelize para las querys en mysql
-        where: { idImagenProyecto },
+// Método para eliminar una imagenProyecto por su ID
+exports.eliminarImagenProyecto = async (req, res, next) => {
+  try {
+    const idImagenProyecto = req.params.idImagenProyecto;
+    const eliminado = await ImagenProyecto.destroy({
+      where: { id: idImagenProyecto },
+    });
+    if (eliminado <= 0) {
+      return next(new AppError(`No se encontró una imagen de proyecto con ID ${idImagenProyecto} para eliminar.`, 404));
+    } else {
+      console.log("Eliminado correctamente");
+      res.status(200).json({
+        status: 'success',
+        data: {
+          message: 'Imagen de proyecto eliminada correctamente'
+        }
       });
-      if(eliminado>0){
-        console.log("Eliminado correctamente");
-      }
-      return eliminado > 0; // Devuelve true si se eliminó al menos un registro, false si no se encontró el registro
-    } catch (error) {
-      console.log(error);
     }
+  } catch (error) {
+    return next(new AppError('Error al eliminar la imagen de proyecto', 400));
   }
-}
+};
 
-
-module.exports = ImagenProyectoController;
