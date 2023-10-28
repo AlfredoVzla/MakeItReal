@@ -30,6 +30,7 @@ const crearPatrocinador = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.error(error)
     return next(new AppError('Error al agregar patrocinador', 400));
   }
 };

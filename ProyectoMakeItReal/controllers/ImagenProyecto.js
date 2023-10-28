@@ -48,7 +48,7 @@ exports.actualizarImagenProyecto = async (req, res, next) => {
   try {
     const idImagenProyecto = req.params.idImagenProyecto;
     const [actualizado] = await ImagenProyecto.update(req.body, {
-      where: { id: idImagenProyecto },
+      where: { idimagenProyecto: idImagenProyecto },
     });
     if (!actualizado) {
       return next(new AppError(`No se encontró una imagen de proyecto con ID ${idImagenProyecto} para actualizar.`, 404));
@@ -63,6 +63,7 @@ exports.actualizarImagenProyecto = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.error(error);
     return next(new AppError('Error al actualizar la imagen de proyecto', 400));
   }
 };
@@ -72,7 +73,7 @@ exports.eliminarImagenProyecto = async (req, res, next) => {
   try {
     const idImagenProyecto = req.params.idImagenProyecto;
     const eliminado = await ImagenProyecto.destroy({
-      where: { id: idImagenProyecto },
+      where: { idimagenProyecto: idImagenProyecto },
     });
     if (eliminado <= 0) {
       return next(new AppError(`No se encontró una imagen de proyecto con ID ${idImagenProyecto} para eliminar.`, 404));
