@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../utils/connection');
-const Usuario = require('./Usuario'); // Importa el modelo de Usuario
+const Usuario = require('./Usuario');
 
 const Patrocinador = sequelize.define('emprendedor',{
     idPatrocinador: {

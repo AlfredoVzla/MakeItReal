@@ -1,4 +1,4 @@
-const Emprendedor = require('../modelos/Emprendedor'); // Importa el modelo de Emprendedor
+const Emprendedor = require('../modelos/Emprendedor'); 
 const { AppError } = require('../utils/appError');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -7,7 +7,6 @@ const crearEmprendedor = async (req, res, next) => {
   try {
     const { nombre, telefono, correoElectronico, nombreUsuario, contraseña, imagenPerfil } = req.body;
 
-    // Encripta la contraseña antes de guardarla en la base de datos
     const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
     const nuevoEmprendedor = await Emprendedor.create({
@@ -15,7 +14,7 @@ const crearEmprendedor = async (req, res, next) => {
       telefono,
       correoElectronico,
       nombreUsuario,
-      contraseña: contraseñaEncriptada, // Guarda la contraseña encriptada en la base de datos
+      contraseña: contraseñaEncriptada,
       imagenPerfil
     });
 
@@ -48,7 +47,7 @@ const obtenerEmprendedores = async(req,res,next)=>{
 
 const obtenerEmprendedorPorId = async (req, res, next) => {
   try {
-    const { id } = req.params; // Utiliza req.params para obtener el parámetro de la URL
+    const { id } = req.params;
     const emprendedor = await Emprendedor.findByPk(id);
     if (emprendedor) {
       res.status(200).json({
@@ -71,7 +70,7 @@ const obtenerEmprendedorPorId = async (req, res, next) => {
 
 const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
   try {
-    const secretKey = '123456'
+    const secretKey = '123456';
     const nombreUsuario = req.body.nombreUsuario;
     const contraseña = req.body.contraseña;
 
@@ -80,12 +79,11 @@ const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
     });
 
     if (emprendedor && bcrypt.compareSync(contraseña, emprendedor.contraseña)) {
-      // Las credenciales son válidas, procede a generar un token JWT
       const token = jwt.sign(
         { id: emprendedor.id, nombre: emprendedor.nombreUsuario },
         secretKey,
         {
-          expiresIn: '1h' // Puedes ajustar el tiempo de expiración del token según tus necesidades.
+          expiresIn: '1h'
         }
       );
 
@@ -93,7 +91,7 @@ const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
         status: 'success',
         data: {
           emprendedor,
-          token // Devuelve el token JWT al cliente
+          token
         }
       });
     } else {
@@ -111,16 +109,21 @@ const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
 const actualizarEmprendedor = async(req,res,next)=>{
   try {
     const { id } = req.params;
+
+    const { nombre, telefono, correoElectronico, nombreUsuario, contraseña, imagenPerfil } = req.body;
+
+    const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
+
     const emprendedor = await Emprendedor.findByPk(id);
   
     if (emprendedor) {
       await emprendedor.update({
-        nombre: req.body.nombre,
-        telefono: req.body.telefono,
-        correoElectronico: req.body.correoElectronico,
-        nombreUsuario: req.body.nombreUsuario,
-        contraseña: req.body.contraseña,
-        imagenPerfil: req.body.imagenPerfil
+        nombre: nombre,
+        telefono: telefono,
+        correoElectronico: correoElectronico,
+        nombreUsuario: nombreUsuario,
+        contraseña: contraseñaEncriptada,
+        imagenPerfil: imagenPerfil
       });
   
       res.status(200).json({
@@ -145,7 +148,7 @@ const eliminarEmprendedorPorId = async (req, res, next) => {
   try {
     const { id } = req.params;
     const emprendedor = await Emprendedor.destroy({
-      where: { idEmprendedor:id } // Especifica las condiciones de eliminación correctamente
+      where: { idEmprendedor:id } 
     });
 
     if (emprendedor > 0) {

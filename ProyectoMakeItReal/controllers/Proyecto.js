@@ -110,7 +110,7 @@ exports.actualizarProyecto = async (req, res, next) => {
   try {
     const idProyecto = req.params.idProyecto;
     const [actualizado] = await Proyecto.update(req.body, {
-      where: { id: idProyecto },
+      where: { idProyecto: idProyecto },
     });
     if (!actualizado) {
       return next(new AppError(`No se encontró un proyecto con ID ${idProyecto} para actualizar.`, 404));
@@ -125,6 +125,7 @@ exports.actualizarProyecto = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error);
     return next(new AppError('Error al actualizar el proyecto', 400));
   }
 };
@@ -134,7 +135,7 @@ exports.eliminarProyecto = async (req, res, next) => {
   try {
     const idProyecto = req.params.idProyecto;
     const eliminado = await Proyecto.destroy({
-      where: { id: idProyecto },
+      where: { idProyecto: idProyecto },
     });
     if (eliminado <= 0) {
       return next(new AppError(`No se encontró un proyecto con ID ${idProyecto} para eliminar.`, 404));

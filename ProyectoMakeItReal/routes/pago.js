@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const pagoController = require("../controllers/Pago");
+const verificarToken = require('../utils/verificarToken');
+
+router.use(verificarToken);
 
 router
     .route('/')

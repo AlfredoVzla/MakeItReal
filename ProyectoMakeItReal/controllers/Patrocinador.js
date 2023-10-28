@@ -1,16 +1,22 @@
 const Patrocinador = require('../modelos/Patrocinador'); // Importa el modelo de Patrocinador
 const { AppError } = require('../utils/appError');
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const Emprendedor = require('../modelos/Emprendedor');
 
 const crearPatrocinador = async (req, res, next) => {
   try {
     const { nombre, telefono, correoElectronico, nombreUsuario, contraseña, imagenPerfil,proyectosPatrocinador,
-      montoTotalPatrocinado,experienciaProyectos } = req.body;
+    montoTotalPatrocinado,experienciaProyectos } = req.body;
+
+    const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
+
     const nuevoPatrocinador = await Patrocinador.create({
       nombre,
       telefono,
       correoElectronico,
       nombreUsuario,
-      contraseña,
+      contraseña:contraseñaEncriptada,
       imagenPerfil,
       proyectosPatrocinador,
       montoTotalPatrocinado,
@@ -66,22 +72,31 @@ const obtenerPatrocinadorPorId = async (req, res, next) => {
 
 const obtenerPatrocinadorPorCredenciales = async(req,res,next)=>{
   try{
+    const secretKey = "123456";
     const nombreUsuario = req.body.nombreUsuario;
     const contraseña = req.body.contraseña;
 
-    const patrocinador = await Patrocinador.findOne({where:{nombreUsuario:nombreUsuario,contraseña:contraseña}});
+    const patrocinador = await Patrocinador.findOne({where:{nombreUsuario:nombreUsuario}});
 
-    if(patrocinador){
+    if(patrocinador && bcrypt.compareSync(contraseña,patrocinador.contraseña)){
+      const token = jwt.sign({
+        id:patrocinador.id,nombre:patrocinador.nombreUsuario},
+        secretKey,{
+          expiresIn:'1h'
+        }
+      );
+
       res.status(200).json({
-        status: 'success',
-        data: {
-          patrocinador
+        status:'succes',
+        data:{
+          patrocinador,
+          token
         }
       });
     }else{
       res.status(404).json({
-        status: 'fail',
-        message:'Patrocinador no encontrado'
+        status:'fail',
+        message:'Patrocinador no encontrado o credenciales incorrectas'
       });
     }
   }catch(error){
