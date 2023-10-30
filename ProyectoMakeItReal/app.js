@@ -14,6 +14,7 @@ const emprendedorRouter = require('./routes/Emprendedor');
 const patrocinadorRouter = require('./routes/Patrocinador');
 const proyectoRouter = require('./routes/Proyecto');
 const pagoRouter = require('./routes/pago');
+const imagenRouter = require('./routes/ImagenProyecto');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/emprendedor", emprendedorRouter);
 app.use("/patrocinador", patrocinadorRouter);
 app.use('/pago', pagoRouter);
 app.use('/proyectos', proyectoRouter);
+app.use('/imagen', imagenRouter);
 
 module.exports = app;
 

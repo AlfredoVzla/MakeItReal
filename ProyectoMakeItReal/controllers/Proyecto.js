@@ -17,6 +17,7 @@ exports.crearProyecto = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.error(error);
     return next(new AppError('Error al crear proyecto', 400));
   }
 };
