@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../utils/connection');
 const Usuario = require('./Usuario');
 
-const Patrocinador = sequelize.define('emprendedor',{
+const Patrocinador = sequelize.define('patrocinador',{
     idPatrocinador: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -11,34 +11,38 @@ const Patrocinador = sequelize.define('emprendedor',{
     },nombre: {
         type: Sequelize.STRING,
         allowNull: false,
-        notEmpty: {
-            msg: "Nombre no puede estar vacío."
+        validate: {
+            notEmpty: {
+                msg: "Nombre no puede estar vacío."
+            }
         }
     },
     telefono: {
         type: Sequelize.STRING,
         allowNull: false,
-        notEmpty: {
-            msg: "Telefono no puede estar vacío."
+        validate: {
+            notEmpty: {
+                msg: "Telefono no puede estar vacío."
+            },
+            isNumeric: {
+                msg: "El teléfono de patrocinador debe contener solo números."
+            }
         },
-        isNumeric: {
-            msg: "El teléfono de patrocinador debe contener solo números."
-        }
     },
     correoElectronico: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: {
-            msg:"Correo existente"
-        }, // Asegura que el email sea único
+            msg: "Correo existente"
+        },
         validate: {
             notEmpty: {
-                msg: "Correo Electronico no puede estar vacío."
+                msg: "Correo Electrónico no puede estar vacío."
             },
             isEmail: {
                 msg: "Por favor, ingresa un correo electrónico válido."
             }
-        }
+        },
     },
     nombreUsuario: {
         type: Sequelize.STRING,

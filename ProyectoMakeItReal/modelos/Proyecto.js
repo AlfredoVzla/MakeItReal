@@ -87,6 +87,8 @@ const Proyecto=sequelize.define('proyecto',{
         validate: {
             notEmpty: {
                 msg: "MetaFinanciamiento no puede estar vacío."
+            },isFloat: {
+                msg: "Cantidad Recaudada debe ser un número de punto flotante."
             }
         }
     },
