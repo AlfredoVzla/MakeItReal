@@ -1,3 +1,4 @@
+
 CREATE DATABASE IF NOT EXISTS makeitreal;
 USE makeitreal;
 
@@ -75,19 +76,25 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `emprendedor`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `emprendedor` (
   `idEmprendedor` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `correoElectronico` varchar(45) NOT NULL,
   `nombreUsuario` varchar(45) NOT NULL,
-  `contraseña` varchar(45) NOT NULL,
+  `contraseña` varchar(100) NOT NULL,
   `imagenPerfil` blob NOT NULL,
-  PRIMARY KEY (`idEmprendedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (`idEmprendedor`),
+  UNIQUE KEY `nombreUsuario_UNIQUE` (`nombreUsuario`),
+  UNIQUE KEY `correoElectronico_UNIQUE` (`correoElectronico`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Dumping data for table `emprendedor`
@@ -161,22 +168,28 @@ UNLOCK TABLES;
 --
 
 DROP TABLE IF EXISTS `patrocinador`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
+
 CREATE TABLE `patrocinador` (
   `idPatrocinador` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `correoElectronico` varchar(45) NOT NULL,
   `nombreUsuario` varchar(45) NOT NULL,
-  `contraseña` varchar(45) NOT NULL,
+  `contraseña` varchar(100) NOT NULL,
   `imagenPerfil` blob NOT NULL,
   `proyectosPatrocinador` int NOT NULL,
   `montoTotalPatrocinado` float NOT NULL,
   `experienciaProyectos` varchar(45) NOT NULL,
-  PRIMARY KEY (`idPatrocinador`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (`idPatrocinador`),
+  UNIQUE KEY `nombreUsuario_UNIQUE` (`nombreUsuario`),
+  UNIQUE KEY `correoElectronico_UNIQUE` (`correoElectronico`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Dumping data for table `patrocinador`
