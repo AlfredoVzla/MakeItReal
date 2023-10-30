@@ -5,6 +5,13 @@ exports.addCategoria = async (req, res, next) => {
     try {
         const { nombre, descripcion } = req.body;
         
+        const categoriaC = await Categoria.findOne({ where: { nombre } });
+
+        if (categoriaC) {
+            return next(new AppError(`ya existe una categoria con ese nombre`, 400));
+          
+        }
+
         const nuevaCategoria = await Categoria.create({
             nombre,
             descripcion
@@ -17,9 +24,13 @@ exports.addCategoria = async (req, res, next) => {
             }
         });
     } catch (error) {
-        return next(new AppError('Error al agregar categoría', 400));
+        return next(new AppError(`Error al crear la categoría: ${error.message}`, 400));
     }
 };
+
+
+
+
 
 exports.getCategorias = async (req, res, next) => {
     try {
@@ -32,7 +43,8 @@ exports.getCategorias = async (req, res, next) => {
             }
         });
     } catch (error) {
-        return next (new AppError('Error al obtener categorías', 400));
+        return next(new AppError(`Error al obtener las categorías`, 400));
+       
     }
 };
 
@@ -53,7 +65,7 @@ exports.getCategoriaById = async (req, res, next) => {
             return next (new AppError('Categoría no encontrada', 404));
         }
     } catch (error) {
-        return next (new AppError('Error al obtener categoría por ID', 400));
+        return next(new AppError(`Error al obtener categoría por id: ${error.message}`, 400));
     }
 };
 
@@ -80,14 +92,15 @@ exports.updateCategoriaById = async (req, res, next) => {
             return next (new AppError ('Categoría no encontrada', 404));
         }
     } catch (error) {
-        return next (new AppError('Error al actualizar categoría', 400));
+        return next(new AppError(`Error al actualizar categoría: ${error.message}`, 400));
     }
 };
 
 exports.deleteCategoriaById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        
+
+      
         const categoria = await Categoria.findByPk(id);
 
         if (categoria) {
@@ -102,6 +115,6 @@ exports.deleteCategoriaById = async (req, res, next) => {
             return next (new AppError ('Categoría no encontrada', 404));
         }
     } catch (error) {
-        return next (new AppError ('Error al eliminar categoría', 400));
+        return next(new AppError(`Error al eliminar categoría: ${error.message}`, 400));
     }
 };

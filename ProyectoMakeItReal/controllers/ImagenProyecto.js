@@ -17,7 +17,8 @@ exports.crearImagenProyecto = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new AppError('Error al crear imagen de proyecto', 400));
+    return next(new AppError(`Error al crear imagen de proyecto: ${error.message}`, 400));
+  
   }
 };
 
@@ -64,7 +65,7 @@ exports.actualizarImagenProyecto = async (req, res, next) => {
     }
   } catch (error) {
     console.error(error);
-    return next(new AppError('Error al actualizar la imagen de proyecto', 400));
+    return next(new AppError(`Error al actualizar imagen de proyecto: ${error.message}`, 400));
   }
 };
 
@@ -87,7 +88,8 @@ exports.eliminarImagenProyecto = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new AppError('Error al eliminar la imagen de proyecto', 400));
+    return next(new AppError(`Error al eliminar imagen de proyecto: ${error.message}`, 400));
+    
   }
 };
 

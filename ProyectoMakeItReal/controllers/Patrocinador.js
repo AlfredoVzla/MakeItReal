@@ -31,7 +31,7 @@ const crearPatrocinador = async (req, res, next) => {
     });
   } catch (error) {
     console.error(error)
-    return next(new AppError('Error al agregar patrocinador', 400));
+    return next(new AppError(`Error al agregar patrocinador: ${error.message}`, 400));
   }
 };
 
@@ -67,7 +67,7 @@ const obtenerPatrocinadorPorId = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new AppError('Error al obtener el patrocinador', 400));
+    return next(new AppError(`Error al obtener patrocinador por id: ${error.message}`, 400));
   }
 };
 
@@ -101,7 +101,8 @@ const obtenerPatrocinadorPorCredenciales = async(req,res,next)=>{
       });
     }
   }catch(error){
-    return next(new AppError('Error al obtener el patrocinador'),400);
+    return next(new AppError(`Error al obtener patrocinador: ${error.message}`, 400));
+  
   }
 };
 
@@ -137,7 +138,7 @@ const actualizarPatrocinador = async(req,res,next)=>{
     }
   } catch (error) {
     console.log(error);
-    return next(new AppError('Error al actualizar el patrocinador', 400));
+    return next(new AppError(`Error al actualizar patrocinador: ${error.message}`, 400));
   }  
 };
 
@@ -161,7 +162,8 @@ const eliminarPatrocinadorPorId = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    return next(new AppError('Error al eliminar el patrocinador', 400));
+    return next(new AppError(`Error al eliminar patrocinador: ${error.message}`, 400));
+   
   }
 };
 

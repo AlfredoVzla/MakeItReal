@@ -26,7 +26,7 @@ const crearEmprendedor = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    return next(new AppError('Error al agregar emprendedor', 400));
+    return next(new AppError(`Error al agregar emprendedor: ${error.message}`, 400));
   }
 };
 
@@ -63,7 +63,7 @@ const obtenerEmprendedorPorId = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new AppError('Error al obtener el emprendedor', 400));
+    return next(new AppError(`Error al obtener el emprendedor por id: ${error.message}`, 400));
   }
 };
 
@@ -102,7 +102,8 @@ const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    return next(new AppError('Error al obtener el emprendedor', 400));
+    return next(new AppError(`Error al obtener el emprendedor: ${error.message}`, 400));
+    
   }
 };
 
@@ -140,7 +141,7 @@ const actualizarEmprendedor = async(req,res,next)=>{
     }
   } catch (error) {
     console.error('Error al actualizar el emprendedor:', error);
-    return next(new AppError('Error al actualizar el emprendedor', 400));
+    return next(new AppError(`Error al actualizar emprendedor: ${error.message}`, 400));
   }  
 };
 
@@ -164,7 +165,7 @@ const eliminarEmprendedorPorId = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    return next(new AppError('Error al eliminar el emprendedor', 400));
+    return next(new AppError(`Error al eliminar el emprendedor: ${error.message}`, 400));
   }
 };
 

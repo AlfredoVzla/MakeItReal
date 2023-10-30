@@ -21,7 +21,8 @@ exports.crearComentario = async (req, res, next) => {
             }
         });
     } catch (error) {
-        return next (new AppError ('Error al crear el comentario', 400));
+       
+        return next(new AppError(`Error al crear el comentario: ${error.message}`, 400));
     }
 };
 
@@ -64,7 +65,7 @@ exports.actualizarComentario = async (req, res, next) => {
             return next (new AppError ('Comentario no encontrado', 404));
         }
     } catch (error) {
-        return next (new AppError ('Error al actualizar comentario', 400));
+        return next(new AppError(`Error al actualizar el comentario: ${error.message}`, 400));
     }
 };
 
@@ -85,6 +86,6 @@ exports.eliminarComentario = async (req, res, next) => {
             return next (new AppError ('Comentario no encontrado', 404));
         }
     } catch (error) {
-        return next (new AppError ('Error al eliminar comentario', 400));
+        return next(new AppError(`Error al eliminar el comentario: ${error.message}`, 400));
     }
 };

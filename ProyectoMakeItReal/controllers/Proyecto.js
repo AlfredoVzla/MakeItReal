@@ -18,7 +18,8 @@ exports.crearProyecto = async (req, res, next) => {
     }
   } catch (error) {
     console.error(error);
-    return next(new AppError('Error al crear proyecto', 400));
+    return next(new AppError(`Error al crear proyecto: ${error.message}`, 400));
+
   }
 };
 
@@ -58,7 +59,7 @@ exports.obtenerProyectoPorId = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new AppError('Error al obtener proyecto por ID', 400));
+    return next(new AppError(`Error al obtener proyecto por ID: ${error.message}`, 400));
   }
 };
 
@@ -80,7 +81,7 @@ exports.obtenerProyectoPorTitulo = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new AppError('Error al obtener proyecto por título', 400));
+    return next(new AppError(`Error al obtener proyecto por titulo: ${error.message}`, 400));
   }
 };
 
@@ -102,7 +103,7 @@ exports.obtenerProyectosPorIdEmprendedor = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new AppError('Error al obtener proyectos por ID de emprendedor', 400));
+    return next(new AppError(`Error al obtener proyectos por ID de emprendedor: ${error.message}`, 400));
   }
 };
 
@@ -127,7 +128,7 @@ exports.actualizarProyecto = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    return next(new AppError('Error al actualizar el proyecto', 400));
+    return next(new AppError(`Error al actualizar proyecto: ${error.message}`, 400));
   }
 };
 
@@ -150,6 +151,6 @@ exports.eliminarProyecto = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return next(new AppError('Error al eliminar el proyecto', 400));
+    return next(new AppError(`Error al eliminar proyecto: ${error.message}`, 400));
   }
 };

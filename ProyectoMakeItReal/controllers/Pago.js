@@ -21,7 +21,8 @@ exports.addPago = async (req, res, next) => {
             }
         });
     } catch (error) {
-        return next (new AppError('Error al crear pago', 400));
+        return next(new AppError(`Error al crear pago: ${error.message}`, 400));
+        
     }
 };
 
@@ -61,7 +62,8 @@ exports.getPagosByProyecto = async (req, res, next) => {
             });
         }
     } catch (error) {
-        return next (new AppError ('Error al obtener pagos', 400));
+        return next(new AppError(`Error al obtener pagos del proyecto: ${error.message}`, 400));
+       
     }
 };
 

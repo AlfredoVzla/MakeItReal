@@ -10,9 +10,12 @@ const Categoria = sequelize.define('Categoria', {
     nombre: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: {
+            msg: "Ya existe una categoria con ese nombre."
+        },
         validate: {
             notEmpty: {
-                msg: "Método no puede estar vacío."
+                msg: "Nombre no puede estar vacío."
             }
         }
     },
@@ -21,7 +24,7 @@ const Categoria = sequelize.define('Categoria', {
         allowNull: false,
         validate: {
             notEmpty: {
-                msg: "Método no puede estar vacío."
+                msg: "Descripción no puede estar vacía."
             }
         }
     },

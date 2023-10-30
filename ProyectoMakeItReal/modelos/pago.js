@@ -25,10 +25,14 @@ const Pago = sequelize.define('Pago', {
         type: Sequelize.DATE,
         allowNull: false,
         validate: {
+            notEmpty: {
+                msg: "Fecha no puede estar vacía."
+            },
             isDate: {
                 msg: "Fecha debe ser válida"
             }
         }
+        
     },
     método: {
         type: Sequelize.STRING,
@@ -52,6 +56,9 @@ const Pago = sequelize.define('Pago', {
         type: Sequelize.INTEGER,
         allowNull: false,
         validate: {
+            notEmpty: {
+                msg: "Id de patrocinador no puede estar vacío."
+            },
             isInt: {
                 msg: "IdPatrocinador debe ser un Integer válido"
             }
@@ -61,6 +68,9 @@ const Pago = sequelize.define('Pago', {
         type: Sequelize.INTEGER,
         allowNull: false,
         validate: {
+            notEmpty: {
+                msg: "Id de proyecto no puede estar vacío."
+            },
             isInt: {
                 msg: "IdProyecto debe ser un Integer válido"
             }

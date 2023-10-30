@@ -16,7 +16,7 @@ const ImagenProyecto=sequelize.define('imagenProyecto',{
         allowNull:false,
         validate: {
             notEmpty: {
-                msg: "imagen no puede estar vacío."
+                msg: "imagen no puede estar vacía."
             }
         }
     },
