@@ -30,7 +30,6 @@ const crearPatrocinador = async (req, res, next) => {
       }
     });
   } catch (error) {
-    console.error(error)
     return next(new AppError(`Error al agregar patrocinador: ${error.message}`, 400));
   }
 };
@@ -137,7 +136,6 @@ const actualizarPatrocinador = async(req,res,next)=>{
       });
     }
   } catch (error) {
-    console.log(error);
     return next(new AppError(`Error al actualizar patrocinador: ${error.message}`, 400));
   }  
 };
@@ -161,7 +159,6 @@ const eliminarPatrocinadorPorId = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log(error);
     return next(new AppError(`Error al eliminar patrocinador: ${error.message}`, 400));
    
   }

@@ -12,8 +12,6 @@ exports.crearComentario = async (req, res, next) => {
             id_Proyecto
         });
 
-        console.log("Comentario creado con éxito");
-
         res.status(201).json({
             status: 'success',
             data: {

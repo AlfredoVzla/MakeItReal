@@ -84,9 +84,8 @@ const Pago = sequelize.define('Pago', {
 const syncModel = async () => {
     try {
         await Pago.sync();
-        console.log('Modelo sincronizado correctamente.');
     } catch (error) {
-        console.error('Error al sincronizar el modelo:', error);
+        
     }
 };
 

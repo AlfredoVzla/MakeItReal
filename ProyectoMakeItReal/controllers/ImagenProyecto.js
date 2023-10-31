@@ -8,7 +8,6 @@ exports.crearImagenProyecto = async (req, res, next) => {
     if (!nuevoImagenProyecto) {
       return next(new AppError('Error al crear imagen de proyecto', 500));
     } else {
-      console.log("ImagenProyecto creado con éxito");
       res.status(201).json({
         status: 'success',
         data: {
@@ -55,7 +54,6 @@ exports.actualizarImagenProyecto = async (req, res, next) => {
       return next(new AppError(`No se encontró una imagen de proyecto con ID ${idImagenProyecto} para actualizar.`, 404));
     } else {
       const imagenProyectoActualizada = await ImagenProyecto.findByPk(idImagenProyecto);
-      console.log("Imagen proyecto actualizado correctamente");
       res.status(200).json({
         status: 'success',
         data: {
@@ -64,7 +62,6 @@ exports.actualizarImagenProyecto = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.error(error);
     return next(new AppError(`Error al actualizar imagen de proyecto: ${error.message}`, 400));
   }
 };
@@ -79,7 +76,6 @@ exports.eliminarImagenProyecto = async (req, res, next) => {
     if (eliminado <= 0) {
       return next(new AppError(`No se encontró una imagen de proyecto con ID ${idImagenProyecto} para eliminar.`, 404));
     } else {
-      console.log("Eliminado correctamente");
       res.status(200).json({
         status: 'success',
         data: {

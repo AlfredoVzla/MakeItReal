@@ -8,7 +8,6 @@ exports.crearProyecto = async (req, res, next) => {
     if (!nuevoProyecto) {
       return next(new AppError('Error al crear proyecto', 500));
     } else {
-      console.log("Proyecto creado con éxito");
       res.status(201).json({
         status: 'success',
         data: {
@@ -17,7 +16,6 @@ exports.crearProyecto = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.error(error);
     return next(new AppError(`Error al crear proyecto: ${error.message}`, 400));
 
   }
@@ -118,7 +116,6 @@ exports.actualizarProyecto = async (req, res, next) => {
       return next(new AppError(`No se encontró un proyecto con ID ${idProyecto} para actualizar.`, 404));
     } else {
       const proyectoActualizado = await Proyecto.findByPk(idProyecto);
-      console.log("Proyecto actualizado correctamente");
       res.status(200).json({
         status: 'success',
         data: {
@@ -127,7 +124,6 @@ exports.actualizarProyecto = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log(error);
     return next(new AppError(`Error al actualizar proyecto: ${error.message}`, 400));
   }
 };
@@ -142,7 +138,6 @@ exports.eliminarProyecto = async (req, res, next) => {
     if (eliminado <= 0) {
       return next(new AppError(`No se encontró un proyecto con ID ${idProyecto} para eliminar.`, 404));
     } else {
-      console.log("Eliminado correctamente");
       res.status(200).json({
         status: 'success',
         data: {

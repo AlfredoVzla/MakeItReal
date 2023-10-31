@@ -35,7 +35,7 @@ const Categoria = sequelize.define('Categoria', {
 
 
 Categoria.sync({ force: false }).then(() => {
-    console.log('Modelo de Categoria sincronizado correctamente.');
+    
 });
 
 module.exports = Categoria;
