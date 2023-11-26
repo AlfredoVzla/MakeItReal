@@ -1,46 +1,69 @@
-const Emprendedor = require('../modelos/Emprendedor'); 
+const Emprendedor = require('../modelos/Emprendedor');
 const { AppError } = require('../utils/appError');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+require('dotenv').config()
+const cloudinary = require('cloudinary').v2;
+cloudinary.config(process.env.CLOUDINARY_URL);
 
 const crearEmprendedor = async (req, res, next) => {
   try {
-    const { nombre, telefono, correoElectronico, nombreUsuario, contraseña, imagenPerfil } = req.body;
+      // Subir la imagen a Cloudinary y obtener la URL
+      const imageUrl = await subirImagenACloudinary(req.body.imagePath);
 
-    const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
+      const { nombre, telefono, correoElectronico, nombreUsuario, contraseña } = req.body;
 
-    const nuevoEmprendedor = await Emprendedor.create({
-      nombre,
-      telefono,
-      correoElectronico,
-      nombreUsuario,
-      contraseña: contraseñaEncriptada,
-      imagenPerfil
-    });
+      const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-          nuevoEmprendedor
-      }
-    });
+      // Crear el emprendedor con la URL de la imagen
+      const nuevoEmprendedor = await Emprendedor.create({
+          nombre,
+          telefono,
+          correoElectronico,
+          nombreUsuario,
+          contraseña: contraseñaEncriptada,
+          imageUrl
+      });
+
+      // Respuesta al cliente u otras operaciones necesarias
+      res.status(200).json({ mensaje: 'Emprendedor creado exitosamente', data: nuevoEmprendedor });
   } catch (error) {
-    return next(new AppError(`Error al agregar emprendedor: ${error.message}`, 400));
+      // Manejar errores
+      console.error('Error al crear emprendedor:', error);
+      res.status(500).json({ mensaje: 'Error interno del servidor' });
   }
 };
 
+const subirImagenACloudinary = (imagePath) => {
+  return new Promise((resolve, reject) => {
+      const uploadOptions = {
+          folder: 'imagenesperfiles',  // Carpeta donde se almacenará la imagen
+      };
 
-const obtenerEmprendedores = async(req,res,next)=>{
+      cloudinary.uploader.upload(imagePath, uploadOptions, (error, result) => {
+          if (error) {
+              console.error('Error al subir la imagen a Cloudinary:', error);
+              reject(error);
+          } else {
+              console.log('Imagen subida exitosamente a Cloudinary:', result);
+              const imageUrl = result.secure_url;
+              console.log('URL de la imagen:', imageUrl);
+              resolve(imageUrl);
+          }
+      });
+  });
+};
+const obtenerEmprendedores = async (req, res, next) => {
   try {
     const emprendedores = await Emprendedor.findAll();
     res.status(200).json({
       status: 'success',
       data: {
-          emprendedores
+        emprendedores
       }
     });
   } catch (error) {
-    return next(new AppError('Error al obtener los emprendedores'),400);
+    return next(new AppError('Error al obtener los emprendedores'), 400);
   }
 };
 
@@ -101,11 +124,11 @@ const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
     }
   } catch (error) {
     return next(new AppError(`Error al obtener el emprendedor: ${error.message}`, 400));
-    
+
   }
 };
 
-const actualizarEmprendedor = async(req,res,next)=>{
+const actualizarEmprendedor = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -114,7 +137,7 @@ const actualizarEmprendedor = async(req,res,next)=>{
     const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
     const emprendedor = await Emprendedor.findByPk(id);
-  
+
     if (emprendedor) {
       await emprendedor.update({
         nombre: nombre,
@@ -124,7 +147,7 @@ const actualizarEmprendedor = async(req,res,next)=>{
         contraseña: contraseñaEncriptada,
         imagenPerfil: imagenPerfil
       });
-  
+
       res.status(200).json({
         status: 'success',
         data: {
@@ -139,14 +162,14 @@ const actualizarEmprendedor = async(req,res,next)=>{
     }
   } catch (error) {
     return next(new AppError(`Error al actualizar emprendedor: ${error.message}`, 400));
-  }  
+  }
 };
 
 const eliminarEmprendedorPorId = async (req, res, next) => {
   try {
     const { id } = req.params;
     const emprendedor = await Emprendedor.destroy({
-      where: { idEmprendedor:id } 
+      where: { idEmprendedor: id }
     });
 
     if (emprendedor > 0) {
@@ -166,4 +189,4 @@ const eliminarEmprendedorPorId = async (req, res, next) => {
 };
 
 
-module.exports = {crearEmprendedor,obtenerEmprendedores,obtenerEmprendedorPorId,eliminarEmprendedorPorId,actualizarEmprendedor,obtenerEmprendedorPorCredenciales};
+module.exports = {crearEmprendedor, obtenerEmprendedores, obtenerEmprendedorPorId, eliminarEmprendedorPorId, actualizarEmprendedor, obtenerEmprendedorPorCredenciales,subirImagenACloudinary};
