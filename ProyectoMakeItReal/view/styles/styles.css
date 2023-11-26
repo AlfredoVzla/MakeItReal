@@ -270,3 +270,157 @@ input[type="file"] {
     background-color: #0056b3; /* Puedes ajustar el color según tus preferencias */
     border-color: #0056b3; 
 }
+
+/* Estilos para la sección de pagos */
+.pagos-section {
+    background-color: #ffffff;
+    padding: 30px 0;
+}
+
+.busqueda-pagos {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#buscarPago {
+    width: 190px;
+    padding: 10px;
+    font-size: 1.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#btnBuscarPago {
+    padding: 10px;
+    border-radius: 4px;
+    border: #3CB65F;
+    background-color: #66FF82;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+#btnBuscarPago:hover {
+    background-color: #3CB65F;
+    border-color: #3CB65F;
+}
+
+.resultado-pagos {
+    margin-top: 20px;
+}
+
+.resultado-pagos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.info-pago {
+    width: calc(33.33% - 10px);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+
+/** Categorias **/
+
+.categorias-section {
+    background-color: #ffffff;
+    padding: 30px 0;
+}
+
+.categorias-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.categoria {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.categoria label {
+    cursor: pointer;
+    color: #777;
+}
+
+.btn-eliminar {
+    margin-right: 10px; /* Ajusta el margen entre el botón de eliminar y editar según tus necesidades */
+}
+
+.container-categoria label {
+    margin-bottom: 6px;
+}
+
+.container-categoria input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    font-size: 1.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+#listaCategorias {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.lista-item button {
+    background-color: #3CB65F;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.lista-item button:hover {
+    background-color: #3CB65F;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
