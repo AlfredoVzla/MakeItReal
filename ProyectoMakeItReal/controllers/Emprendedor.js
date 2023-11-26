@@ -9,9 +9,8 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 const crearEmprendedor = async (req, res, next) => {
   try {
       // Subir la imagen a Cloudinary y obtener la URL
-      const imageUrl = await subirImagenACloudinary(req.body.imagePath);
 
-      const { nombre, telefono, correoElectronico, nombreUsuario, contraseña } = req.body;
+      const { nombre, telefono, correoElectronico, nombreUsuario, contraseña , imagenPerfil} = req.body;
 
       const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
@@ -22,8 +21,10 @@ const crearEmprendedor = async (req, res, next) => {
           correoElectronico,
           nombreUsuario,
           contraseña: contraseñaEncriptada,
-          imageUrl
+          imagenPerfil: imagenPerfil
       });
+
+      console.log(nuevoEmprendedor);
 
       // Respuesta al cliente u otras operaciones necesarias
       res.status(200).json({ mensaje: 'Emprendedor creado exitosamente', data: nuevoEmprendedor });
