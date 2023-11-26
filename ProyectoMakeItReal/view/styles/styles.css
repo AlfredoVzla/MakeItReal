@@ -285,7 +285,7 @@ input[type="file"] {
 }
 
 #buscarPago {
-    width: 190px;
+    width: 210px;
     padding: 10px;
     font-size: 1.6rem;
     border: 1px solid #ccc;
@@ -308,9 +308,6 @@ input[type="file"] {
 
 .resultado-pagos {
     margin-top: 20px;
-}
-
-.resultado-pagos {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -350,7 +347,7 @@ input[type="file"] {
 }
 
 .btn-eliminar {
-    margin-right: 10px; /* Ajusta el margen entre el botón de eliminar y editar según tus necesidades */
+    margin-right: 10px;
 }
 
 .container-categoria label {
