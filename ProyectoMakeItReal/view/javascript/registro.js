@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 for (const emprendedor of data.data.emprendedores) {
-                    if (correoElectronico.value == emprendedor.correoElectronico) {
-                        alert("Ya existe un usuario registrado con ese correo electrónico");
+                    if (correoElectronico.value == emprendedor.correoElectronico || nombreUsuario.value == emprendedor.nombreUsuario) {
+                        alert("Ya existe un usuario registrado con ese correo electrónico o nombre de usuario");
                         return; // Salir del bucle y de la función
                     }
                 }

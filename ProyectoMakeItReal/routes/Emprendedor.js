@@ -30,7 +30,7 @@ router.use(verificarToken);
 router
 .route('/:id')
 .get(emprendedorController.obtenerEmprendedorPorId)
-.delete(emprendedorController.eliminarEmprendedorPorId);
+.delete(emprendedorController.eliminarEmprendedor);
 
 router
 .route('/:usuario')

@@ -56,11 +56,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         if (imagenPerfil && imagenPerfil.trim() !== "") {
             // La imagen-preview tiene un src no vacío
-            console.log(imagenPerfil);
         } else {
             // La imagen-preview no tiene un src o está vacío
             imagenPerfil = 'https://res.cloudinary.com/dintcsgzb/image/upload/v1701012876/imagenesperfiles/gm73y9qjdhiopzczratk.png';
-            console.log(imagenPerfil);
         }
         // Resto del código...
     } catch (error) {

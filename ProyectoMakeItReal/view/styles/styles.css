@@ -260,6 +260,13 @@ input[type="file"] {
     border: #3CB65F;
     background-color: #66FF82;
 }
+.btn-eliminar-cuenta{
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 10px;
+    border: #3CB65F;
+    background-color: red;
+}
 .container-foto{
     display: grid;
     max-width: 100%;

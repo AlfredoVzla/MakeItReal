@@ -79,6 +79,15 @@
                     imagenPerfil.style.display = "inline";
                 }
             }
+            
+            if(cookiesVacias()){
+              
+            }else{
+              const img = getCookie('imagenperfil');
+              imagenPerfil.src = img;
+            }
+            
+            
     
             // Agregar evento de clic al botón de cerrar sesión
             botonCerrarSesion.addEventListener('click', cerrarSesion);
@@ -98,9 +107,10 @@
             const parts = value.split(`; ${name}=`);
             if (parts.length === 2) return parts.pop().split(';').shift();
         }
-    
-        const img = getCookie('imagenperfil');
-        imagenPerfil.src = img;
+        function cookiesVacias() {
+          return document.cookie === "";
+        } 
+        
     </script>
 </body>
 </html>

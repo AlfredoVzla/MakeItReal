@@ -215,13 +215,12 @@ const actualizarEmprendedor = async (req, res, next) => {
   }
 };
 
-const eliminarEmprendedorPorId = async (req, res, next) => {
+const eliminarEmprendedor = async (req, res, next) => {
   try {
     const { id } = req.params;
     const emprendedor = await Emprendedor.destroy({
-      where: { idEmprendedor: id }
+      where: { nombreUsuario: id }
     });
-
     if (emprendedor > 0) {
       res.status(200).json({
         status: 'success',
@@ -234,9 +233,10 @@ const eliminarEmprendedorPorId = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error);
     return next(new AppError(`Error al eliminar el emprendedor: ${error.message}`, 400));
   }
 };
 
 
-module.exports = {obtenerEmprendedorPorNombreUsuario, obtenerEmprendedorPorCorreo,crearEmprendedor, obtenerEmprendedores, obtenerEmprendedorPorId, eliminarEmprendedorPorId, actualizarEmprendedor, obtenerEmprendedorPorCredenciales,subirImagenACloudinary};
+module.exports = {obtenerEmprendedorPorNombreUsuario, obtenerEmprendedorPorCorreo,crearEmprendedor, obtenerEmprendedores, obtenerEmprendedorPorId, eliminarEmprendedor, actualizarEmprendedor, obtenerEmprendedorPorCredenciales,subirImagenACloudinary};

@@ -28,7 +28,6 @@ function obtenerProyectosDesdeBD() {
             actualizarPagina();
         })
         .catch(error => {
-            console.error('Error:', error);
             mostrarError('Error en la conexión con el servidor. Por favor, inténtelo más tarde.'); // Mostrar mensaje de error en caso de fallo
         });
 }
@@ -48,7 +47,6 @@ function mostrarError(mensaje) {
         proyectosContainer.innerHTML = '';
 
         proyectosPagina.forEach(async (proyecto) => {
-            console.log(proyecto);
             const imagenesProyecto = await obtenerPrimeraImagenProyecto(proyecto.idProyecto);
             // Mostrar solo la primera imagen si hay alguna
             const rutaBase = '../img/'
