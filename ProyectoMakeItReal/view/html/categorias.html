@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+    <title>MakeItReal</title>
+</head>
+<body>
+    <header class="header">
+        <div class="contenedor">
+            <div class="barra">
+                <a class="logo" href="index.html">
+                    <h1 class="no-margin centrar-texto h1-header">
+                        MakeItReal
+                    </h1>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-bg">
+        <nav class="navegacion-principal">
+            <a href="#">Arte</a>
+            <a href="#">Deportes</a>
+            <a href="#">Diseño y tecnología</a>
+            <a href="#">Cine</a>
+            <a href="#">Juegos</a>
+            <a href="#">Música</a>
+        </nav>
+    </div>
+    
+    <section class="categorias-section">
+        <div class="contenedor">
+            <h2 class="no-margin centrar-texto">Gestión de Categorías</h2>
+            <ul id="listaCategorias" class="lista-categorias categorias-container"></ul>
+        </div>
+    </section>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h2>Editar Categoría</h2>
+            <form id="formularioEditar">
+                <label for="nombreCategoria">Nuevo nombre:</label>
+                <input type="text" id="nombreCategoria">
+                <label for="descripcionCategoria">Nueva descripción:</label>
+                <input type="text" id="descripcionCategoria">
+                <button id="guardarCategoria" onclick="guardarEdicion()" class="btn-submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../javascript/categorias.js" defer></script>
+</body>
+</html>

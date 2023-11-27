@@ -6,6 +6,9 @@ const verificarToken = require('../utils/verificarToken');
 router.use(verificarToken);
 
 router
+    .route('/titulo/:titulo')
+    .get(pagoController.getPagosByTituloProyecto);
+router
     .route('/')
     .post(pagoController.addPago)
     .get(pagoController.getPagos);
