@@ -25,9 +25,11 @@
               </h1>
             </a>
             <nav class="navegacion">
-              <a class="navegacion__enlace" href="">Inicia sesión</a>
-              <a class="navegacion__enlace" href="registro.html">Registrarte</a>
-            </nav>
+              <a href="perfil.html"><img src="" class="imagen-perfil" id="imagen-perfil-arriba" style="display: none"></a>
+              <a class="navegacion__enlace" id="enlace-iniciar-sesion" href="login.html">Inicia sesión</a>
+              <a class="navegacion__enlace" id="enlace-registro" href="registro.html">Registrarte</a>
+              <a class="navegacion__enlace" id="cerrar-sesion" style="display: none">Cerrar sesión</a>
+          </nav>
           </div>
         </div>
       </header>
@@ -56,5 +58,49 @@
 
       </body>
       <script src="../javascript/paginado.js" defer></script>
+      <script defer>
+        const imagenPerfil = document.getElementById("imagen-perfil-arriba");
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            const botonCerrarSesion = document.getElementById("cerrar-sesion");
+            const enlaceIniciarSesion = document.getElementById("enlace-iniciar-sesion");
+            const enlaceRegistro = document.getElementById("enlace-registro");
+    
+            // Verificar si hay un token en las cookies o si la imagen de perfil tiene un src
+            const token = getCookie('token');
+            const tieneImagenPerfil = imagenPerfil.src && imagenPerfil.src.trim() !== "";
+    
+            // Mostrar el botón de cerrar sesión y ocultar el de iniciar sesión y registro si hay un token o una imagen de perfil
+            if (token) {
+                botonCerrarSesion.style.display = "inline";
+                enlaceIniciarSesion.style.display = "none";
+                enlaceRegistro.style.display = "none";
+                if (tieneImagenPerfil) {
+                    imagenPerfil.style.display = "inline";
+                }
+            }
+    
+            // Agregar evento de clic al botón de cerrar sesión
+            botonCerrarSesion.addEventListener('click', cerrarSesion);
+        });
+    
+        function cerrarSesion() {
+            // Eliminar las cookies del token y la imagenPerfil
+            document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'imagenperfil=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'nombreusuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            // Redirigir a la página de inicio de sesión u otra página después de cerrar sesión
+            window.location.href = 'index.html';
+        }
+    
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    
+        const img = getCookie('imagenperfil');
+        imagenPerfil.src = img;
+    </script>
 </body>
 </html>

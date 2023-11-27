@@ -3,6 +3,7 @@ const app = express();
 const fileUpload = require('express-fileupload');
 const routerProyecto = require('./routes/Proyecto');
 const routerImagen = require('./routes/ImagenProyecto');
+const routerPatrocinador = require('./routes/Patrocinador');
 const routerEmprendedor = require('./routes/Emprendedor');
 const cors = require('cors');
 const PORT = 3000;
@@ -17,6 +18,7 @@ app.use( fileUpload({
     createParentPath: true
 }));
 app.use('/emprendedor',routerEmprendedor);
+app.use('/patrocinador',routerPatrocinador);
 app.listen(PORT, () => {
     console.log('Servidor de asistencias')
 })

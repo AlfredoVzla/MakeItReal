@@ -92,7 +92,12 @@ body{
         gap: 2rem;
     }
 }
-
+.imagen-perfil {
+    width: 30px; /* Ajusta el ancho según tus necesidades */
+    height: 30px; /* Ajusta la altura según tus necesidades */
+    border-radius: 50%; /* Esto crea una forma circular para la imagen */
+    margin-left: 10px; /* Ajusta el margen según tus necesidades */
+}
 /* Navegacion Principal */
 .nav-bg {
     background-color: #BAFFCC;

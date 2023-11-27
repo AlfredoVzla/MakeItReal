@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <title>Registro de Usuario</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="contenedor">
+          <div class="barra">
+            <a class="logo" href="index.html">
+              <h1 class="no-margin centrar-texto h1-header">
+                MakeItReal
+              </h1>
+            </a>
+            <nav class="navegacion">
+              <a class="navegacion__enlace" href="registro.html">Registrarte</a>
+            </nav>
+          </div>
+        </div>
+      </header>
+    <section class="container-registro">
+        <h2>Login</h2>
+        <form id="registro-form" action="/procesar_registro" method="post" enctype="multipart/form-data">
+            <label for="nombreUsuario">Nombre de Usuario:</label>
+            <input type="text" id="nombreUsuario" name="nombreUsuario" required><br>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required><br>
+
+            <!-- Radio button para seleccionar entre emprendedor y patrocinador -->
+            <label for="tipoUsuario">Seleccione el tipo de usuario:</label>
+            <input type="radio" id="emprendedor" name="tipoUsuario" value="emprendedor" checked>
+            <label for="emprendedor">Emprendedor</label>
+            <input type="radio" id="patrocinador" name="tipoUsuario" value="patrocinador">
+            <label for="patrocinador">Patrocinador</label>
+            <br>
+            <input type="submit" value="Inicio de sesión" class="btn-submit">
+        </form>
+    </section>
+    <script src="../javascript/login.js"></script>
+</body>
+</html>

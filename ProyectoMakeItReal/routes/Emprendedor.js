@@ -19,17 +19,22 @@ router
           res.status(500).json({ mensaje: 'Error interno del servidor' });
       }
   });
-  
 
 router.post('/login', emprendedorController.obtenerEmprendedorPorCredenciales);
+
+router
+.get('/:usuario',emprendedorController.obtenerEmprendedorPorNombreUsuario);
 
 router.use(verificarToken); 
 
 router
 .route('/:id')
 .get(emprendedorController.obtenerEmprendedorPorId)
-.patch(emprendedorController.actualizarEmprendedor)
 .delete(emprendedorController.eliminarEmprendedorPorId);
+
+router
+.route('/:usuario')
+.patch(emprendedorController.actualizarEmprendedor);
 
 router.use(handleErrors);
 

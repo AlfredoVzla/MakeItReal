@@ -23,15 +23,11 @@ const crearEmprendedor = async (req, res, next) => {
           contraseña: contraseñaEncriptada,
           imagenPerfil: imagenPerfil
       });
-
-      console.log(nuevoEmprendedor);
-
       // Respuesta al cliente u otras operaciones necesarias
       res.status(200).json({ mensaje: 'Emprendedor creado exitosamente', data: nuevoEmprendedor });
   } catch (error) {
       // Manejar errores
-      console.error('Error al crear emprendedor:', error);
-      res.status(500).json({ mensaje: 'Error interno del servidor' });
+      return next(new AppError(`Error al crear emprendedor: ${error.message}`, 400));
   }
 };
 
@@ -40,7 +36,6 @@ const subirImagenACloudinary = (imagePath) => {
       const uploadOptions = {
           folder: 'imagenesperfiles',  // Carpeta donde se almacenará la imagen
       };
-
       cloudinary.uploader.upload(imagePath, uploadOptions, (error, result) => {
           if (error) {
               console.error('Error al subir la imagen a Cloudinary:', error);
@@ -90,6 +85,55 @@ const obtenerEmprendedorPorId = async (req, res, next) => {
   }
 };
 
+const obtenerEmprendedorPorCorreo = async (req, res, next) => {
+  try {
+    const { correoElectronico } = req.params;
+    const emprendedor = await Emprendedor.findByPk(correoElectronico);
+    if (emprendedor) {
+      res.status(200).json({
+        status: 'success',
+        data: {
+          mensaje:"Ya hay una cuenta con ese correo"
+        }
+      });
+    } else {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Emprendedor no encontrado'
+      });
+    }
+  } catch (error) {
+    return next(new AppError(`Error al obtener el emprendedor por id: ${error.message}`, 400));
+  }
+};
+
+const obtenerEmprendedorPorNombreUsuario = async (req, res, next) => {
+  try {
+    const { usuario } = req.params;
+    const emprendedor = await Emprendedor.findOne({
+      attributes: ['idEmprendedor', 'nombre', 'telefono', 'correoElectronico', 'nombreUsuario', 'imagenPerfil'],
+      where: { nombreUsuario: usuario }
+    });
+    if (emprendedor) {
+      res.status(200).json({
+        status: 'success',
+        data: {
+          emprendedor
+        }
+      });
+    } else {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Emprendedor no encontrado'
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return next(new AppError(`Error al obtener el emprendedor por id: ${error.message}`, 400));
+  }
+};
+
+
 
 const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
   try {
@@ -131,23 +175,27 @@ const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
 
 const actualizarEmprendedor = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const { usuario } = req.params;
 
-    const { nombre, telefono, correoElectronico, nombreUsuario, contraseña, imagenPerfil } = req.body;
+    const contraseña = req.body.contraseña;
 
     const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
-    const emprendedor = await Emprendedor.findByPk(id);
+    const emprendedor = await Emprendedor.findOne({
+      attributes: ['idEmprendedor', 'nombre', 'telefono', 'correoElectronico', 'nombreUsuario', 'imagenPerfil'],
+      where: { nombreUsuario: usuario }
+    });
 
     if (emprendedor) {
-      await emprendedor.update({
-        nombre: nombre,
-        telefono: telefono,
-        correoElectronico: correoElectronico,
-        nombreUsuario: nombreUsuario,
+      console.log(emprendedor);
+      await Emprendedor.update({
+        nombre: req.body.nombre,
+        telefono: req.body.telefono,
+        correoElectronico: req.body.correoElectronico,
+        nombreUsuario: req.body.nombreUsuario,
         contraseña: contraseñaEncriptada,
-        imagenPerfil: imagenPerfil
-      });
+        imagenPerfil: req.body.imagenPerfil
+      },{where: { nombreUsuario: usuario }});
 
       res.status(200).json({
         status: 'success',
@@ -162,6 +210,7 @@ const actualizarEmprendedor = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error);
     return next(new AppError(`Error al actualizar emprendedor: ${error.message}`, 400));
   }
 };
@@ -190,4 +239,4 @@ const eliminarEmprendedorPorId = async (req, res, next) => {
 };
 
 
-module.exports = {crearEmprendedor, obtenerEmprendedores, obtenerEmprendedorPorId, eliminarEmprendedorPorId, actualizarEmprendedor, obtenerEmprendedorPorCredenciales,subirImagenACloudinary};
+module.exports = {obtenerEmprendedorPorNombreUsuario, obtenerEmprendedorPorCorreo,crearEmprendedor, obtenerEmprendedores, obtenerEmprendedorPorId, eliminarEmprendedorPorId, actualizarEmprendedor, obtenerEmprendedorPorCredenciales,subirImagenACloudinary};

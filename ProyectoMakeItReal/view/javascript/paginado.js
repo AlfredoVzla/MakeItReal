@@ -24,7 +24,6 @@ function obtenerProyectosDesdeBD() {
         .then(data => {
             // Asignar los proyectos obtenidos a la variable proyectos
             proyectos = data.data.proyectos;
-
             // Llamar a la función actualizarPagina para renderizar los proyectos
             actualizarPagina();
         })
@@ -51,7 +50,6 @@ function mostrarError(mensaje) {
         proyectosPagina.forEach(async (proyecto) => {
             console.log(proyecto);
             const imagenesProyecto = await obtenerPrimeraImagenProyecto(proyecto.idProyecto);
-            console.log(imagenesProyecto);
             // Mostrar solo la primera imagen si hay alguna
             const rutaBase = '../img/'
             const primeraImagen = imagenesProyecto.length > 0 ? rutaBase + imagenesProyecto : 'ruta_por_defecto.jpg';
