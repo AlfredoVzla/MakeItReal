@@ -1,5 +1,15 @@
 const ImagenProyecto = require('../modelos/ImagenProyecto'); // Importa el modelo de ImagenProyecto
 const { AppError } = require('../utils/appError');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+require('dotenv').config()
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({ 
+  cloud_name: 'dlpo93plw', 
+  api_key: '623628443632969', 
+  api_secret: 'gXZiU3-y3pgkT0aKJcaXlavTNvw' 
+});
 
 // Método para crear un nuevo registro de ImagenProyecto
 exports.crearImagenProyecto = async (req, res, next) => {
@@ -19,6 +29,25 @@ exports.crearImagenProyecto = async (req, res, next) => {
     return next(new AppError(`Error al crear imagen de proyecto: ${error.message}`, 400));
   
   }
+};
+
+exports.subirImagenACloudinary = (imagePath) => {
+  return new Promise((resolve, reject) => {
+      const uploadOptions = {
+          folder: 'imagenesperfiles',  // Carpeta donde se almacenará la imagen
+      };
+      cloudinary.uploader.upload(imagePath, uploadOptions, (error, result) => {
+          if (error) {
+              console.error('Error al subir la imagen a Cloudinary:', error);
+              reject(error);
+          } else {
+              console.log('Imagen subida exitosamente a Cloudinary:', result);
+              const imageUrl = result.secure_url;
+              console.log('URL de la imagen:', imageUrl);
+              resolve(imageUrl);
+          }
+      });
+  });
 };
 
 // Método para obtener todas las imágenes de un proyecto por su idProyecto

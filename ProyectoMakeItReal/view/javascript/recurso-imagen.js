@@ -8,6 +8,7 @@ function mostrarImagenPreview(event) {
 
         reader.onload = function (e) {
             imagenPreview.src = e.target.result;
+            console.log("IMAGEN: "+e.target.result);
         }
 
         reader.readAsDataURL(inputImagen.files[0]);
@@ -29,13 +30,103 @@ function subirImagen() {
     .then(data => {
         console.log('Respuesta del servidor:', data);
 
-        // Actualizar la propiedad src del elemento img con la URL obtenida
+        
         const imagenPreview = document.getElementById('imagen-preview');
         imagenPreview.src = data.imageUrl;
 
-        // Puedes realizar más acciones según la respuesta del servidor
+      
     })
     .catch(error => {
         console.error('Error al subir la imagen:', error);
     });
 }
+//------------------------------ Imagenes de proyecto
+function mostrarImagenPreviewProyecto(event) {
+    const inputImagen = event.target;
+  
+    const previewContainer = document.getElementById('preview-container-proyecto');
+
+    if (inputImagen.files) {
+        for (let i = 0; i < inputImagen.files.length; i++) {
+            const reader = new FileReader();
+            const file = inputImagen.files[i];
+
+            reader.onload = function (e) {
+                const imageElement = document.createElement('img');
+                imageElement.src = e.target.result;
+
+                const listItem = document.createElement('li');
+                listItem.appendChild(imageElement);
+                previewContainer.appendChild(listItem);
+            }
+
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
+
+var cloudinaryImageUrls = [];
+
+function subirUnaImagen(file) {
+    console.log(cloudinaryImageUrls);
+    return new Promise((resolve, reject) => {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch('http://localhost:3000/emprendedor/subirimagen', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Respuesta del servidor:', data);
+            
+            
+            const imageUrl = data.imageUrl;
+            cloudinaryImageUrls.push(imageUrl);
+            
+            resolve(); 
+        })
+        .catch(error => {
+            console.error('Error al subir la imagen:', error);
+            reject(error); 
+        });
+    });
+}
+
+function subirImagenesProyecto() {
+    return new Promise((resolve, reject) => {
+        cloudinaryImageUrls = [];
+        const previewContainer = document.getElementById('preview-container-proyecto');
+        const images = previewContainer.getElementsByTagName('img');
+
+        if (images.length > 0) {
+            const imageFiles = Array.from(images).map(img => img.src);
+
+            // Subir cada imagen
+            const promesasSubida = imageFiles.map(imgSrc => {
+                return fetch(imgSrc)
+                    .then(res => res.blob())
+                    .then(blob => subirUnaImagen(blob));
+            });
+
+            Promise.all(promesasSubida)
+                .then(() => {
+                    console.log('Todas las imágenes han sido subidas:', cloudinaryImageUrls);
+                    resolve(cloudinaryImageUrls); 
+                   
+                })
+                .catch(error => {
+                    console.error('Error al subir las imágenes:', error);
+                    reject(error); 
+                });
+        } else {
+            // Si no hay imágenes, resolver la promesa con un arreglo vacío
+            resolve([]);
+        }
+    });
+}
+
+
+document.getElementById('input-imagen-proyecto').addEventListener('change', mostrarImagenPreviewProyecto);

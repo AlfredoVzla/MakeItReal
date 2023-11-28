@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/proyecto.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+    <title>MakeItReal</title>
+</head>
+<body>
+    <header class="header">
+        <div class="contenedor">
+            <div class="barra">
+                <a class="logo" href="index.html">
+                    <h1 class="no-margin centrar-texto h1-header">
+                        MakeItReal
+                    </h1>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-bg">
+        <nav class="navegacion-principal">
+            <a href="#">Arte</a>
+            <a href="#">Deportes</a>
+            <a href="#">Diseño y tecnología</a>
+            <a href="#">Cine</a>
+            <a href="#">Juegos</a>
+            <a href="#">Música</a>
+        </nav>
+    </div>
+
+    <!-- Contenido del segundo código -->
+    <div class="contenedor">
+        <form id="registroProyecto-form" action="/procesar_proyecto" method="post" enctype="multipart/form-data">
+            <div class="seccion-1">
+                <div class="formulario">
+                    <div class="campo-titulo">
+                        <label for="titulo">Título:</label>
+                        <input type="text" id="titulo" name="titulo" required>
+                    </div>
+                    <div class="campo-descripcion">
+                        <label for="descripcion">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" required></textarea>
+                    </div>
+                    <div class="campo">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" id="fechaInicio" name="fechaInicio" required>
+                    </div>
+                </div>
+            </div>
+            <div class="seccion-2">
+                <div class="bloque-vertical">
+                    <div class="verde">
+                        <div class="informacion">
+                            <div class="campo-objetivo">
+                                <label for="objetivo">Objetivo:</label>
+                                <textarea id="objetivo" name="objetivo" required></textarea>
+                            </div>
+                            <div class="campo-mas-informacion">
+                                <label for="masInformacion">Más información:</label>
+                                <textarea id="masInformacion" name="masInformacion" required></textarea>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="amarillo">
+                        <div class="financiamiento">
+                            <div class="campo">
+                                <label for="metaFinanciamiento">Meta de financiamiento:</label>
+                                <input type="text" id="metaFinanciamiento" name="metaFinanciamiento" required>
+                            </div>
+                            <div class="campo-categoria">
+                                <label for="categoria">Lista de categorías:</label>
+                                <select id="categoria" name="categoria">
+                                    <option value="opcion1">Opción 1</option>
+                                    <option value="opcion2">Opción 2</option>
+                                    <option value="opcion3">Opción 3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cafe">
+                    <div class="container-foto">
+                        <label for="input-imagen-proyecto">Subir imagen</label>
+                        <input id="input-imagen-proyecto" type="file" name="imagenPerfil" accept="image/*">
+                       
+                        <!-- Contenedor para la previsualización de las imágenes -->
+                        <ul class="imagen-container" id="preview-container-proyecto"  src="">
+                            <!-- Aquí se agregarán las previsualizaciones -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="contenedor-boton">
+                <input type="submit" value="Registrar Proyecto" class="btn-submit">
+            </div>
+            
+        </form>
+    </div>
+
+    <script src="../javascript/categorias.js" defer></script>
+    <script src="../javascript/registroProyecto.js"></script>
+    <script src="../javascript/recurso-imagen.js"></script>
+</body>
+</html>

@@ -24,6 +24,16 @@ router
   .route('/')
   .post(ProyectoController.crearProyecto);
 
+  router.post('/subirimagen', async (req, res) => {
+    try {
+        const imageUrl = await ProyectoController.subirImagenACloudinary(req.files.image.tempFilePath);
+        res.json({ imageUrl });
+    } catch (error) {
+        console.error('Error al subir la imagen:', error);
+        res.status(500).json({ mensaje: 'Error interno del servidor' });
+    }
+});
+
 router
   .route('/:idProyecto')
   .get(ProyectoController.obtenerProyectoPorId)
