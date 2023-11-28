@@ -87,7 +87,7 @@ CREATE TABLE `emprendedor` (
   `correoElectronico` varchar(45) NOT NULL,
   `nombreUsuario` varchar(45) NOT NULL,
   `contraseña` varchar(100) NOT NULL,
-  `imagenPerfil` blob NOT NULL,
+  `imagenPerfil` varchar(200) NOT NULL,
   PRIMARY KEY (`idEmprendedor`),
   UNIQUE KEY `nombreUsuario_UNIQUE` (`nombreUsuario`),
   UNIQUE KEY `correoElectronico_UNIQUE` (`correoElectronico`)
@@ -114,7 +114,7 @@ DROP TABLE IF EXISTS `imagenproyecto`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `imagenproyecto` (
   `idimagenProyecto` int NOT NULL AUTO_INCREMENT,
-  `imagen` blob NOT NULL,
+  `imagen` varchar(200) NOT NULL,
   `idProyecto` int NOT NULL,
   PRIMARY KEY (`idimagenProyecto`),
   KEY `idProyecto_idx` (`idProyecto`),
@@ -179,7 +179,7 @@ CREATE TABLE `patrocinador` (
   `correoElectronico` varchar(45) NOT NULL,
   `nombreUsuario` varchar(45) NOT NULL,
   `contraseña` varchar(100) NOT NULL,
-  `imagenPerfil` blob NOT NULL,
+  `imagenPerfil` varchar(200) NOT NULL,
   `proyectosPatrocinador` int NOT NULL,
   `montoTotalPatrocinado` float NOT NULL,
   `experienciaProyectos` varchar(45) NOT NULL,

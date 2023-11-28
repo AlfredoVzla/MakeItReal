@@ -58,17 +58,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(data => {
 
+
                     document.cookie = `token=${data.data.token}; path=/`;
-                    document.cookie = `imagenperfil=${data.data.emprendedor.imagenPerfil}; path=/`;
-                    document.cookie = `nombreusuario=${data.data.emprendedor.nombreUsuario}; path=/`;
+                    document.cookie = `imagenperfil=${data.data.patrocinador.imagenPerfil}; path=/`;
+                    document.cookie = `nombreusuario=${data.data.patrocinador.nombreUsuario}; path=/`;
                     // Puedes redirigir a otra página después del inicio de sesión si lo deseas
                     
                     window.location.href = 'index.html';
                 })
                 .catch(error => {
+                    console.log(error);
                     console.error('Error:', error);
                     console.log(error);
-                    // Puedes manejar errores de inicio de sesión aquí
                     alert('Error al iniciar sesión. Verifica tus credenciales.');
                 });
         }
