@@ -134,7 +134,6 @@ const obtenerEmprendedorPorNombreUsuario = async (req, res, next) => {
 };
 
 
-
 const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
   try {
     const secretKey = '123456';
@@ -153,7 +152,6 @@ const obtenerEmprendedorPorCredenciales = async (req, res, next) => {
           expiresIn: '1h'
         }
       );
-
       res.status(200).json({
         status: 'success',
         data: {
@@ -179,34 +177,36 @@ const actualizarEmprendedor = async (req, res, next) => {
 
     const contraseña = req.body.contraseña;
 
-    const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
-
     const emprendedor = await Emprendedor.findOne({
-      attributes: ['idEmprendedor', 'nombre', 'telefono', 'correoElectronico', 'nombreUsuario', 'imagenPerfil'],
       where: { nombreUsuario: usuario }
     });
 
-    if (emprendedor) {
-      console.log(emprendedor);
-      await Emprendedor.update({
-        nombre: req.body.nombre,
-        telefono: req.body.telefono,
-        correoElectronico: req.body.correoElectronico,
-        nombreUsuario: req.body.nombreUsuario,
-        contraseña: contraseñaEncriptada,
-        imagenPerfil: req.body.imagenPerfil
-      },{where: { nombreUsuario: usuario }});
-
-      res.status(200).json({
-        status: 'success',
-        data: {
-          emprendedor
-        }
-      });
-    } else {
-      res.status(404).json({
+    if(emprendedor && bcrypt.compareSync(contraseña,emprendedor.contraseña)){
+      if (emprendedor) {
+        await Emprendedor.update({
+          nombre: req.body.nombre,
+          telefono: req.body.telefono,
+          correoElectronico: req.body.correoElectronico,
+          nombreUsuario: req.body.nombreUsuario,
+          imagenPerfil: req.body.imagenPerfil
+        },{where: { nombreUsuario: usuario }});
+  
+        res.status(200).json({
+          status: 'success',
+          data: {
+            emprendedor
+          }
+        });
+      } else {
+        res.status(404).json({
+          status: 'fail',
+          message: 'Emprendedor no encontrado'
+        });
+      }
+    }else{
+      res.status(400).json({
         status: 'fail',
-        message: 'Emprendedor no encontrado'
+        message: 'Las contraseñas no coinciden'
       });
     }
   } catch (error) {

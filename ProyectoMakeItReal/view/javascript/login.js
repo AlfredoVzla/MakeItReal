@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const nombreUsuario = document.getElementById('nombreUsuario').value;
         const contrasena = document.getElementById('contrasena').value;
         const tipoUsuario = document.querySelector('input[name="tipoUsuario"]:checked').value;
-        
+
 
         if (tipoUsuario == 'emprendedor') {
             // Realizar el fetch para iniciar sesión
@@ -18,7 +18,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify({
                     nombreUsuario,
-                    contraseña:contrasena,
+                    contraseña: contrasena,
+                }),
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.status.includes('fail')) {
+                        alert('No se encontró usuario con esas credenciales');
+                    } else if (data.status.includes('success')) {
+                        // Almacenar el token en las cookies
+                        document.cookie = `token=${data.data.token}; path=/`;
+                        document.cookie = `imagenperfil=${data.data.emprendedor.imagenPerfil}; path=/`;
+                        document.cookie = `nombreusuario=${data.data.emprendedor.nombreUsuario}; path=/`;
+                        // Puedes redirigir a otra página después del inicio de sesión si lo deseas
+
+                        window.location.href = 'index.html';
+                    }
+                })
+                .catch(error => {
+                    alert('Error al iniciar sesión. Verifica tus credenciales.');
+                });
+        } else {
+            fetch('http://localhost:3000/patrocinador/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nombreUsuario,
+                    contraseña: contrasena,
                 }),
             })
                 .then(response => {
@@ -30,10 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data => {
                     // Almacenar el token en las cookies
                     document.cookie = `token=${data.data.token}; path=/`;
-                    document.cookie = `imagenperfil=${data.data.emprendedor.imagenPerfil}; path=/`;
-                    document.cookie = `nombreusuario=${data.data.emprendedor.nombreUsuario}; path=/`;
+                    document.cookie = `imagenperfil=${data.data.patrocinador.imagenPerfil}; path=/`;
+                    document.cookie = `nombreusuariopatrocinador=${data.data.patrocinador.nombreUsuario}; path=/`;
                     // Puedes redirigir a otra página después del inicio de sesión si lo deseas
-                    
                     window.location.href = 'index.html';
                 })
                 .catch(error => {

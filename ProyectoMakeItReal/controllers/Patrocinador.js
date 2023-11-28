@@ -2,7 +2,6 @@ const Patrocinador = require('../modelos/Patrocinador'); // Importa el modelo de
 const { AppError } = require('../utils/appError');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const Emprendedor = require('../modelos/Emprendedor');
 
 const crearPatrocinador = async (req, res, next) => {
   try {
@@ -70,6 +69,32 @@ const obtenerPatrocinadorPorId = async (req, res, next) => {
   }
 };
 
+const obtenerPatrocinadorPorNombreUsuario = async (req, res, next) => {
+  try {
+    const { usuario } = req.params;
+    const patrocinador = await Patrocinador.findOne({
+      attributes: ['idPatrocinador', 'nombre', 'telefono', 'correoElectronico', 'nombreUsuario','contraseña', 'imagenPerfil','experienciaProyectos'],
+      where: { nombreUsuario: usuario }
+    });
+    if (patrocinador) {
+      res.status(200).json({
+        status: 'success',
+        data: {
+          patrocinador
+        }
+      });
+    } else {
+      res.status(404).json({
+        status: 'fail',
+        message: 'Patrocinador no encontrado'
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return next(new AppError(`Error al obtener el patrocinador por id: ${error.message}`, 400));
+  }
+};
+
 const obtenerPatrocinadorPorCredenciales = async(req,res,next)=>{
   try{
     const secretKey = "123456";
@@ -107,32 +132,43 @@ const obtenerPatrocinadorPorCredenciales = async(req,res,next)=>{
 
 const actualizarPatrocinador = async(req,res,next)=>{
   try {
-    const { id } = req.params;
-    const patrocinador = await Patrocinador.findByPk(id);
+    const { usuario } = req.params;
+
+    const contraseña = req.body.contraseña;
+
+    const patrocinador = await Patrocinador.findOne({where:{
+      nombreUsuario:usuario
+    }})
   
-    if (patrocinador) {
-      await patrocinador.update({
-        nombre: req.body.nombre,
-        telefono: req.body.telefono,
-        correoElectronico: req.body.correoElectronico,
-        nombreUsuario: req.body.nombreUsuario,
-        contraseña: req.body.contraseña,
-        imagenPerfil: req.body.imagenPerfil,
-        proyectosPatrocinador: req.body.proyectosPatrocinador,
-        montoTotalPatrocinado: req.body.montoTotalPatrocinado,
-        experienciaProyectos: req.body.experienciaProyectos
-      });
-  
-      res.status(200).json({
-        status: 'success',
-        data: {
-          patrocinador
-        }
-      });
-    } else {
-      res.status(404).json({
+    if (patrocinador && bcrypt.compareSync(contraseña,patrocinador.contraseña)) {
+      if(patrocinador){
+        await Patrocinador.update({
+          nombre: req.body.nombre,
+          telefono: req.body.telefono,
+          correoElectronico: req.body.correoElectronico,
+          nombreUsuario: req.body.nombreUsuario,
+          imagenPerfil: req.body.imagenPerfil,
+          proyectosPatrocinador: req.body.proyectosPatrocinador,
+          montoTotalPatrocinado: req.body.montoTotalPatrocinado,
+          experienciaProyectos: req.body.experienciaProyectos
+        },{where:{nombreUsuario:usuario}});
+        res.status(200).json({
+          status: 'success',
+          data: {
+            patrocinador
+          }
+        });
+      }
+      else {
+        res.status(404).json({
+          status: 'fail',
+          message: 'Patrocinador no encontrado'
+        });
+      }
+    } else{
+      res.status(400).json({
         status: 'fail',
-        message: 'Patrocinador no encontrado'
+        message: 'Las contraseñas no coinciden'
       });
     }
   } catch (error) {
@@ -140,11 +176,11 @@ const actualizarPatrocinador = async(req,res,next)=>{
   }  
 };
 
-const eliminarPatrocinadorPorId = async (req, res, next) => {
+const eliminarPatrocinador = async (req, res, next) => {
   try {
     const { id } = req.params;
     const patrocinador = await Patrocinador.destroy({
-      where: { idPatrocinador:id } // Especifica las condiciones de eliminación correctamente
+      where: { nombreUsuario:id } // Especifica las condiciones de eliminación correctamente
     });
 
     if (patrocinador > 0) {
@@ -164,7 +200,7 @@ const eliminarPatrocinadorPorId = async (req, res, next) => {
   }
 };
 
-module.exports = {crearPatrocinador,obtenerPatrocinadores,obtenerPatrocinadorPorId,obtenerPatrocinadorPorCredenciales,eliminarPatrocinadorPorId,actualizarPatrocinador}
+module.exports = {obtenerPatrocinadorPorNombreUsuario,crearPatrocinador,obtenerPatrocinadores,obtenerPatrocinadorPorId,obtenerPatrocinadorPorCredenciales,eliminarPatrocinador,actualizarPatrocinador}
 
 // class PatrocinadorController {
 

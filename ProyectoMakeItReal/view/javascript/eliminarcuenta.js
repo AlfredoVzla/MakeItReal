@@ -2,27 +2,53 @@ function eliminarCuenta() {
 
     const usuario = getCookie("nombreusuario");
     const tuToken = getCookie("token");
+    const tokenPatrocinador = getCookie("nombreusuariopatrocinador");
 
-    // Realizar la solicitud fetch para eliminar la cuenta
-    fetch(`http://localhost:3000/emprendedor/${usuario}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `${tuToken}`
-        },
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al intentar eliminar la cuenta');
-        }
-        // Manejar la respuesta en caso de éxito
-        alert('Cuenta eliminada exitosamente');
-        cerrarSesion();
-        window.location.href = 'index.html';
-    })
-    .catch(error => {
-        console.error('Error:', error.message);
-    });
+    if (tokenPatrocinador) {
+        // Realizar la solicitud fetch para eliminar la cuenta
+        fetch(`http://localhost:3000/patrocinador/${tokenPatrocinador}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${tuToken}`
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al intentar eliminar la cuenta');
+                }
+                // Manejar la respuesta en caso de éxito
+                alert('Cuenta eliminada exitosamente');
+                cerrarSesion();
+                window.location.href = 'index.html';
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+            });
+    } else {
+        // Realizar la solicitud fetch para eliminar la cuenta
+        fetch(`http://localhost:3000/emprendedor/${usuario}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${tuToken}`
+            },
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al intentar eliminar la cuenta');
+                }
+                // Manejar la respuesta en caso de éxito
+                alert('Cuenta eliminada exitosamente');
+                cerrarSesion();
+                window.location.href = 'index.html';
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+            });
+    }
+
+
 }
 function getCookie(name) {
     const value = `; ${document.cookie}`;
