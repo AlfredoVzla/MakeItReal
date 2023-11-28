@@ -18,12 +18,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 
     const guardarNuevaCategoria = document.getElementById('guardarNuevaCategoria');
-    guardarNuevaCategoria.addEventListener('click', function () {
+    guardarNuevaCategoria.addEventListener('click', function (event) {
+        event.preventDefault();
         const nuevaCategoria = {
             nombre: nuevaNombreCategoria.value,
             descripcion: nuevaDescripcionCategoria.value
         };
-
+    
         fetch('http://localhost:3000/categoria', {
             method: 'POST',
             headers: {
@@ -31,31 +32,39 @@ document.addEventListener('DOMContentLoaded', async function () {
             },
             body: JSON.stringify(nuevaCategoria),
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Aquí puedes manejar la respuesta del servidor, por ejemplo, actualizar la lista de categorías en el select
-                
-                // Actualizar la lista de categorías en el select
-                const selectCategoria = document.getElementById('categoria');
-                const option = document.createElement('option');
-                option.value = nuevaCategoria.nombre;
-                option.textContent = nuevaCategoria.nombre;
-                selectCategoria.appendChild(option);
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    const errorMessageIndex = text.indexOf('Error:');
+                    if (errorMessageIndex !== -1) {
+                        const errorMessage = text.substring(errorMessageIndex, text.indexOf('<', errorMessageIndex));
+                        throw new Error(errorMessage);
+                    } else {
+                        throw new Error('Error desconocido');
+                    }
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            const selectCategoria = document.getElementById('categoria');
+            const option = document.createElement('option');
+            option.value = nuevaCategoria.nombre;
+            option.textContent = nuevaCategoria.nombre;
+            selectCategoria.appendChild(option);
+    //Limpiar campos y cerrar el modal
+            nuevaNombreCategoria.value = '';
+            nuevaDescripcionCategoria.value = '';
 
-                // Cerrar el modal después de guardar la nueva categoría
-                modalCategoria.style.display = 'none';
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // Aquí puedes mostrar un mensaje de error al usuario si es necesario
-            });
+            modalCategoria.style.display = 'none';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            
+            alert(`Error al agregar la categoría: ${error.message}`);
+        });
     });
-
+    
 
 
     try {

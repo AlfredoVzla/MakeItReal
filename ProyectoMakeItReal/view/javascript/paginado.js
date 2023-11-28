@@ -136,13 +136,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function renderizarProyectos(proyectosPagina) {
          // Limpiar el contenedor antes de agregar los nuevos proyectos
+         
     proyectosContainer.innerHTML = '';
 
+    const tipoUsuario = getCookie('tipoUsuario');
+    
         for (const proyecto of proyectosPagina) {
             const primeraImagen = await obtenerPrimeraImagenProyecto(proyecto.idProyecto);
             const proyectoDiv = document.createElement('div');
             proyectoDiv.classList.add('info-proyecto');
+            if (tipoUsuario === 'patrocinador') {
             proyectoDiv.innerHTML = `
+                <h3>${proyecto.titulo}</h3>
+                <img src="${primeraImagen}" alt="Imagen del Proyecto">
+                <p>${proyecto.descripcion}</p>
+                <div class="fechas-proyecto">
+                    <p>Fecha de inicio: ${proyecto.fechaInicio}</p>
+                    <p>Fecha de creación: ${proyecto.fechaCreación}</p>
+                </div>
+                <p><span>Objetivo: </span>${proyecto.objetivo}</p>
+                <p><span>Estado: </span>${proyecto.estado}</p>
+                <a href="#">Más información</a>
+                <p><span>Meta de financiamiento: </span>${proyecto.metaFinanciamiento}</p>
+                <p><span>Cantidad recaudada: </span>${proyecto.cantidadRecaudada}</p>
+                <button class="detalle-btn">Detalle</button>
+                <button class="financiar-btn">Financiar</button>
+                
+            `}else{
+                proyectoDiv.innerHTML = `
                 <h3>${proyecto.titulo}</h3>
                 <img src="${primeraImagen}" alt="Imagen del Proyecto">
                 <p>${proyecto.descripcion}</p>
@@ -157,15 +178,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 <p><span>Cantidad recaudada: </span>${proyecto.cantidadRecaudada}</p>
                 <button class="editar-btn">Editar</button>
                 <button class="detalle-btn">Detalle</button>
-                <button class="financiar-btn">Financiar</button>
                 
-            `;
+                `};
             proyectosContainer.appendChild(proyectoDiv);
            
 
             
-            proyectosContainer.appendChild(proyectoDiv);
-           
+            if (tipoUsuario !== 'patrocinador') {
             
             const editarBtn = proyectoDiv.querySelector('.editar-btn');
             editarBtn.removeEventListener('click', mostrarModalEditar); // Eliminar el evento anterior
@@ -175,12 +194,14 @@ document.addEventListener('DOMContentLoaded', function () {
             
               
             });
+        }
 
+            if (tipoUsuario === 'patrocinador') {
             const financiarBtn = proyectoDiv.querySelector('.financiar-btn');
         financiarBtn.addEventListener('click', async () => {
             await mostrarModalPago(proyecto);
         });
-
+    }
             const detalleBtn = proyectoDiv.querySelector('.detalle-btn');
           
             detalleBtn.addEventListener('click', async () => {
@@ -193,10 +214,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 urlParams.append('descripcion', proyecto.descripcion);
                 urlParams.append('fechaInicio', proyecto.fechaInicio);
                 urlParams.append('fechaCreacion', proyecto.fechaCreacion);
+                urlParams.append('masInformacion', proyecto.masInformacion);
                 urlParams.append('objetivo', proyecto.objetivo);
                 urlParams.append('estado', proyecto.estado);
                 urlParams.append('metaFinanciamiento', proyecto.metaFinanciamiento);
                 urlParams.append('cantidadRecaudada', proyecto.cantidadRecaudada);
+                urlParams.append('id_Categoria', proyecto.id_Categoria);
+                urlParams.append('id_Emprendedor', proyecto.idEmprendedor);
             
                 
                 window.location.href = `proyectoVisualizar.html?${urlParams.toString()}`;

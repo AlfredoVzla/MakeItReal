@@ -33,7 +33,7 @@
         </nav>
     </div>
 
-    <!-- Contenido del segundo código -->
+    
     <div class="contenedor">
         <form id="registroProyecto-form" action="/procesar_proyecto" method="post" enctype="multipart/form-data">
             <div class="seccion-1">
@@ -76,7 +76,7 @@
                             <div class="campo-categoria">
                                 <label for="categoria">Lista de categorías:</label>
                                 <select id="categoria" name="categoria"></select>
-                                <button id="abrirCategoriaModal">Agregar categoría</button>
+                                <button id="abrirCategoriaModal" type="button">Agregar categoría</button>
                             
                                 <div id="modalCategoria" class="modal">
                                     <div class="modal-content">
@@ -86,8 +86,8 @@
                                         <input type="text" id="nuevaNombreCategoria">
                                         <label for="nuevaDescripcionCategoria">Descripción:</label>
                                         <textarea id="nuevaDescripcionCategoria"></textarea>
-                                        <button id="guardarNuevaCategoria">Guardar</button>
-                                        <button id="cerrarModalCategoria">Cerrar</button>
+                                        <button id="guardarNuevaCategoria" type="button">Guardar</button>
+                                        <button id="cerrarModalCategoria" type="button">Cerrar</button>
                                     </div>
                                 </div>
                             </div>
@@ -102,9 +102,9 @@
                         <label for="input-imagen-proyecto">Subir imagen</label>
                         <input id="input-imagen-proyecto" type="file" name="imagenPerfil" accept="image/*">
                        
-                        <!-- Contenedor para la previsualización de las imágenes -->
+                        
                         <ul class="imagen-container" id="preview-container-proyecto"  src="">
-                            <!-- Aquí se agregarán las previsualizaciones -->
+                           
                         </ul>
                     </div>
                 </div>

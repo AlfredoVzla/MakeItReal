@@ -34,15 +34,15 @@
                 <div class="formulario">
                     <div class="campo-titulo">
                         <label for="titulo">Título:</label>
-                        <input type="text" id="titulo" name="titulo" required>
+                        <input type="text" id="titulo" name="titulo" readonly>
                     </div>
                     <div class="campo-descripcion">
                         <label for="descripcion">Descripción:</label>
-                        <textarea id="descripcion" name="descripcion" required></textarea>
+                        <textarea id="descripcion" name="descripcion" readonly></textarea>
                     </div>
                     <div class="campo">
                         <label for="fecha">Fecha:</label>
-                        <input type="date" id="fechaInicio" name="fechaInicio" required>
+                        <input type="date" id="fechaInicio" name="fechaInicio" readonly>
                     </div>
                 </div>
             </div>
@@ -52,10 +52,11 @@
                         <div class="informacion">
                             <div class="campo-objetivo">
                                 <label for="objetivo">Objetivo:</label>
-                                <textarea id="objetivo" name="objetivo" required></textarea>
+                                <textarea id="objetivo" name="objetivo" readonly></textarea>
                             </div>
                             <div class="campo-mas-informacion">
                                 <label for="masInformacion">Más información:</label>
+                                <input type="text" id="masInformacion" name="Mas informacion" readonly>
 
                             </div>
 
@@ -65,10 +66,11 @@
                         <div class="financiamiento">
                             <div class="campo">
                                 <label for="metaFinanciamiento">Meta de financiamiento:</label>
-                                <input type="text" id="metaFinanciamiento" name="metaFinanciamiento" required>
+                                <input type="text" id="metaFinanciamiento" name="metaFinanciamiento" readonly>
                             </div>
                             <div class="campo-categoria">
-                                <label for="categoria">Lista de categorías:</label>
+                                <label for="categoria">Categoría:</label>
+                                <input type="text" id="categoriaInput" name="categoria" readonly>
 
                             </div>
                         </div>

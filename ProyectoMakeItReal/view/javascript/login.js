@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const nombreUsuario = document.getElementById('nombreUsuario').value;
         const contrasena = document.getElementById('contrasena').value;
         const tipoUsuario = document.querySelector('input[name="tipoUsuario"]:checked').value;
-
+        document.cookie = `tipoUsuario=${tipoUsuario}; path=/`;
 
         if (tipoUsuario == 'emprendedor') {
             fetch('http://localhost:3000/emprendedor/login', {
@@ -58,17 +58,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(data => {
 
+
                     document.cookie = `token=${data.data.token}; path=/`;
-                    document.cookie = `imagenperfil=${data.data.emprendedor.imagenPerfil}; path=/`;
-                    document.cookie = `nombreusuario=${data.data.emprendedor.nombreUsuario}; path=/`;
+                    document.cookie = `imagenperfil=${data.data.patrocinador.imagenPerfil}; path=/`;
+                    document.cookie = `nombreusuario=${data.data.patrocinador.nombreUsuario}; path=/`;
                     // Puedes redirigir a otra página después del inicio de sesión si lo deseas
                     
                     window.location.href = 'index.html';
                 })
                 .catch(error => {
+                    console.log(error);
                     console.error('Error:', error);
                     console.log(error);
-                    // Puedes manejar errores de inicio de sesión aquí
                     alert('Error al iniciar sesión. Verifica tus credenciales.');
                 });
         }
