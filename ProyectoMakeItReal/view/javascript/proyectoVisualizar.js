@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const tuToken = getCookie('token');
 
+    document.cookie = `idproyecto=${params.get('id_Proyecto')}; path=/`;
+
     const idProyecto = params.get('id_Proyecto');
     const titulo = params.get('titulo');
     const descripcion = params.get('descripcion');
@@ -24,63 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
     option.textContent = categoria;
     selectCategoria.appendChild(option);
 
-    function agregarComentario() {
-        const textoComentario = document.getElementById('textoComentario').value;
-        const calificacionComentario = document.getElementById('calificacionComentario').value;
-
-        const data = {
-            texto: textoComentario,
-            fecha: obtenerFechaActual(),
-            calificacion: calificacionComentario,
-            id_Proyecto: idProyecto
-        };
-
-        fetch('http://localhost:3000/comentarios', {
-            method: 'POST',
-            headers: {
-                'Authorization': tuToken,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(errorData => {
-                    if (errorData && errorData.error) {
-                        throw new Error(errorData.error);
-                    } else {
-                        const statusCode = response.status;
-                        throw new Error('Error al enviar el comentario ' + statusCode);
-                    }
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Comentario enviado con éxito:', data);
-        })
-        .catch(error => {
-            console.error('Error al enviar el comentario:', error.message);
-        });
-    }
-
-    function obtenerFechaActual() {
-        const date = new Date();
-        const year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-
-        month = month < 10 ? `0${month}` : month;
-        day = day < 10 ? `0${day}` : day;
-
-        return `${year}-${month}-${day}`;
-    }
 
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
-
-    document.getElementById('botonComentar').addEventListener('click', agregarComentario);
 });

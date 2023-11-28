@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     var projectId="";
     
    const tuToken = getCookie('token');
-   console.log(tuToken);
    if (!tuToken) {
    
     window.location.href = 'index.html';
@@ -156,12 +155,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             
             const nuevoProyecto = data.data.proyecto;
              projectId = nuevoProyecto.idProyecto;
-        
-     
-             return   subirImagenesProyecto(); 
-        
-                
-            
+             return   subirImagenesProyecto();   
         })
         .then(() => {
           
@@ -186,8 +180,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                             
                         });
                     }
-                   
-                   
+
                 })
                 .catch(error => {
                     console.error('Error al subir la imagen:', error);

@@ -41,11 +41,11 @@ exports.obtenerComentarios = async (req, res, next) => {
 
 exports.obtenerComentarios = async (req, res, next) => {
     try {
-        const { id_proyecto } = req.params; 
+        const { id } = req.params; 
 
         const comentarios = await Comentario.findAll({
             where: {
-                id_Proyecto: id_proyecto 
+                id_Proyecto: id 
             }
         });
 

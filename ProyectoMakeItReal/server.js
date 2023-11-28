@@ -7,6 +7,7 @@ const routerPatrocinador = require('./routes/Patrocinador');
 const routerEmprendedor = require('./routes/Emprendedor');
 const routerPago = require('./routes/pago');
 const routerCategoria = require('./routes/categoria');
+const routerComentario = require('./routes/comentario');
 const cors = require('cors');
 const PORT = 3000;
 
@@ -23,6 +24,7 @@ app.use( fileUpload({
 }));
 app.use('/patrocinador',routerPatrocinador);
 app.use('/emprendedor',routerEmprendedor);
+app.use('/comentarios',routerComentario);
 app.listen(PORT, () => {
     console.log('Servidor de asistencias')
 })

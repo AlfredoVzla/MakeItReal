@@ -239,4 +239,5 @@ const eliminarEmprendedor = async (req, res, next) => {
 };
 
 
+
 module.exports = {obtenerEmprendedorPorNombreUsuario, obtenerEmprendedorPorCorreo,crearEmprendedor, obtenerEmprendedores, obtenerEmprendedorPorId, eliminarEmprendedor, actualizarEmprendedor, obtenerEmprendedorPorCredenciales,subirImagenACloudinary};

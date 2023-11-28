@@ -5,7 +5,7 @@ const verificarToken = require('../utils/verificarToken');
 const { handleErrors } = require('../utils/appError');
 
 router
-.route("/")
+.route("/:id")
 .get(ComentarioController.obtenerComentarios);
 
 router.use(verificarToken); 
