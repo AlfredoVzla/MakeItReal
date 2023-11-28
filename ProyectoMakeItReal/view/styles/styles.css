@@ -444,3 +444,27 @@ input[type="file"] {
     max-width: 100px;
     max-height: 100px;
 }
+
+/* Estilos para el footer */
+.footer {
+    background-color: #BAFFCC;
+    color: #000000;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.footer p {
+    font-size: 1.6rem;
+}
+
+.footer-nuevo {
+    background-color: #BAFFCC;
+    color: #000000;
+    padding: 20px 0;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
