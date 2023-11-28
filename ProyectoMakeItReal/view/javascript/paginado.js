@@ -209,6 +209,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalPago = document.getElementById('modalPago');
         modalPago.style.display = 'block';
     
+        const limpiarCampos = () => {
+            document.getElementById('monto').value = '';
+            document.getElementById('fecha').value = '';
+            document.getElementById('metodo').value = '';
+            document.getElementById('concepto').value = '';
+            document.getElementById('id_Patrocinador').value = '';
+        };
+    
         const btnCerrarModal = modalPago.querySelector('.close');
         btnCerrarModal.addEventListener('click', () => {
             modalPago.style.display = 'none';
@@ -221,7 +229,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const metodo = document.getElementById('metodo').value;
             const concepto = document.getElementById('concepto').value;
             const idPatrocinador = document.getElementById('id_Patrocinador').value;
-         
     
             const datosModal = {
                 monto,
@@ -229,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 método: metodo,
                 concepto,
                 id_Patrocinador: parseInt(idPatrocinador),
-                id_Proyecto:proyecto.idProyecto
+                id_Proyecto: proyecto.idProyecto
             };
     
             try {
@@ -246,7 +253,30 @@ document.addEventListener('DOMContentLoaded', function () {
                     throw new Error('Error al enviar los datos de pago');
                 }
     
+                const proyectoActualizado = {
+                    ...proyecto,
+                    cantidadRecaudada: proyecto.cantidadRecaudada + parseFloat(monto)
+                };
+    
+                const responseProyecto = await fetch(`http://localhost:3000/proyectos/${proyecto.idProyecto}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': tuToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(proyectoActualizado)
+                });
+    
+                if (responseProyecto.ok) {
+                    window.location.reload();
+                    obtenerProyectosDesdeBD();
+                    console.log('Se actualizó el proyecto');
+                } else {
+                    alert('Ocurrió un error al editar el proyecto. Por favor, inténtalo de nuevo.');
+                }
+    
                 modalPago.style.display = 'none';
+                limpiarCampos();
             } catch (error) {
                 console.error('Error:', error.message);
             }
@@ -255,8 +285,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const btnCerrarModalPago = modalPago.querySelector('#cerrarModalPago');
         btnCerrarModalPago.addEventListener('click', () => {
             modalPago.style.display = 'none';
+            limpiarCampos();
         });
     }
+    
     
 
     function getCookie(name) {
