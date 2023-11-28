@@ -23,13 +23,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                if (tipoUsuario === 'patrocinador') {
-                    proyectos.splice(0, proyectos.length);
-                    proyectos.push(...data.data.proyectos);
-                } else {
+                if(tipoUsuario === 'emprendedor'){
                     const proyectosFiltrados = data.data.proyectos.filter(proyecto => proyecto.id_Emprendedor === idEmprendedor);
                     proyectos.splice(0, proyectos.length);
                     proyectos.push(...proyectosFiltrados);
+                }else{
+                    proyectos.splice(0, proyectos.length);
+                    proyectos.push(...data.data.proyectos);
                 }
                 actualizarPagina();
             })
@@ -146,13 +146,31 @@ document.addEventListener('DOMContentLoaded', function () {
     proyectosContainer.innerHTML = '';
 
     const tipoUsuario = getCookie('tipoUsuario');
-    
+   
         for (const proyecto of proyectosPagina) {
             const primeraImagen = await obtenerPrimeraImagenProyecto(proyecto.idProyecto);
             const proyectoDiv = document.createElement('div');
             proyectoDiv.classList.add('info-proyecto');
-            if (tipoUsuario === 'patrocinador') {
-            proyectoDiv.innerHTML = `
+            if (tipoUsuario !== 'patrocinador' && tipoUsuario !== 'emprendedor')
+            {
+                proyectoDiv.innerHTML = `
+                    <h3>${proyecto.titulo}</h3>
+                    <img src="${primeraImagen}" alt="Imagen del Proyecto">
+                    <p>${proyecto.descripcion}</p>
+                    <div class="fechas-proyecto">
+                        <p>Fecha de inicio: ${proyecto.fechaInicio}</p>
+                        <p>Fecha de creación: ${proyecto.fechaCreación}</p>
+                    </div>
+                    <p><span>Objetivo: </span>${proyecto.objetivo}</p>
+                    <p><span>Estado: </span>${proyecto.estado}</p>
+                    <a href="#">Más información</a>
+                    <p><span>Meta de financiamiento: </span>${proyecto.metaFinanciamiento}</p>
+                    <p><span>Cantidad recaudada: </span>${proyecto.cantidadRecaudada}</p>
+                   
+                    
+                `}
+                 else  if (tipoUsuario === 'patrocinador') {
+              proyectoDiv.innerHTML = `
                 <h3>${proyecto.titulo}</h3>
                 <img src="${primeraImagen}" alt="Imagen del Proyecto">
                 <p>${proyecto.descripcion}</p>
@@ -190,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
            
 
             
-            if (tipoUsuario !== 'patrocinador') {
+            if (tipoUsuario === 'emprendedor' ) {
             
             const editarBtn = proyectoDiv.querySelector('.editar-btn');
             editarBtn.removeEventListener('click', mostrarModalEditar); // Eliminar el evento anterior
@@ -208,7 +226,9 @@ document.addEventListener('DOMContentLoaded', function () {
             await mostrarModalPago(proyecto);
         });
     }
+    if (tipoUsuario === 'emprendedor' ||tipoUsuario === 'patrocinador' ) {
             const detalleBtn = proyectoDiv.querySelector('.detalle-btn');
+    
           
             detalleBtn.addEventListener('click', async () => {
                 
@@ -231,6 +251,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 window.location.href = `proyectoVisualizar.html?${urlParams.toString()}`;
             });
+        }
         }
     }
     
