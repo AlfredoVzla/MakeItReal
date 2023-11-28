@@ -2,13 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const radioPatrocinador = document.getElementById('patrocinador');
     const camposPatrocinador = document.getElementById('camposPatrocinador');
 
-    // Obtener el nombre de usuario y el token desde las cookies
     const tuDato = getCookie('nombreusuario');
+    const datoPatrocinador = getCookie('nombreusuariopatrocinador');
     const tuToken = getCookie('token');
     const form = document.querySelector('form');
 
     radioPatrocinador.addEventListener('change', function () {
-        // Verificar si el radio button está seleccionado
         if (radioPatrocinador.checked) {
             camposPatrocinador.style.display = 'block';
         } else {
@@ -19,61 +18,135 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        // Obtener los valores del formulario
-        const nombre = document.getElementById('nombre');
-        const telefono = document.getElementById('telefono');
-        const correoElectronico = document.getElementById('correoElectronico');
-        const nombreUsuario = document.getElementById('nombreUsuario');
-        const contrasena = document.getElementById('contrasena');
-        const imagenPreview = document.getElementById('imagen-preview');
-        const experiencia = document.getElementById('experienciasProyectos');
+        if (!radioPatrocinador.checked) {
+            const nombre = document.getElementById('nombre');
+            const telefono = document.getElementById('telefono');
+            const correoElectronico = document.getElementById('correoElectronico');
+            const nombreUsuario = document.getElementById('nombreUsuario');
+            const contrasena = document.getElementById('contrasena');
+            const imagenPreview = document.getElementById('imagen-preview');
+            const experiencia = document.getElementById('experienciasProyectos');
 
-        // Crear un objeto con los datos del formulario
-        const formData = {
-            nombre: nombre.value,
-            telefono: telefono.value,
-            correoElectronico: correoElectronico.value,
-            nombreUsuario: nombreUsuario.value,
-            contraseña: contrasena.value,
-            imagenPerfil: imagenPreview.src,
-            proyectosPatrocinador: 0,
-            montoTotalPatrocinado: 0,
-            experienciaProyectos: experiencia.value
-        };
+            if (contrasena.value === '') {
+                alert("Ingresa tu contraseña para guardar tus cambios");
+                return;
+            }
 
-        // Realizar el fetch a la URL con el nombre de usuario obtenido de las cookies
-        const url = `http://localhost:3000/emprendedor/${tuDato}`;
+            const formData = {
+                nombre: nombre.value,
+                telefono: telefono.value,
+                correoElectronico: correoElectronico.value,
+                nombreUsuario: nombreUsuario.value,
+                contraseña: contrasena.value,
+                imagenPerfil: imagenPreview.src,
+            };
 
-        fetch(url, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `${tuToken}`
-            },
-            body: JSON.stringify(formData),
-        })
-            .then(response => response.json())
-            .then(data => {
-                // Limpiar los campos después de enviar el formulario con éxito
-                nombre.value = '';
-                telefono.value = '';
-                correoElectronico.value = '';
-                nombreUsuario.value = '';
-                contrasena.value = '';
-                imagenPreview.src = '';
-                experiencia.value = '';
-
-                window.location.href = 'index.html';
+            const url = `http://localhost:3000/emprendedor/${tuDato}`;
+            fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${tuToken}`
+                },
+                body: JSON.stringify(formData),
             })
-            .catch(error => {
-                console.log(error);
-            });
-    });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status.includes('success')) {
+                        alert("Se han actualizado los datos");
+                        cerrarSesion();
 
-    // Función para obtener el valor de una cookie por su nombre
+                        window.location.href = 'index.html';
+                        nombre.value = '';
+                        telefono.value = '';
+                        correoElectronico.value = '';
+                        nombreUsuario.value = '';
+                        contrasena.value = '';
+                        imagenPreview.src = '';
+                        experiencia.value = '';
+                    }
+                    else if (data.status.includes('fail')) {
+                        alert("Las contraseñas no coinciden. Inténtelo de nuevo.");
+                        return;
+                    } else {
+                        alert("Ocurrió un error en la actualización. Intente de nuevo.");
+                    }
+
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            const nombre = document.getElementById('nombre');
+            const telefono = document.getElementById('telefono');
+            const correoElectronico = document.getElementById('correoElectronico');
+            const nombreUsuario = document.getElementById('nombreUsuario');
+            const contrasena = document.getElementById('contrasena');
+            const imagenPreview = document.getElementById('imagen-preview');
+            const experiencia = document.getElementById('experienciasProyectos');
+
+            const formData = {
+                nombre: nombre.value,
+                telefono: telefono.value,
+                correoElectronico: correoElectronico.value,
+                nombreUsuario: nombreUsuario.value,
+                contraseña: contrasena.value,
+                imagenPerfil: imagenPreview.src,
+                experienciaProyectos: experiencia.value
+            };
+
+            const url = `http://localhost:3000/patrocinador/${datoPatrocinador}`;
+            fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `${tuToken}`
+                },
+                body: JSON.stringify(formData),
+            })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.status.includes('success')) {
+                        alert("Se han actualizado los datos");
+                        cerrarSesion();
+
+                        window.location.href = 'index.html';
+                        nombre.value = '';
+                        telefono.value = '';
+                        correoElectronico.value = '';
+                        nombreUsuario.value = '';
+                        contrasena.value = '';
+                        imagenPreview.src = '';
+                        experiencia.value = '';
+                    }
+                    else if (data.status.includes('fail')) {
+                        alert("Las contraseñas no coinciden. Inténtelo de nuevo.");
+                        return;
+                    } else {
+                        alert("Ocurrió un error en la actualización. Intente de nuevo.");
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+
+                });
+
+        }
+
+    });
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    function cerrarSesion() {
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'imagenperfil=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'nombreusuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'nombreusuariopatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.href = 'index.html';
     }
 });

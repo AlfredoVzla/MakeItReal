@@ -21,8 +21,8 @@ app.use( fileUpload({
     tempFileDir : '/tmp/',
     createParentPath: true
 }));
-app.use('/emprendedor',routerEmprendedor);
 app.use('/patrocinador',routerPatrocinador);
+app.use('/emprendedor',routerEmprendedor);
 app.listen(PORT, () => {
     console.log('Servidor de asistencias')
 })

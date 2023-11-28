@@ -4,8 +4,6 @@ const { handleErrors } = require('../utils/appError');
 const router = express.Router();
 const verificarToken = require('../utils/verificarToken');
 
-
-
 // Definir las rutas
 router
   .route('/')
@@ -14,15 +12,17 @@ router
 
 router.post('/login', PatrocinadorController.obtenerPatrocinadorPorCredenciales);
 
+router.route('/:usuario').get(PatrocinadorController.obtenerPatrocinadorPorNombreUsuario);
+
 router.use(verificarToken);
 
 //rutas protegidas
 
 router
 .route('/:id')
-.get(PatrocinadorController.obtenerPatrocinadorPorId)
-.patch(PatrocinadorController.actualizarPatrocinador)
-.delete(PatrocinadorController.eliminarPatrocinadorPorId);
+.delete(PatrocinadorController.eliminarPatrocinador);
+
+router.route('/:usuario').patch(PatrocinadorController.actualizarPatrocinador)
 
 router.use(handleErrors);
 
