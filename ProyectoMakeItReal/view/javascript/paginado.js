@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function obtenerProyectosDesdeBD() {
         const idEmprendedor = parseInt(getCookieID('idEmprendedor'));
+        const tipoUsuario = getCookie('tipoUsuario');
     
         fetch('http://localhost:3000/proyectos')
             .then(response => {
@@ -22,9 +23,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                const proyectosFiltrados = data.data.proyectos.filter(proyecto => proyecto.id_Emprendedor === idEmprendedor);
-                proyectos.splice(0, proyectos.length); // Limpiar el arreglo existente
-                proyectos.push(...proyectosFiltrados); // Agregar los nuevos proyectos filtrados al arreglo
+                if (tipoUsuario === 'patrocinador') {
+                    proyectos.splice(0, proyectos.length);
+                    proyectos.push(...data.data.proyectos);
+                } else {
+                    const proyectosFiltrados = data.data.proyectos.filter(proyecto => proyecto.id_Emprendedor === idEmprendedor);
+                    proyectos.splice(0, proyectos.length);
+                    proyectos.push(...proyectosFiltrados);
+                }
                 actualizarPagina();
             })
             .catch(error => {
