@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         if (tipoUsuario == 'emprendedor') {
-            // Realizar el fetch para iniciar sesión
             fetch('http://localhost:3000/emprendedor/login', {
                 method: 'POST',
                 headers: {
@@ -28,11 +27,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.status.includes('fail')) {
                         alert('No se encontró usuario con esas credenciales');
                     } else if (data.status.includes('success')) {
-                        // Almacenar el token en las cookies
+
                         document.cookie = `token=${data.data.token}; path=/`;
                         document.cookie = `imagenperfil=${data.data.emprendedor.imagenPerfil}; path=/`;
                         document.cookie = `nombreusuario=${data.data.emprendedor.nombreUsuario}; path=/`;
-                        // Puedes redirigir a otra página después del inicio de sesión si lo deseas
+
 
                         window.location.href = 'index.html';
                     }
@@ -58,17 +57,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     return response.json();
                 })
                 .then(data => {
-                    // Almacenar el token en las cookies
+
                     document.cookie = `token=${data.data.token}; path=/`;
                     document.cookie = `imagenperfil=${data.data.patrocinador.imagenPerfil}; path=/`;
                     document.cookie = `nombreusuariopatrocinador=${data.data.patrocinador.nombreUsuario}; path=/`;
-                    // Puedes redirigir a otra página después del inicio de sesión si lo deseas
+
                     window.location.href = 'index.html';
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     console.log(error);
-                    // Puedes manejar errores de inicio de sesión aquí
+
                     alert('Error al iniciar sesión. Verifica tus credenciales.');
                 });
         }

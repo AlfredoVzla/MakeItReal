@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const radioPatrocinador = document.getElementById('patrocinador');
     const camposPatrocinador = document.getElementById('camposPatrocinador');
     const form = document.querySelector('form');
-    // Obtener los valores del formulario
+  
     const nombre = document.getElementById('nombre');
     const telefono = document.getElementById('telefono');
     const correoElectronico = document.getElementById('correoElectronico');
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const experiencia = document.getElementById('experienciasProyectos');
 
     radioPatrocinador.addEventListener('change', function () {
-        // Verificar si el radio button está seleccionado
+
         if (radioPatrocinador.checked) {
             camposPatrocinador.style.display = 'block';
         } else {
@@ -30,21 +30,19 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function validarEmprendedor() {
-        // Lógica de validación para emprendedores
 
-        // Obtener el src de la imagen-preview
         let imagenPerfil = imagenPreview.getAttribute('src');
 
         if (imagenPerfil && imagenPerfil.trim() !== "") {
-            // La imagen-preview tiene un src no vacío
+
             console.log(imagenPerfil);
         } else {
-            // La imagen-preview no tiene un src o está vacío
+
             imagenPerfil = 'https://res.cloudinary.com/dintcsgzb/image/upload/v1701012876/imagenesperfiles/gm73y9qjdhiopzczratk.png';
             console.log(imagenPerfil);
         }
 
-        // Resto del código para emprendedores
+
 
         const formDataEmprendedor = {
             nombre: nombre.value,
@@ -57,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const urlEmprendedor = 'http://localhost:3000/emprendedor/';
 
-        // Realizar el fetch a la URL para emprendedores
         fetch(urlEmprendedor, {
             method: 'POST',
             headers: {
@@ -85,21 +82,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function validarPatrocinador() {
-        // Lógica de validación para patrocinadores
 
-        // Obtener el src de la imagen-preview
         let imagenPerfil = imagenPreview.getAttribute('src');
 
         if (imagenPerfil && imagenPerfil.trim() !== "") {
-            // La imagen-preview tiene un src no vacío
-            console.log(imagenPerfil);
         } else {
-            // La imagen-preview no tiene un src o está vacío
             imagenPerfil = 'https://res.cloudinary.com/dintcsgzb/image/upload/v1701012876/imagenesperfiles/gm73y9qjdhiopzczratk.png';
-            console.log(imagenPerfil);
         }
 
-        // Resto del código para patrocinadores
+
 
         const formDataPatrocinador = {
             nombre: nombre.value,
@@ -115,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const urlPatrocinador = 'http://localhost:3000/patrocinador/';
 
-        // Realizar el fetch a la URL para patrocinadores
         fetch(urlPatrocinador, {
             method: 'POST',
             headers: {
