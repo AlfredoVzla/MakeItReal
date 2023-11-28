@@ -104,7 +104,7 @@ function subirImagenesProyecto() {
         if (images.length > 0) {
             const imageFiles = Array.from(images).map(img => img.src);
 
-            // Subir cada imagen
+           
             const promesasSubida = imageFiles.map(imgSrc => {
                 return fetch(imgSrc)
                     .then(res => res.blob())
@@ -122,7 +122,7 @@ function subirImagenesProyecto() {
                     reject(error); 
                 });
         } else {
-            // Si no hay imágenes, resolver la promesa con un arreglo vacío
+           
             resolve([]);
         }
     });

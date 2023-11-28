@@ -1,22 +1,107 @@
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
 
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('registroProyecto-form');
-    var projectId="";
-    //const tuToken = getCookie('token');
+document.addEventListener('DOMContentLoaded', async function () {
+    
+    const modalCategoria = document.getElementById('modalCategoria');
+    const abrirCategoriaModal = document.getElementById('abrirCategoriaModal');
+    const nuevaNombreCategoria = document.getElementById('nuevaNombreCategoria');
+    const nuevaDescripcionCategoria = document.getElementById('nuevaDescripcionCategoria');
 
-    const tuToken ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub21icmUiOiJNYXJpYTIiLCJpYXQiOjE3MDExMjc3NzgsImV4cCI6MTcwMTEzMTM3OH0.MsN7t63Py2NgDwEpqMSmZzv6gF2Ozv9C_ZuciDeXuhQ';
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
+    abrirCategoriaModal.addEventListener('click', function () {
+        modalCategoria.style.display = 'block'; 
+    });
+
+    
+    const cerrarModalCategoria = document.getElementById('cerrarModalCategoria');
+    cerrarModalCategoria.addEventListener('click', function () {
+        modalCategoria.style.display = 'none';
+    });
+
+
+    const guardarNuevaCategoria = document.getElementById('guardarNuevaCategoria');
+    guardarNuevaCategoria.addEventListener('click', function () {
+        const nuevaCategoria = {
+            nombre: nuevaNombreCategoria.value,
+            descripcion: nuevaDescripcionCategoria.value
+        };
+
+        fetch('http://localhost:3000/categoria', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(nuevaCategoria),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Aquí puedes manejar la respuesta del servidor, por ejemplo, actualizar la lista de categorías en el select
+                
+                // Actualizar la lista de categorías en el select
+                const selectCategoria = document.getElementById('categoria');
+                const option = document.createElement('option');
+                option.value = nuevaCategoria.nombre;
+                option.textContent = nuevaCategoria.nombre;
+                selectCategoria.appendChild(option);
+
+                // Cerrar el modal después de guardar la nueva categoría
+                modalCategoria.style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Aquí puedes mostrar un mensaje de error al usuario si es necesario
+            });
+    });
+
+
+
+    try {
+        const categorias = await cargarCategorias();
+
+        if (categorias === null) {
+            console.error('Error al cargar categorías');
+            return;
+        }
+
+        if (categorias.length === 0) {
+            console.log('No se encontraron categorías');
+            return;
+        }
 
         
-     
+
+    } catch (error) {
+        console.error('Error al cargar categorías:', error);
+    }
+
+
+   
+    const form = document.getElementById('registroProyecto-form');
+    var projectId="";
+    
+   const tuToken = getCookie('token');
+   console.log(tuToken);
+   if (!tuToken) {
+   
+    window.location.href = 'index.html';
+    return;
+}
+
+    form.addEventListener('submit',  async function (event) {
+        event.preventDefault();
+
 
         const previewContainer = document.getElementById('preview-container-proyecto');
+
+      
+
+        
+        const idEmprendedor = parseInt(getCookieID('idEmprendedor'));
+        
+        console.log("ID EMPRENDEDOR: "+idEmprendedor);
 
         const titulo = document.getElementById('titulo').value;
         const descripcion = document.getElementById('descripcion').value;
@@ -24,8 +109,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const objetivo = document.getElementById('objetivo').value;
         const masInformacion = document.getElementById('masInformacion').value;
         const metaFinanciamiento = document.getElementById('metaFinanciamiento').value;
+
+        const categoria_Seleccionada = document.getElementById('categoria');
+        const id_Categoria = categoria_Seleccionada.value; 
        
-        
 
         const data = {
             titulo: titulo,
@@ -37,8 +124,8 @@ document.addEventListener('DOMContentLoaded', function () {
             masInformacion: masInformacion,
             metaFinanciamiento: metaFinanciamiento,
             cantidadRecaudada: 0.0,
-            id_Categoria: 1,
-            id_Emprendedor: 1
+            id_Categoria: id_Categoria,
+            id_Emprendedor: idEmprendedor
         };
 
         fetch('http://localhost:3000/proyectos/', {
@@ -100,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         });
                     }
                    
+                   
                 })
                 .catch(error => {
                     console.error('Error al subir la imagen:', error);
@@ -122,3 +210,62 @@ while (previewContainer.firstChild) {
         });
     });
 });
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function getCookieID(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return '';
+}
+
+
+
+async function cargarCategorias() {
+    const baseUrl = 'http://localhost:3000/categoria';
+    const selectCategoria = document.getElementById('categoria');
+
+    try {
+        const response = await fetch(baseUrl);
+
+        if (response.ok) {
+            const data = await response.json();
+
+            if (data.status === 'success' && data.data.categorias.length > 0) {
+                const categorias = data.data.categorias;
+
+                categorias.forEach(categoria => {
+                    const option = document.createElement('option');
+                    option.value = categoria.idCategoria;
+                    option.textContent = categoria.nombre;
+                    option.dataset.idCategoria = categoria.idCategoria; 
+                    selectCategoria.appendChild(option);
+                });
+
+                return categorias;
+            } else {
+                return [];
+            }
+        } else {
+            console.error(`Error`);
+            return null;
+        }
+    } catch (error) {
+        console.error("Error al buscar categorías:", error);
+        return null;
+    }
+}
+
+
+
+
+    

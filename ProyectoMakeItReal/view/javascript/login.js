@@ -32,14 +32,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.cookie = `token=${data.data.token}; path=/`;
                     document.cookie = `imagenperfil=${data.data.emprendedor.imagenPerfil}; path=/`;
                     document.cookie = `nombreusuario=${data.data.emprendedor.nombreUsuario}; path=/`;
-                    // Puedes redirigir a otra página después del inicio de sesión si lo deseas
+                    document.cookie = `idEmprendedor=${data.data.emprendedor.idEmprendedor}; path=/`;
+                    
+                   
                     
                     window.location.href = 'index.html';
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     console.log(error);
-                    // Puedes manejar errores de inicio de sesión aquí
+                   
                     alert('Error al iniciar sesión. Verifica tus credenciales.');
                 });
         }

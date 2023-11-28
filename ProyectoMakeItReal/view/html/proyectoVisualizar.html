@@ -65,7 +65,7 @@
                             </div>
                             <div class="campo-mas-informacion">
                                 <label for="masInformacion">Más información:</label>
-                                <textarea id="masInformacion" name="masInformacion" required></textarea>
+                                
                             </div>
                             
                         </div>
@@ -78,39 +78,33 @@
                             </div>
                             <div class="campo-categoria">
                                 <label for="categoria">Lista de categorías:</label>
-                                <select id="categoria" name="categoria"></select>
-                                <button id="abrirCategoriaModal">Agregar categoría</button>
-                            
-                                <div id="modalCategoria" class="modal">
-                                    <div class="modal-content">
-                                        <span class="close">&times;</span>
-                                        <h2>Agregar Nueva Categoría</h2>
-                                        <label for="nuevaNombreCategoria">Nombre:</label>
-                                        <input type="text" id="nuevaNombreCategoria">
-                                        <label for="nuevaDescripcionCategoria">Descripción:</label>
-                                        <textarea id="nuevaDescripcionCategoria"></textarea>
-                                        <button id="guardarNuevaCategoria">Guardar</button>
-                                        <button id="cerrarModalCategoria">Cerrar</button>
-                                    </div>
-                                </div>
+                                
                             </div>
-                            
-                            
                         </div>
                     </div>
                 </div>
                 
                 <div class="cafe">
                     <div class="container-foto">
-                        <label for="input-imagen-proyecto">Subir imagen</label>
-                        <input id="input-imagen-proyecto" type="file" name="imagenPerfil" accept="image/*">
-                       
-                        <!-- Contenedor para la previsualización de las imágenes -->
-                        <ul class="imagen-container" id="preview-container-proyecto"  src="">
-                            <!-- Aquí se agregarán las previsualizaciones -->
-                        </ul>
+                        <label>Comentarios</label>
+                        <div class="nuevo-comentario">
+                            <input type="text" id="textoComentario" placeholder="Texto del comentario">
+                            <input type="number" id="calificacionComentario" placeholder="Calificación">
+                            <button id="botonComentar" onclick="agregarComentario()">Comentar</button>
+                        </div>
+                        <div class="comentarios-lista">
+                            <!-- Aquí se mostrarán los comentarios -->
+                            <div class="comentario">
+                                <p>Usuario 1: ¡Este proyecto es increíble!</p>
+                            </div>
+                            <div class="comentario">
+                                <p>Usuario 2: Me encanta el enfoque que le dieron.</p>
+                            </div>
+                            <!-- Puedes añadir más comentarios de manera similar -->
+                        </div>
                     </div>
                 </div>
+                
 
             </div>
             <div class="contenedor-boton">
@@ -120,7 +114,7 @@
         </form>
     </div>
 
-    <script src="../javascript/registroProyecto.js"></script>
-    <script src="../javascript/recurso-imagen.js"></script>
+    <script src="../javascript/proyectoVisualizar.js"></script>
+
 </body>
 </html>

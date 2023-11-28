@@ -56,6 +56,52 @@
         <button id="pagina-siguiente">Siguiente</button>
       </div>
 
+      <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Proyecto</h2>
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo">
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion"></textarea>
+            <label for="objetivo">Objetivo:</label>
+            <input type="text" id="objetivo">
+            <label for="estado">Estado:</label>
+            <input type="text" id="estado">
+            <label for="metaFinanciamiento">Meta de financiamiento:</label>
+            <input type="text" id="metaFinanciamiento">
+           
+            <button id="guardarCambios">Guardar cambios</button>
+            <button id="cerrarModal">Cerrar</button>
+        </div>
+    </div>
+
+    
+
+<div id="modalPago" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Pago de Patrocinio</h2>
+        <label for="monto">Monto:</label>
+        <input type="text" id="monto">
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha">
+        <label for="metodo">Método:</label>
+        <input type="text" id="metodo">
+        <label for="concepto">Concepto:</label>
+        <input type="text" id="concepto">
+        <label for="id_Patrocinador">ID Patrocinador:</label>
+        <input type="text" id="id_Patrocinador">
+        
+       
+        <button id="guardarPago">Guardar pago</button>
+        <button id="cerrarModalPago">Cerrar</button>
+    </div>
+</div>
+
+    
+    
+    
       </body>
       <script src="../javascript/paginado.js" defer></script>
       <script defer>

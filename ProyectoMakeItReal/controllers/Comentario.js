@@ -23,7 +23,7 @@ exports.crearComentario = async (req, res, next) => {
         return next(new AppError(`Error al crear el comentario: ${error.message}`, 400));
     }
 };
-
+/*
 exports.obtenerComentarios = async (req, res, next) => {
     try {
         const comentarios = await Comentario.findAll();
@@ -36,6 +36,27 @@ exports.obtenerComentarios = async (req, res, next) => {
         });
     } catch (error) {
         return next (new AppError ('Error al obtener los comentarios', 400));
+    }
+};*/
+
+exports.obtenerComentarios = async (req, res, next) => {
+    try {
+        const { id_proyecto } = req.params; 
+
+        const comentarios = await Comentario.findAll({
+            where: {
+                id_Proyecto: id_proyecto 
+            }
+        });
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                comentarios
+            }
+        });
+    } catch (error) {
+        return next(new AppError(`Error al obtener los comentarios: ${error.message}`, 400));
     }
 };
 
