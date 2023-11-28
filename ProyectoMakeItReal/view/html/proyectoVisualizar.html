@@ -24,9 +24,17 @@
                         MakeItReal
                     </h1>
                 </a>
+                
             </div>
         </div>
     </header>
+    <div class="nav-bg">
+        <nav class="navegacion-principal">
+          <a href="registroProyecto.html">Proyectos</a>
+          <a href="pagos.html">Pagos</a>
+          <a href="categorias.html">Categorías</a>
+        </nav>
+      </div>
     <!-- Contenido del segundo código -->
     <div class="contenedor">
         <form id="registroProyecto-form" action="/procesar_proyecto" method="post" enctype="multipart/form-data">
@@ -95,9 +103,7 @@
 
 
             </div>
-            <div class="contenedor-boton">
-                <input type="submit" value="Registrar Proyecto" class="btn-submit">
-            </div>
+           
 
         </form>
     </div>
@@ -198,6 +204,12 @@
             if (parts.length === 2) return parts.pop().split(';').shift();
         }
     </script>
+
+    <footer class="footer">
+        <div class="contenedor">
+          <p class="no-margin centrar-texto">© 2023 MakeItReal. Todos los derechos reservados.</p>
+        </div>
+      </footer>
 </body>
 
 </html>

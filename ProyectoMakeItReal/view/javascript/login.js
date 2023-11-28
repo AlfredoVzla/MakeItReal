@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.cookie = `token=${data.data.token}; path=/`;
                     document.cookie = `imagenperfil=${data.data.patrocinador.imagenPerfil}; path=/`;
                     document.cookie = `nombreusuario=${data.data.patrocinador.nombreUsuario}; path=/`;
+                    document.cookie = `idPatrocinador=${data.data.patrocinador.idPatrocinador}; path=/`;
                     // Puedes redirigir a otra página después del inicio de sesión si lo deseas
                     
                     window.location.href = 'index.html';

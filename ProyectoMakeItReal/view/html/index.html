@@ -84,11 +84,15 @@
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha">
         <label for="metodo">Método:</label>
-        <input type="text" id="metodo">
+        <select id="metodo">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Transferencia">Transferencia</option>
+        </select>
         <label for="concepto">Concepto:</label>
         <input type="text" id="concepto">
-        <label for="id_Patrocinador">ID Patrocinador:</label>
-        <input type="text" id="id_Patrocinador">
+        <label for="id_Patrocinador" >ID Patrocinador:</label>
+        <input type="text" id="id_Patrocinador" readonly>
         
        
         <button id="guardarPago">Guardar pago</button>
@@ -143,7 +147,7 @@
             document.cookie = 'nombreusuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             document.cookie = 'nombreusuariopatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             document.cookie = 'imagenperfilpatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-            document.cookie = 'idpatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'idPatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             document.cookie = 'idEmprendedor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             document.cookie = 'tipoUsuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             // Redirigir a la página de inicio de sesión u otra página después de cerrar sesión

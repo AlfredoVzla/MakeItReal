@@ -239,6 +239,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalPago = document.getElementById('modalPago');
         modalPago.style.display = 'block';
     
+         // Obtener el valor del cookie "idPatrocinador"
+    const idPatrocinadorValor = getCookie('idPatrocinador');
+
+    // Mostrar el ID del patrocinador en el elemento HTML
+    const idPatrocinadorElement = document.getElementById('id_Patrocinador');
+    idPatrocinadorElement.value = idPatrocinadorValor;
+
+
         const limpiarCampos = () => {
             document.getElementById('monto').value = '';
             document.getElementById('fecha').value = '';
@@ -280,35 +288,52 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
     
                 if (!response.ok) {
-                    throw new Error('Error al enviar los datos de pago');
+                    const errorMessage = await response.text();
+const errorPrefix = 'Error al enviar los datos de pago:';
+const errorSuffix = '</pre>';
+
+const startIndex = errorMessage.indexOf(errorPrefix);
+const endIndex = errorMessage.indexOf(errorSuffix, startIndex);
+
+if (startIndex !== -1 && endIndex !== -1) {
+  const errorText = errorMessage.substring(startIndex + errorPrefix.length, endIndex);
+  throw new Error(`${errorPrefix} ${errorText}`);
+} else {
+  throw new Error('Campos invalidos o vacios');
+}
+
+                }else{
+                    const proyectoActualizado = {
+                        ...proyecto,
+                        cantidadRecaudada: proyecto.cantidadRecaudada + parseFloat(monto)
+                    };
+        
+                    const responseProyecto = await fetch(`http://localhost:3000/proyectos/${proyecto.idProyecto}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': tuToken,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(proyectoActualizado)
+                    });
+        
+                    if (responseProyecto.ok) {
+                        window.location.reload();
+                        obtenerProyectosDesdeBD();
+                        console.log('Se actualizó el proyecto');
+                    } else {
+                        alert('Ocurrió un error al editar el proyecto. Por favor, inténtalo de nuevo.');
+                    }
+        
+                    modalPago.style.display = 'none';
+                    limpiarCampos();
                 }
+
     
-                const proyectoActualizado = {
-                    ...proyecto,
-                    cantidadRecaudada: proyecto.cantidadRecaudada + parseFloat(monto)
-                };
-    
-                const responseProyecto = await fetch(`http://localhost:3000/proyectos/${proyecto.idProyecto}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Authorization': tuToken,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(proyectoActualizado)
-                });
-    
-                if (responseProyecto.ok) {
-                    window.location.reload();
-                    obtenerProyectosDesdeBD();
-                    console.log('Se actualizó el proyecto');
-                } else {
-                    alert('Ocurrió un error al editar el proyecto. Por favor, inténtalo de nuevo.');
-                }
-    
-                modalPago.style.display = 'none';
-                limpiarCampos();
+               
             } catch (error) {
                 console.error('Error:', error.message);
+        alert(`Error al enviar los datos de pago: ${error.message}`);
             }
         });
     
