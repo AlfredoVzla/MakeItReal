@@ -1,57 +1,110 @@
-const Comentario = require('../modelos/Comentario'); // Importa el modelo de Comentario
+const Comentario = require('../modelos/Comentario');
+const { AppError } = require('../utils/appError');
 
-class ComentarioController {
-  // Método para crear un nuevo comentario
-  async crearComentario(data) {
+exports.crearComentario = async (req, res, next) => {
     try {
-      const nuevoComentario = await Comentario.create(data); //Utilizando sequelize para las querys en mysql
-      console.log("Comentario creado con éxito");
-    } catch (error) {
-      throw error;
-    }
-  }
+        const { texto, fecha, calificacion, id_Proyecto } = req.body;
 
-  // Método para obtener todos los comentarios
-async obtenerComentarios() {
+        const nuevoComentario = await Comentario.create({
+            texto,
+            fecha,
+            calificacion,
+            id_Proyecto
+        });
+
+        res.status(201).json({
+            status: 'success',
+            data: {
+                comentario: nuevoComentario
+            }
+        });
+    } catch (error) {
+       
+        return next(new AppError(`Error al crear el comentario: ${error.message}`, 400));
+    }
+};
+/*
+exports.obtenerComentarios = async (req, res, next) => {
     try {
-      const comentarios = await Comentario.findAll();
-      console.log(JSON.stringify(comentarios, null, 2)); //Utilizando json para imprimirlo en un formato más legible
-      // return comentarios;
-    } catch (error) {
-      console.log(error);
-    }
-  }  
+        const comentarios = await Comentario.findAll();
 
-  // Método para actualizar un comentario por su ID
-  async actualizarComentario(idComentario, data) {
+        res.status(200).json({
+            status: 'success',
+            data: {
+                comentarios
+            }
+        });
+    } catch (error) {
+        return next (new AppError ('Error al obtener los comentarios', 400));
+    }
+};*/
+
+exports.obtenerComentarios = async (req, res, next) => {
     try {
-      const [actualizado] = await Comentario.update(data, { //Utilizando sequelize para las querys en mysql
-        where: { idComentario },
-      });
-      if (actualizado) {
-        const comentarioActualizado = await Comentario.findByPk(idComentario); //Utilizando sequelize para las querys en mysql
-        console.log("Comentario actualizado correctamente");
-      }
-      return null; // Si no se actualiza ningún registro
-    } catch (error) {
-      console.log(error);
-    }
-  }
+        const { id } = req.params; 
 
-  // Método para eliminar un comentario por su ID
-  async eliminarComentario(idComentario) {
+        const comentarios = await Comentario.findAll({
+            where: {
+                id_Proyecto: id 
+            }
+        });
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                comentarios
+            }
+        });
+    } catch (error) {
+        return next(new AppError(`Error al obtener los comentarios: ${error.message}`, 400));
+    }
+};
+
+exports.actualizarComentario = async (req, res, next) => {
     try {
-      const eliminado = await Comentario.destroy({ //Utilizando sequelize para las querys en mysql
-        where: { idComentario },
-      });
-      if(eliminado>0){
-        console.log("Eliminado correctamente");
-      }
-      return eliminado > 0; // Devuelve true si se eliminó al menos un registro, false si no se encontró el registro
-    } catch (error) {
-      console.log(error);
-    }
-  }
-}
+        const { id } = req.params;
 
-module.exports = ComentarioController;
+        const comentario = await Comentario.findByPk(id);
+
+        if (comentario) {
+            await comentario.update({
+                texto: req.body.texto,
+                fecha: req.body.fecha,
+                calificacion: req.body.calificacion,
+                id_Proyecto: req.body.id_Proyecto
+            });
+
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    comentario
+                }
+            });
+        } else {
+            return next (new AppError ('Comentario no encontrado', 404));
+        }
+    } catch (error) {
+        return next(new AppError(`Error al actualizar el comentario: ${error.message}`, 400));
+    }
+};
+
+exports.eliminarComentario = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const comentario = await Comentario.findByPk(id);
+
+        if (comentario) {
+            await comentario.destroy();
+
+            res.status(200).json({
+                status: 'success',
+                message: `Comentario ${id} eliminado correctamente`
+            });
+        } else {
+            return next (new AppError ('Comentario no encontrado', 404));
+        }
+    } catch (error) {
+        return next(new AppError(`Error al eliminar el comentario: ${error.message}`, 400));
+    }
+};

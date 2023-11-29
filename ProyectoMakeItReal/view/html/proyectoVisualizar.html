@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/proyecto.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+    <script src="../javascript/proyectoVisualizar.js"></script>
+    <title>MakeItReal</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="contenedor">
+            <div class="barra">
+                <a class="logo" href="index.html">
+                    <h1 class="no-margin centrar-texto h1-header">
+                        MakeItReal
+                    </h1>
+                </a>
+                
+            </div>
+        </div>
+    </header>
+    <div class="nav-bg">
+        <nav class="navegacion-principal">
+          <a href="registroProyecto.html">Proyectos</a>
+          <a href="pagos.html">Pagos</a>
+          <a href="categorias.html">Categorías</a>
+        </nav>
+      </div>
+    <!-- Contenido del segundo código -->
+    <div class="contenedor">
+        <form id="registroProyecto-form" action="/procesar_proyecto" method="post" enctype="multipart/form-data">
+            <div class="seccion-1">
+                <div class="formulario">
+                    <div class="campo-titulo">
+                        <label for="titulo">Título:</label>
+                        <input type="text" id="titulo" name="titulo" readonly>
+                    </div>
+                    <div class="campo-descripcion">
+                        <label for="descripcion">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" readonly></textarea>
+                    </div>
+                    <div class="campo">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" id="fechaInicio" name="fechaInicio" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="seccion-2">
+                <div class="bloque-vertical">
+                    <div class="verde">
+                        <div class="informacion">
+                            <div class="campo-objetivo">
+                                <label for="objetivo">Objetivo:</label>
+                                <textarea id="objetivo" name="objetivo" readonly></textarea>
+                            </div>
+                            <div class="campo-mas-informacion">
+                                <label for="masInformacion">Más información:</label>
+                                <input type="text" id="masInformacion" name="Mas informacion" readonly>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="amarillo">
+                        <div class="financiamiento">
+                            <div class="campo">
+                                <label for="metaFinanciamiento">Meta de financiamiento:</label>
+                                <input type="text" id="metaFinanciamiento" name="metaFinanciamiento" readonly>
+                            </div>
+                            <div class="campo-categoria">
+                                <label for="categoria">Categoría:</label>
+                                <input type="text" id="categoriaInput" name="categoria" readonly>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cafe">
+                    <div class="container-foto">
+                        <label>Comentarios</label>
+                        <div class="nuevo-comentario">
+                            <input type="text" id="textoComentario" placeholder="Texto del comentario" required>
+                            <input type="number" id="calificacionComentario" placeholder="Calificación" required>
+                            <button type="button" id="botonComentar" onclick="agregarComentario()">Comentar</button>
+                        </div>
+                        <!-- Agrega esta sección para mostrar los comentarios -->
+                        <div class="comentarios-lista">
+                            <!-- Aquí se mostrarán los comentarios -->
+                            <!-- Cada comentario se agregará dinámicamente con JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+           
+
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            cargarComentarios();
+
+            function cargarComentarios() {
+                const tuToken = getCookie('token');
+                const id = getCookie('idproyecto');
+
+
+                const url = `http://localhost:3000/comentarios/${id}`
+                fetch(url, {
+                    method: 'GET'
+                }).then(response => {
+                    return response.json();
+                }).then(data => {
+                    const comentariosLista = document.querySelector('.comentarios-lista');
+                    comentariosLista.innerHTML = ''; // Limpiar la lista antes de agregar nuevos comentarios
+                    // Recorre los comentarios y agrégales al HTML
+                    data.data.comentarios.forEach(comentario => {
+                        const nuevoComentario = document.createElement('div');
+                        nuevoComentario.classList.add('comentario');
+                        nuevoComentario.innerHTML = `${comentario.texto}</p>`;
+                        comentariosLista.appendChild(nuevoComentario);
+                    });
+                }).catch(error => {
+                    console.error('Error al enviar el comentario:', error.message);
+                });
+            }
+        });
+
+        function obtenerFechaActual() {
+            const date = new Date();
+            const year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+
+            month = month < 10 ? `0${month}` : month;
+            day = day < 10 ? `0${day}` : day;
+
+            return `${year}-${month}-${day}`;
+        }
+        function agregarComentario() {
+            const textoComentario = document.getElementById('textoComentario').value;
+            const calificacionComentario = document.getElementById('calificacionComentario').value;
+            const params = new URLSearchParams(window.location.search);
+            const tuToken = getCookie('token');
+            const idProyecto = getCookie('idproyecto');
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            const data = {
+                texto: textoComentario,
+                fecha: obtenerFechaActual(),
+                calificacion: calificacionComentario,
+                id_Proyecto: idProyecto
+            };
+
+            fetch('http://localhost:3000/comentarios', {
+                method: 'POST',
+                headers: {
+                    'Authorization': tuToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(errorData => {
+                            if (errorData && errorData.error) {
+                                throw new Error(errorData.error);
+                            } else {
+                                const statusCode = response.status;
+                                throw new Error('Error al enviar el comentario ' + statusCode);
+                            }
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Comentario agregado con éxito');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error al enviar el comentario:', error.message);
+                });
+        }
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    </script>
+
+    <footer class="footer">
+        <div class="contenedor">
+          <p class="no-margin centrar-texto">© 2023 MakeItReal. Todos los derechos reservados.</p>
+        </div>
+      </footer>
+</body>
+
+</html>

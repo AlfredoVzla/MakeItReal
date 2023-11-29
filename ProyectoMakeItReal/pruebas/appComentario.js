@@ -1,6 +1,5 @@
 
-const ComentarioController = require("../controllers/Comentario"); 
-const comentario = new ComentarioController();
+const comentario= require("../controllers/Comentario"); 
 
 // CÓDIGO DE PRUEBA DE LA CLASE COMENTARIOS
 exports.agregarComentario = async()=>{

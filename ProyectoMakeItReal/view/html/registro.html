@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <title>Registro de Usuario</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="contenedor">
+          <div class="barra">
+            <a class="logo" href="index.html">
+              <h1 class="no-margin centrar-texto h1-header">
+                MakeItReal
+              </h1>
+            </a>
+            <nav class="navegacion">
+              <a class="navegacion__enlace" href="login.html">Inicia sesión</a>
+            </nav>
+          </div>
+        </div>
+      </header>
+    <section class="container-registro">
+        <h2>Registro de Usuario</h2>
+        <div class="imagen-container">
+            <img id="imagen-preview" src="">
+        </div>
+        <form id="registro-form" action="/procesar_registro" method="post" enctype="multipart/form-data">
+            <label for="nombre" class="laber-info">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono" required><br>
+
+            <label for="correoElectronico">Correo Electrónico:</label>
+            <input type="email" id="correoElectronico" name="correoElectronico" required><br>
+
+            <label for="nombreUsuario">Nombre de Usuario:</label>
+            <input type="text" id="nombreUsuario" name="nombreUsuario" required><br>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required><br>
+
+            <div class="container-foto">
+                <label for="input-imagen">Subir imagen</label>
+                <input id="input-imagen" type="file" name="imagenPerfil" accept="image/*">
+            </div>
+
+            <!-- Radio button para seleccionar entre emprendedor y patrocinador -->
+            <label for="tipoUsuario">Seleccione el tipo de usuario:</label>
+            <input type="radio" id="emprendedor" name="tipoUsuario" value="emprendedor" checked>
+            <label for="emprendedor">Emprendedor</label>
+            <input type="radio" id="patrocinador" name="tipoUsuario" value="patrocinador">
+            <label for="patrocinador">Patrocinador</label>
+
+            <!-- Campos adicionales para patrocinadores -->
+            <div id="camposPatrocinador" style="display: none;">
+                <label for="experienciasProyectos">Experiencia en proyectos:</label>
+                <input type="text" id="experienciasProyectos" name="experienciasProyectos">
+            </div>
+
+            <!-- Botón personalizado para subir imagen -->
+            <button type="button" id="btn-foto" class="navegacion btn-foto" onclick="subirImagen()">Subir imagen de perfil</button>
+
+            <input type="submit" value="Registrarse" class="btn-submit">
+        </form>
+    </section>
+
+    <script src="../javascript/registro.js"></script>
+    <script src="../javascript/recurso-imagen.js"></script>
+
+    <footer class="footer">
+      <div class="contenedor">
+          <p class="no-margin centrar-texto">© 2023 MakeItReal. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+</body>
+
+</html>

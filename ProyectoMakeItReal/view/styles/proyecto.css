@@ -1,0 +1,98 @@
+
+.seccion-1 {
+    background-color: #c3dfb4;
+    padding: 20px;
+    margin-top: 20px;
+    position: relative; 
+}
+
+.seccion-2 {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap; 
+}
+
+
+.bloque-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+#titulo {
+    width: 50%; 
+    max-width: 300px; 
+}
+
+#descripcion {
+    flex: 2; 
+    resize: vertical; 
+}
+
+.verde {
+    background-color: #a7d390;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.amarillo {
+    background-color: #90cf6e;
+    padding: 20px;
+    border-radius: 8px;
+    flex-basis: 50%; 
+}
+
+.cafe {
+    background-color: #66a046;
+    padding: 20px;
+    border-radius: 8px;
+    flex-basis: 50%; 
+}
+
+.contenedor-boton {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.campo-titulo,
+.campo-descripcion,
+.campo-objetivo,
+.campo-mas-informacion {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+
+.campo-titulo label,
+.campo-descripcion label,
+.campo-objetivo label,
+.campo-mas-informacion label {
+    width: 100px; 
+}
+
+
+
+select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    appearance: none; 
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23424242" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Agregar una flecha personalizada */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agbalumo&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+    <title>MakeItReal</title>
+</head>
+<body>
+    <header class="header">
+        <div class="contenedor">
+          <div class="barra">
+            <a class="logo" href="index.html">
+              <h1 class="no-margin centrar-texto h1-header">
+                MakeItReal
+              </h1>
+            </a>
+            <nav class="navegacion">
+              <a href="perfil.html"><img src="" class="imagen-perfil" id="imagen-perfil-arriba" style="display: none"></a>
+              <a class="navegacion__enlace" id="enlace-iniciar-sesion" href="login.html">Inicia sesión</a>
+              <a class="navegacion__enlace" id="enlace-registro" href="registro.html">Registrarte</a>
+              <a class="navegacion__enlace" id="cerrar-sesion" style="display: none">Cerrar sesión</a>
+          </nav>
+          </div>
+        </div>
+      </header>
+
+      <div class="nav-bg">
+        <nav class="navegacion-principal">
+          <a href="registroProyecto.html">Proyectos</a>
+          <a href="pagos.html">Pagos</a>
+          <a href="categorias.html">Categorías</a>
+        </nav>
+      </div>
+
+      <div class="container-proyecto centrar-texto" id="proyectos-container">
+        <div class="info-proyecto">
+        </div>
+      </div>
+
+      <div id="paginado" class="centrar-texto">
+        <button id="pagina-anterior">Anterior</button>
+        <span id="pagina-actual">1</span>
+        <button id="pagina-siguiente">Siguiente</button>
+      </div>
+
+      <div id="modalEditar" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Proyecto</h2>
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo">
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion"></textarea>
+            <label for="objetivo">Objetivo:</label>
+            <input type="text" id="objetivo">
+            <label for="estado">Estado:</label>
+            <input type="text" id="estado">
+            <label for="metaFinanciamiento">Meta de financiamiento:</label>
+            <input type="text" id="metaFinanciamiento">
+           
+            <button id="guardarCambios">Guardar cambios</button>
+            <button id="cerrarModal">Cerrar</button>
+        </div>
+    </div>
+
+    
+
+<div id="modalPago" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Pago de Patrocinio</h2>
+        <label for="monto">Monto:</label>
+        <input type="text" id="monto">
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha">
+        <label for="metodo">Método:</label>
+        <select id="metodo">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Transferencia">Transferencia</option>
+        </select>
+        <label for="concepto">Concepto:</label>
+        <input type="text" id="concepto">
+        <label for="id_Patrocinador" >ID Patrocinador:</label>
+        <input type="text" id="id_Patrocinador" readonly>
+        
+       
+        <button id="guardarPago">Guardar pago</button>
+        <button id="cerrarModalPago">Cerrar</button>
+    </div>
+</div>
+
+    
+    
+    
+      </body>
+      <script src="../javascript/paginado.js" defer></script>
+      <script defer>
+        const imagenPerfil = document.getElementById("imagen-perfil-arriba");
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            const botonCerrarSesion = document.getElementById("cerrar-sesion");
+            const enlaceIniciarSesion = document.getElementById("enlace-iniciar-sesion");
+            const enlaceRegistro = document.getElementById("enlace-registro");
+    
+            // Verificar si hay un token en las cookies o si la imagen de perfil tiene un src
+            const token = getCookie('token');
+            const tieneImagenPerfil = imagenPerfil.src && imagenPerfil.src.trim() !== "";
+    
+            // Mostrar el botón de cerrar sesión y ocultar el de iniciar sesión y registro si hay un token o una imagen de perfil
+            if (token) {
+                botonCerrarSesion.style.display = "inline";
+                enlaceIniciarSesion.style.display = "none";
+                enlaceRegistro.style.display = "none";
+                if (tieneImagenPerfil) {
+                    imagenPerfil.style.display = "inline";
+                }
+            }
+            
+            if(cookiesVacias()){
+              
+            }else{
+              const img = getCookie('imagenperfil');
+              imagenPerfil.src = img;
+            }
+            
+            
+    
+            // Agregar evento de clic al botón de cerrar sesión
+            botonCerrarSesion.addEventListener('click', cerrarSesion);
+        });
+    
+        function cerrarSesion() {
+            // Eliminar las cookies del token y la imagenPerfil
+            document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'imagenperfil=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'nombreusuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'nombreusuariopatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'imagenperfilpatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'idPatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'idEmprendedor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'tipoUsuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'idProyecto=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'idproyecto=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            // Redirigir a la página de inicio de sesión u otra página después de cerrar sesión
+            window.location.href = 'index.html';
+        }
+    
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+        function cookiesVacias() {
+          return document.cookie === "";
+        } 
+        
+    </script>
+
+    <footer class="footer">
+      <div class="contenedor">
+        <p class="no-margin centrar-texto">© 2023 MakeItReal. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+  </body>
+</html>

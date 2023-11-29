@@ -1,122 +1,152 @@
 const Proyecto = require('../modelos/Proyecto'); // Importa el modelo de Proyecto
+const { AppError }  = require('../utils/appError');
+const ImagenProyecto = require('../modelos/ImagenProyecto');
 
-
-class ProyectoController {
-  // Método para crear un nuevo Proyecto
-  async crearProyecto(data) {
-    try {
-      const nuevoProyecto = await Proyecto.create(data); //Utilizando sequelize para las querys en mysql
-      console.log("Proyecto creado con éxito");
-    } catch (error) {
-      throw error;
-    }
-  }
-
-
-  // Método para obtener todos los Proyectos
-async obtenerProyectos() {
-    try {
-      const proyectos = await Proyecto.findAll();
-      console.log(JSON.stringify(proyectos, null, 2));
-      // return proyectos;
-    } catch (error) {
-      console.log(error);
-    }
-  }  
-
-
-  // Método para obtener un proyecto por su ID
-async obtenerProyectoPorId(idProyecto) {
+// Método para crear un nuevo Proyecto
+exports.crearProyecto = async (req, res, next) => {
   try {
-    const proyecto = await Proyecto.findByPk(idProyecto);
-    if (proyecto) {
-      console.log(JSON.stringify(proyecto, null, 2));
+    const nuevoProyecto = await Proyecto.create(req.body);
+    if (!nuevoProyecto) {
+      return next(new AppError('Error al crear proyecto', 500));
     } else {
-      console.log(`Proyecto con ID ${idProyecto} no encontrado.`);
+      res.status(201).json({
+        status: 'success',
+        data: {
+          proyecto: nuevoProyecto
+        }
+      });
     }
-    // return proyecto;
   } catch (error) {
-    console.log(error);
-  }
-}
+    return next(new AppError(`Error al crear proyecto: ${error.message}`, 400));
 
+  }
+};
+
+// Método para obtener todos los Proyectos
+exports.obtenerProyectos = async (req, res, next) => {
+  try {
+    const proyectos = await Proyecto.findAll();
+    if (!proyectos || proyectos.length === 0) {
+      return next(new AppError('No se encontraron proyectos', 404));
+    } else {
+      console.log(JSON.stringify(proyectos, null, 2));
+      res.status(200).json({
+        status: 'success',
+        data: {
+          proyectos
+        }
+      });
+    }
+  } catch (error) {
+    return next(new AppError('Error al obtener proyectos', 400));
+  }
+};
+
+// Método para obtener un proyecto por su ID
+exports.obtenerProyectoPorId = async (req, res, next) => {
+  try {
+    const proyecto = await Proyecto.findByPk(req.params.idProyecto);
+    if (!proyecto) {
+      return next(new AppError(`No se encontró un proyecto con id ${req.params.idProyecto}.`, 404));
+    } else {
+      console.log(JSON.stringify(proyecto, null, 2));
+      res.status(200).json({
+        status: 'success',
+        data: {
+          proyecto
+        }
+      });
+    }
+  } catch (error) {
+    return next(new AppError(`Error al obtener proyecto por ID: ${error.message}`, 400));
+  }
+};
 
 // Método para obtener un proyecto por su título
-async obtenerProyectoPorTitulo(tituloProyecto) {
+exports.obtenerProyectoPorTitulo = async (req, res, next) => {
   try {
     const proyecto = await Proyecto.findOne({
-      where: { titulo: tituloProyecto },
+      where: { titulo: req.params.titulo }
     });
-    if (proyecto) {
-      console.log(JSON.stringify(proyecto, null, 2));
+    if (!proyecto) {
+      return next(new AppError(`No se encontró un proyecto con titulo ${req.params.titulo}.`, 404));
     } else {
-      console.log(`Proyecto no encontrado.`);
+      console.log(JSON.stringify(proyecto, null, 2));
+      res.status(200).json({
+        status: 'success',
+        data: {
+          proyecto
+        }
+      });
     }
-   
-    // return proyecto;
   } catch (error) {
-    console.log(error);
+    return next(new AppError(`Error al obtener proyecto por titulo: ${error.message}`, 400));
   }
-}
-
-
-
+};
 
 // Método para obtener todos los proyectos de un emprendedor por su id_Emprendedor
-async obtenerProyectosPorIdEmprendedor(idEmprendedor) {
+exports.obtenerProyectosPorIdEmprendedor = async (req, res, next) => {
   try {
     const proyectos = await Proyecto.findAll({
-      where: { id_Emprendedor: idEmprendedor },
+      where: { id_Emprendedor: req.params.idEmprendedor }
     });
-    if (proyectos && proyectos.length > 0) {
-      console.log(JSON.stringify(proyectos, null, 2));
+    if (!proyectos || proyectos.length === 0) {
+      return next(new AppError(`No se encontraron proyectos con ID ${req.params.idEmprendedor}.`, 404));
     } else {
-      console.log("No hay registro de proyectos para ese emprendedor");
+      console.log(JSON.stringify(proyectos, null, 2));
+      res.status(200).json({
+        status: 'success',
+        data: {
+          proyectos
+        }
+      });
     }
-   
-    // return proyectos;
   } catch (error) {
-    console.log(error);
+    return next(new AppError(`Error al obtener proyectos por ID de emprendedor: ${error.message}`, 400));
   }
-}
+};
 
-
-
-
-
-
-  // Método para actualizar un proyecto por su ID
-  async actualizarProyecto(idProyecto, data) {
-    try {
-      const [actualizado] = await Proyecto.update(data, { //Utilizando sequelize para las querys en mysql
-        where: { idProyecto },
+// Método para actualizar un proyecto por su ID
+exports.actualizarProyecto = async (req, res, next) => {
+  try {
+    const idProyecto = req.params.idProyecto;
+    const [actualizado] = await Proyecto.update(req.body, {
+      where: { idProyecto: idProyecto },
+    });
+    if (!actualizado) {
+      return next(new AppError(`No se encontró un proyecto con ID ${idProyecto} para actualizar.`, 404));
+    } else {
+      const proyectoActualizado = await Proyecto.findByPk(idProyecto);
+      res.status(200).json({
+        status: 'success',
+        data: {
+          proyecto: proyectoActualizado
+        }
       });
-      if (actualizado) {
-        const proyectoActualizado = await Proyecto.findByPk(idProyecto); //Utilizando sequelize para las querys en mysql
-        console.log("Proyecto actualizado correctamente");
-      }
-      return null; // Si no se actualiza ningún registro
-    } catch (error) {
-      console.log(error);
     }
+  } catch (error) {
+    return next(new AppError(`Error al actualizar proyecto: ${error.message}`, 400));
   }
+};
 
-
-  // Método para eliminar un proyecto por su ID
-  async eliminarProyecto(idProyecto) {
-    try {
-      const eliminado = await Proyecto.destroy({ //Utilizando sequelize para las querys en mysql
-        where: { idProyecto },
+// Método para eliminar un proyecto por su ID
+exports.eliminarProyecto = async (req, res, next) => {
+  try {
+    const idProyecto = req.params.idProyecto;
+    const eliminado = await Proyecto.destroy({
+      where: { idProyecto: idProyecto },
+    });
+    if (eliminado <= 0) {
+      return next(new AppError(`No se encontró un proyecto con ID ${idProyecto} para eliminar.`, 404));
+    } else {
+      res.status(200).json({
+        status: 'success',
+        data: {
+          message: 'Proyecto eliminado correctamente'
+        }
       });
-      if(eliminado>0){
-        console.log("Eliminado correctamente");
-      }
-      return eliminado > 0; // Devuelve true si se eliminó al menos un registro, false si no se encontró el registro
-    } catch (error) {
-      console.log(error);
     }
+  } catch (error) {
+    return next(new AppError(`Error al eliminar proyecto: ${error.message}`, 400));
   }
-}
-
-
-module.exports = ProyectoController;
+};
