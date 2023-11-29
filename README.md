@@ -27,4 +27,6 @@ a ayudar a que esas ideas se hagan realidad.
 
 **Documento avance 2 y pruebas** [Enlace](https://drive.google.com/drive/folders/145Fdtkq5cKdFl0_cOOs6lBEEFOlMcGjv?usp=drive_link)
 
+**Documento avance 4 y pruebas** [Enlace](https://drive.google.com/drive/folders/145Fdtkq5cKdFl0_cOOs6lBEEFOlMcGjv?usp=drive_link)
+
 
