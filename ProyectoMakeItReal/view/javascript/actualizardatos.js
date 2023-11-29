@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const camposPatrocinador = document.getElementById('camposPatrocinador');
 
     const tuDato = getCookie('nombreusuario');
-    const datoPatrocinador = getCookie('nombreusuariopatrocinador');
+    const datoPatrocinador = getCookie('nombreusuario');
     const tuToken = getCookie('token');
     const form = document.querySelector('form');
 
@@ -143,10 +143,18 @@ document.addEventListener('DOMContentLoaded', function () {
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
     function cerrarSesion() {
+        // Eliminar las cookies del token y la imagenPerfil
         document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = 'imagenperfil=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = 'nombreusuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = 'nombreusuariopatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'imagenperfilpatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'idPatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'idEmprendedor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'tipoUsuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'idProyecto=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'idproyecto=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        // Redirigir a la página de inicio de sesión u otra página después de cerrar sesión
         window.location.href = 'index.html';
     }
 });

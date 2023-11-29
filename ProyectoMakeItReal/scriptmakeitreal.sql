@@ -213,7 +213,7 @@ CREATE TABLE `proyecto` (
   `descripcion` varchar(200) NOT NULL,
   `fechaInicio` date NOT NULL,
   `fechaCreación` date NOT NULL,
-  `objetivo` varchar(45) NOT NULL,
+  `objetivo` varchar(200) NOT NULL,
   `estado` varchar(45) NOT NULL,
   `masInformacion` varchar(45) NOT NULL,
   `metaFinanciamiento` float NOT NULL,

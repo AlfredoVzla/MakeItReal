@@ -18,10 +18,11 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
-    const cookiePatrocinador = getCookie("nombreusuariopatrocinador");
+    const cookiePatrocinador = getCookie("tipoUsuario");
+    const usuario = getCookie("nombreusuario")
 
-    if (cookiePatrocinador) {
-        const urlPatrocinador = `http://localhost:3000/patrocinador/${cookiePatrocinador}`
+    if (cookiePatrocinador.includes("patrocinador")) {
+        const urlPatrocinador = `http://localhost:3000/patrocinador/${usuario}`
 
         camposPatrocinador.style.display = 'block';
         try {

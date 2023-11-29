@@ -138,7 +138,9 @@ const actualizarPatrocinador = async(req,res,next)=>{
     const patrocinador = await Patrocinador.findOne({where:{
       nombreUsuario:usuario
     }})
-  
+
+    console.log(bcrypt.compareSync(contraseña,patrocinador.contraseña));
+
     if (patrocinador && bcrypt.compareSync(contraseña,patrocinador.contraseña)) {
       if(patrocinador){
         await Patrocinador.update({

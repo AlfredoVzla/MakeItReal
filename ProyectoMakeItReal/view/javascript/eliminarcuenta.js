@@ -2,11 +2,11 @@ function eliminarCuenta() {
 
     const usuario = getCookie("nombreusuario");
     const tuToken = getCookie("token");
-    const tokenPatrocinador = getCookie("nombreusuariopatrocinador");
+    const tokenPatrocinador = getCookie("tipoUsuario");
 
-    if (tokenPatrocinador) {
+    if (tokenPatrocinador.includes("patrocinador")) {
 
-        fetch(`http://localhost:3000/patrocinador/${tokenPatrocinador}`, {
+        fetch(`http://localhost:3000/patrocinador/${usuario}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,9 +53,17 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
 function cerrarSesion() {
+    // Eliminar las cookies del token y la imagenPerfil
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie = 'imagenperfil=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie = 'nombreusuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie = 'nombreusuariopatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'imagenperfilpatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'idPatrocinador=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'idEmprendedor=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'tipoUsuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'idProyecto=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'idproyecto=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    // Redirigir a la página de inicio de sesión u otra página después de cerrar sesión
     window.location.href = 'index.html';
 }
